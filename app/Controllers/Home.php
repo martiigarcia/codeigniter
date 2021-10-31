@@ -142,4 +142,9 @@ public function buscarDNI()
     public function login(){
         return view ('login/login');
     }
+
+    public function prueba(){
+        return view ('prueba');
+    }
+
 }
