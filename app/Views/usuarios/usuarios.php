@@ -139,7 +139,7 @@
     <nav class="navbar navbar-light navbar-expand-md navigation-clean-button" style="background: #80aebd;">
         
         <div style="padding-left:50px">
-            <a href="<?= base_url(); ?>" class="btn btn-success">
+            <a href="<?= base_url('home/prueba'); ?>" class="btn btn-success">
             <i class="bi bi-arrow-left-circle">  Volver  </i>
             </a>
         </div>

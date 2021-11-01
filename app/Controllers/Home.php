@@ -38,7 +38,7 @@ class Home extends BaseController
         $userModel = new UserModel();
         $data['usuarioInfo'] = $userModel->obtenerUsuarios();
 
-        return view('usuarios/homeAdministrador');
+        return view('login/login');
     }
     public function eliminar($id)
     {
@@ -145,6 +145,13 @@ public function buscarDNI()
 
     public function prueba(){
         return view ('prueba');
+    }
+    public function listadoUsuarios(){
+        $userModel = new UserModel();
+        $data['usuarioInfo'] = $userModel->obtenerUsuarios();
+        $rolModel = new RolModel();
+        $data['roles'] = $rolModel->findAll();
+        return view('usuarios/usuarios', $data);
     }
 
 }

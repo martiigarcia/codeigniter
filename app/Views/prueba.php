@@ -1,4 +1,3 @@
-<?= $this->extend("templates/master")?>;
+<?= $this->extend("templates/administrador/master")?>
 <?= $this->section('content') ?>
-Hola
 <?= $this->endSection() ?>
