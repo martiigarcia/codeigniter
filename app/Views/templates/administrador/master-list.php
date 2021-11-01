@@ -13,19 +13,21 @@
     <title>Master LIST</title>
 
     <link rel="stylesheet" href="<?=base_url("css/siqtheme.css")?>">
-    <link rel="stylesheet" href="<?=base_url("fonts/vendor/font-awesome/fontawesome-webfont.svg")?>">
-    <link rel="stylesheet" href="<?=base_url("fonts/vendor/themify-icons-scss/themify.svg")?>">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+
 
 </head>
 
 <body class="theme-dark" style="overflow: auto;">
+
     <div class="grid-wrapper sidebar-bg bg1">
 
         <!-- BOF HEADER -->
         <div class="header">
             <div class="header-bar">
                 <div class="brand">
-                    <a href="#" class="logo"><span class="text-carolina">G&G</span>Software</a>
+                    <a href="<?= base_url('home/prueba'); ?>" class="logo"><span class="text-carolina">G&G</span>Software</a>
                     <a href="#" class="logo-sm text-carolina" style="display: none;">siQ</a>
                 </div>
                 <div class="btn-toggle">
@@ -202,7 +204,7 @@
         <!-- BOF MAIN -->
         <div class="main">
             <?= $this->renderSection("content")?>
-           
+    
 
             <!-- BOF MAIN-BODY -->
            
@@ -212,9 +214,9 @@
                     <div class="card mb-3">
                         <div class="card-header">
                             <div class="caption uppercase">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
-                            <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z"/>
-                            </svg> Listado de usuarios existentes
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+                                <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z"/>
+                                </svg> Listado de usuarios existentes
                             </div>
                             <div class="tools">
                                 <a href="javascript:;" class="btn btn-outline-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
@@ -238,168 +240,97 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="dataTables_scroll">
-                                    <div class="dataTables_scrollHead" style="overflow: hidden; position: relative; border: 0px; width: 100%;">
+                                    <div class="dataTables_scrollHead" style="position: relative; border: 0px; width: 100%;">
                                     <div class="dataTables_scrollHeadInner" style="box-sizing: content-box; width: 1138.4px; padding-right: 17px;">
                                     <table class="table table-striped table-bordered table-hover dataTable" role="grid" style="margin-left: 0px; width: 1138.4px;">
                                     <thead>
                                         <tr role="row">
-                                            <th class="sorting_asc" tabindex="0" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 181.238px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">Name</th>
-                                            <th class="sorting" tabindex="0" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 278.025px;" aria-label="Position: activate to sort column ascending">Position</th>
-                                            <th class="sorting" tabindex="0" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 132.363px;" aria-label="Office: activate to sort column ascending">Office</th>
-                                            <th class="sorting" tabindex="0" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 68.4875px;" aria-label="Age: activate to sort column ascending">Age</th>
-                                            <th class="sorting" tabindex="0" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 131.387px;" aria-label="Start date: activate to sort column ascending">Start date</th>
-                                            <th class="sorting" tabindex="0" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 91.5px;" aria-label="Salary: activate to sort column ascending">Salary</th>
+                                            
+                                            <th tabindex="0" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1"  >DNI</th>
+                                            <th tabindex="0" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" >Nombre</th>
+                                            <th tabindex="0" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" >Apellido</th>
+                                            <th tabindex="0" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" >Fecha de nacimiento</th>
+                                            <th tabindex="0" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" >Email</th>
+                                            <th tabindex="0" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" >Rol</th>
+                                            <th tabindex="0" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" >Opciones</th>
+                                        
                                         </tr>
                                     </thead> 
+
+                                    <tbody>
+                                    
+                                        <?php foreach ($usuarioInfo as  $usuario) : ?>
+
+                                                    <tr role="row" class="odd">
+                                                        <td><?= $usuario['DNI']; ?></td>
+                                                        <td><?= $usuario['nombre']; ?></td>
+                                                        <td><?= $usuario['apellido']; ?></td>
+                                                        <td><?= $usuario['fecha_de_nacimiento']; ?></td>
+                                                        <td><?= $usuario['email']; ?></td>
+                                                        <td><?= $usuario['rol_nombre']; ?> </td>
+                                                        <td>
+                                                            <a href="<?= base_url('home/editar/' . $usuario['id']); ?>" class="btn btn-outline-warning bt-sm">
+                                                                <i class="bi bi-pencil-square"></i></a>
+
+                                                            <a style="margin-left:10px" onclick="return mensajeEliminado('<?= base_url('home/eliminar/' . $usuario['id']); ?>')" class="btn btn-outline-danger bt-sm  ">
+                                                                <i class="bi bi-trash"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr><tr role="row" class="even">
+                                        <?php endforeach; ?>
+
+                                    </tbody>
                                     </table>
                                 </div>
-                    </div>
-                            
-                            <div class="dataTables_scrollBody" style="position: relative; overflow: auto; max-height: 200px; height: 200px; width: 100%;"><table class="table table-striped table-bordered table-hover dataTable" id="dt-showhidecolumn" role="grid" aria-describedby="dt-showhidecolumn_info" style="width: 100%;"><thead>
-                                    <tr role="row" style="height: 0px;"><th class="sorting" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 181.238px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Name</div></th><th class="sorting" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 278.025px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Position</div></th><th class="sorting" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 132.363px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Office</div></th><th class="sorting" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 68.4875px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Age</div></th><th class="sorting" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 131.387px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Start date</div></th><th class="sorting" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 91.5px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Salary</div></th></tr>
-                                </thead><tfoot>
-                                    <tr style="height: 0px;"><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 199.837px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Name</div></th><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 296.625px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Position</div></th><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 150.962px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Office</div></th><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 87.0875px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Age</div></th><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 149.988px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Start date</div></th><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 110.1px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Salary</div></th></tr>
-                                </tfoot>
-                                
-                                <tbody>
-                                
-                                <tr role="row" class="odd">
-                                        <td class="sorting_1">Airi Satou</td>
-                                        <td>Accountant</td>
-                                        <td>Tokyo</td>
-                                        <td>33</td>
-                                        <td>2008/11/28</td>
-                                        <td>$162,700</td>
-                                    </tr><tr role="row" class="even">
-                                        <td class="sorting_1">Ashton Cox</td>
-                                        <td>Junior Technical Author</td>
-                                        <td>San Francisco</td>
-                                        <td>66</td>
-                                        <td>2009/01/12</td>
-                                        <td>$86,000</td>
-                                    </tr><tr role="row" class="odd">
-                                        <td class="sorting_1">Brielle Williamson</td>
-                                        <td>Integration Specialist</td>
-                                        <td>New York</td>
-                                        <td>61</td>
-                                        <td>2012/12/02</td>
-                                        <td>$372,000</td>
-                                    </tr><tr role="row" class="even">
-                                        <td class="sorting_1">Cedric Kelly</td>
-                                        <td>Senior Javascript Developer</td>
-                                        <td>Edinburgh</td>
-                                        <td>22</td>
-                                        <td>2012/03/29</td>
-                                        <td>$433,060</td>
-                                    </tr><tr role="row" class="odd">
-                                        <td class="sorting_1">Charde Marshall</td>
-                                        <td>Regional Director</td>
-                                        <td>San Francisco</td>
-                                        <td>36</td>
-                                        <td>2008/10/16</td>
-                                        <td>$470,600</td>
-                                    </tr><tr role="row" class="even">
-                                        <td class="sorting_1">Colleen Hurst</td>
-                                        <td>Javascript Developer</td>
-                                        <td>San Francisco</td>
-                                        <td>39</td>
-                                        <td>2009/09/15</td>
-                                        <td>$205,500</td>
-                                    </tr><tr role="row" class="odd">
-                                        <td class="sorting_1">Garrett Winters</td>
-                                        <td>Accountant</td>
-                                        <td>Tokyo</td>
-                                        <td>63</td>
-                                        <td>2011/07/25</td>
-                                        <td>$170,750</td>
-                                    </tr><tr role="row" class="even">
-                                        <td class="sorting_1">Gloria Little</td>
-                                        <td>Systems Administrator</td>
-                                        <td>New York</td>
-                                        <td>59</td>
-                                        <td>2009/04/10</td>
-                                        <td>$237,500</td>
-                                    </tr><tr role="row" class="odd">
-                                        <td class="sorting_1">Haley Kennedy</td>
-                                        <td>Senior Marketing Designer</td>
-                                        <td>London</td>
-                                        <td>43</td>
-                                        <td>2012/12/18</td>
-                                        <td>$313,500</td>
-                                    </tr><tr role="row" class="even">
-                                        <td class="sorting_1">Herrod Chandler</td>
-                                        <td>Sales Assistant</td>
-                                        <td>San Francisco</td>
-                                        <td>59</td>
-                                        <td>2012/08/06</td>
-                                        <td>$137,500</td>
-                                    </tr><tr role="row" class="odd">
-                                        <td class="sorting_1">Jena Gaines</td>
-                                        <td>Office Manager</td>
-                                        <td>London</td>
-                                        <td>30</td>
-                                        <td>2008/12/19</td>
-                                        <td>$90,560</td>
-                                    </tr><tr role="row" class="even">
-                                        <td class="sorting_1">Michael Silva</td>
-                                        <td>Marketing Designer</td>
-                                        <td>London</td>
-                                        <td>66</td>
-                                        <td>2012/11/27</td>
-                                        <td>$198,500</td>
-                                    </tr><tr role="row" class="odd">
-                                        <td class="sorting_1">Paul Byrd</td>
-                                        <td>Chief Financial Officer (CFO)</td>
-                                        <td>New York</td>
-                                        <td>64</td>
-                                        <td>2010/06/09</td>
-                                        <td>$725,000</td>
-                                    </tr><tr role="row" class="even">
-                                        <td class="sorting_1">Quinn Flynn</td>
-                                        <td>Support Lead</td>
-                                        <td>Edinburgh</td>
-                                        <td>22</td>
-                                        <td>2013/03/03</td>
-                                        <td>$342,000</td>
-                                    </tr><tr role="row" class="odd">
-                                        <td class="sorting_1">Rhona Davidson</td>
-                                        <td>Integration Specialist</td>
-                                        <td>Tokyo</td>
-                                        <td>55</td>
-                                        <td>2010/10/14</td>
-                                        <td>$327,900</td>
-                                    </tr><tr role="row" class="even">
-                                        <td class="sorting_1">Sonya Frost</td>
-                                        <td>Software Engineer</td>
-                                        <td>Edinburgh</td>
-                                        <td>23</td>
-                                        <td>2008/12/13</td>
-                                        <td>$103,600</td>
-                                    </tr><tr role="row" class="odd">
-                                        <td class="sorting_1">Tatyana Fitzpatrick</td>
-                                        <td>Regional Director</td>
-                                        <td>London</td>
-                                        <td>19</td>
-                                        <td>2010/03/17</td>
-                                        <td>$385,750</td>
-                                    </tr><tr role="row" class="even">
-                                        <td class="sorting_1">Tiger Nixon</td>
-                                        <td>System Architect</td>
-                                        <td>Edinburgh</td>
-                                        <td>61</td>
-                                        <td>2011/04/25</td>
-                                        <td>$320,800</td>
-                                    </tr></tbody>
-                                
-                            </table></div><div class="dataTables_scrollFoot" style="overflow: hidden; border: 0px; width: 100%;"><div class="dataTables_scrollFootInner" style="width: 1138.4px; padding-right: 17px;"><table class="table table-striped table-bordered table-hover dataTable" role="grid" style="margin-left: 0px; width: 1138.4px;"><tfoot>
-                                    <tr><th rowspan="1" colspan="1" style="width: 199.837px;">Name</th><th rowspan="1" colspan="1" style="width: 296.625px;">Position</th><th rowspan="1" colspan="1" style="width: 150.962px;">Office</th><th rowspan="1" colspan="1" style="width: 87.0875px;">Age</th><th rowspan="1" colspan="1" style="width: 149.988px;">Start date</th><th rowspan="1" colspan="1" style="width: 110.1px;">Salary</th></tr>
-                                </tfoot></table></div></div></div></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dt-showhidecolumn_info" role="status" aria-live="polite">Showing 1 to 18 of 18 entries</div></div><div class="col-sm-12 col-md-7"></div></div></div>
+                            </div>
                         </div>
                     </div>
+                            
+                        <div class="dataTables_scrollBody" style="position: relative; overflow: auto; max-height: 200px; height: 200px; width: 100%;">
+                            <table class="table table-striped table-bordered table-hover dataTable" id="dt-showhidecolumn" role="grid" aria-describedby="dt-showhidecolumn_info" style="width: 100%;">
+                            <thead>
+                                <tr role="row" style="height: 0px;">
+                                    <th class="sorting" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 181.238px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;">
+                                        <div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Name</div>
+                                    </th>
+                                    <th class="sorting" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 278.025px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;">
+                                        <div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Position</div>
+                                    </th>
+                                    <th class="sorting" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 132.363px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;">
+                                        <div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Office</div>
+                                    </th>
+                                    <th class="sorting" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 68.4875px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;">
+                                        <div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Age</div>
+                                    </th>
+                                    <th class="sorting" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 131.387px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;">
+                                        <div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Start date</div>
+                                    </th>
+                                    <th class="sorting" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 91.5px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;">
+                                        <div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Salary</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr style="height: 0px;"><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 199.837px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Name</div></th><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 296.625px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Position</div></th><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 150.962px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Office</div></th><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 87.0875px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Age</div></th><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 149.988px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Start date</div></th><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 110.1px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Salary</div></th></tr>
+                            </tfoot>
+                                
+                            
+
+                            </table>
+                        </div>
+                        <div class="dataTables_scrollFoot" style="overflow: hidden; border: 0px; width: 100%;">
+                        <div class="dataTables_scrollFootInner" style="width: 1138.4px; padding-right: 17px;">
+                        <table class="table table-striped table-bordered table-hover dataTable" role="grid" style="margin-left: 0px; width: 1138.4px;">
+                            
+                        </table>
+                        </div>
+                        </div>
+                </div>
+                </div>
                 </div>
             </div>
-            <!-- EOF MAIN-BODY -->
-
+            </div>
+            </div>
         </div>
         <!-- EOF MAIN -->
 
@@ -407,6 +338,7 @@
         <div class="footer">
             <p class="text-center">Copyright © 2021 G&G <a href="#">Software</a>. All rights reserved.</p>
         </div>
+        
         
         <!-- Preloader -->
         
@@ -729,11 +661,55 @@
     </div> <!-- END WRAPPER -->
 
     <script src="<?=base_url("js/siqtheme.js")?>"></script>
-    <script src="../../../../resources/scripts/pages/tb_datatables.js">
-
     
 
-</script>
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+    </symbol></svg>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+
+    <script>
+        function mensajeEliminado(direccion) {
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+
+            swalWithBootstrapButtons.fire({
+                title: '¿Esta seguro que desea eliminar el usuario?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: ' Si ',
+                cancelButtonText: ' No ',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    swalWithBootstrapButtons.fire(
+                        'El Usuario fue eliminado',
+                        'Your file has been deleted.',
+                        'success'
+                    );
+                    location.href = direccion;
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                        'Cancelado',
+                        'Your imaginary file is safe :)',
+                        'error'
+                    )
+                    return false;
+                }
+            })
+        }
+    </script>
 
 
 </body></html>

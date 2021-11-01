@@ -7691,7 +7691,7 @@ a.badge-charcoal:focus, a.badge-charcoal.focus {
   background-color: #f8f9fa;
 }
 .list-group-item-action:active {
-  color: #212529;
+ 
   background-color: #e9ecef;
 }
 
@@ -7701,6 +7701,7 @@ a.badge-charcoal:focus, a.badge-charcoal.focus {
   padding: 0.75rem 1.25rem;
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.125);
+  color: white;
 }
 .list-group-item:first-child {
   border-top-left-radius: inherit;
@@ -20946,6 +20947,8 @@ body.theme-dark .card .card-footer {
   border-top-color: #495057;
 }
 body.theme-dark .card .list-group .list-group-item {
+  color: white;
+  background-color: transparent;
   border-color: #495057;
 }
 body.theme-dark .card.card-primary {
