@@ -144,14 +144,14 @@ public function buscarDNI()
     }
 
     public function prueba(){
-        return view ('prueba');
+        return view ('viewMaster');
     }
     public function listadoUsuarios(){
         $userModel = new UserModel();
         $data['usuarioInfo'] = $userModel->obtenerUsuarios();
         $rolModel = new RolModel();
         $data['roles'] = $rolModel->findAll();
-        return view('usuarios/usuarios', $data);
+        return view('viewMasterList', $data);
     }
 
 }

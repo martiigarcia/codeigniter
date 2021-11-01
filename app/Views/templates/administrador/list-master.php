@@ -2,8 +2,7 @@
 <html lang="en">
 
 <head>
-
-    <meta charset="utf-8" />
+<meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
@@ -11,22 +10,25 @@
     <meta name="keywords" content="bootstrap, admin theme, admin dashboard, jquery, webpack, laravel-mix, template, responsive" />
     <meta name="author" content="siQuang - Simon Nguyen" />
 
-    <title>Master</title>
+    <title>Master LIST</title>
 
     <link rel="stylesheet" href="<?=base_url("css/siqtheme.css")?>">
     <link rel="stylesheet" href="<?=base_url("fonts/vendor/font-awesome/fontawesome-webfont.svg")?>">
     <link rel="stylesheet" href="<?=base_url("fonts/vendor/themify-icons-scss/themify.svg")?>">
 
+    <style>
+    .scroll-container {
+    display: block;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    }   
+</style>
 </head>
 
-<body class="theme-dark">
-    <div class="grid-wrapper sidebar-bg bg1">
 
-        <!-- Theme switcher -->
-        <div id="theme-tab">
-            <div class="theme-tab-item switch-theme bg-white" data-theme="theme-default" data-toggle="tooltip" title="Light"></div>
-            <div class="theme-tab-item switch-theme bg-dark" data-theme="theme-dark" data-toggle="tooltip" title="Dark"></div>
-        </div>
+<body class="theme-dark">
+    
+    <div class="grid-wrapper sidebar-bg bg1">
 
         <!-- BOF HEADER -->
         <div class="header">
@@ -208,15 +210,302 @@
 
         <div class="main">
             <?= $this->renderSection("content")?>
-        </div>
+        
+            <div id="scroll-container">
+                
+                <!-- BOF Datatable Show/Hide Columns -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <div class="caption uppercase">
+                                <i class="ti-briefcase"></i> Show/Hide Columns Dynamically (Fixed Height)
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="btn btn-outline-secondary"><i class="ti-pencil-alt"></i></a>
+                                <a href="javascript:;" class="btn btn-outline-secondary"><i class="ti-settings"></i></a>
+                            </div>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <div class="row px-4">
+                                    <div class="col-lg-6">
+                                        <div class="form-check pl-0 mb-2">
+                                            <input type="checkbox" class="form-check-input toggle-column" data-toggle="toggle"
+                                                data-size="sm" data-column="0" checked>
+                                            <label class="form-check-label">Show/Hide Name Column</label>
+                                        </div>
+                                        <div class="form-check pl-0 mb-2">
+                                            <input type="checkbox" class="form-check-input toggle-column" data-toggle="toggle"
+                                                data-size="sm" data-column="1" checked>
+                                            <label class="form-check-label">Show/Hide Position Column</label>
+                                        </div>
+                                        <div class="form-check pl-0 mb-2">
+                                            <input type="checkbox" class="form-check-input toggle-column" data-toggle="toggle"
+                                                data-size="sm" data-column="2" checked>
+                                            <label class="form-check-label">Show/Hide Office Column</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-check pl-0 mb-2">
+                                            <input type="checkbox" class="form-check-input toggle-column" data-toggle="toggle"
+                                                data-size="sm" data-column="3" checked>
+                                            <label class="form-check-label">Show/Hide Age Column</label>
+                                        </div>
+                                        <div class="form-check pl-0 mb-2">
+                                            <input type="checkbox" class="form-check-input toggle-column" data-toggle="toggle"
+                                                data-size="sm" data-column="4" checked>
+                                            <label class="form-check-label">Show/Hide Date Column</label>
+                                        </div>
+                                        <div class="form-check pl-0 mb-2">
+                                            <input type="checkbox" class="form-check-input toggle-column" data-toggle="toggle"
+                                                data-size="sm" data-column="5" checked>
+                                            <label class="form-check-label">Show/Hide Salary Column</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="card-body">
+                        <div id="dt-showhidecolumn_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                </div><div class="col-sm-12 col-md-6">
+                                    <div id="dt-showhidecolumn_filter" class="dataTables_filter">
+                                        <label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dt-showhidecolumn"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="dataTables_scroll">
+                                        <div class="dataTables_scrollHead" style="overflow: hidden; position: relative; border: 0px; width: 100%;">
+                                        <div class="dataTables_scrollHeadInner" style="box-sizing: content-box; width: 1138.4px; padding-right: 17px;">
+                                        <table class="table table-striped table-bordered table-hover dataTable" role="grid" style="margin-left: 0px; width: 1138.4px;">
+                                        <thead>
+                        
+                                        <tr role="row">
+                                            <th class="sorting_asc" tabindex="0" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 181.238px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">Name</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 278.025px;" aria-label="Position: activate to sort column ascending">Position</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 132.363px;" aria-label="Office: activate to sort column ascending">Office</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 68.4875px;" aria-label="Age: activate to sort column ascending">Age</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 131.387px;" aria-label="Start date: activate to sort column ascending">Start date</th>
+                                            <th class="sorting" tabindex="0" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 91.5px;" aria-label="Salary: activate to sort column ascending">Salary</th>
+                                        </tr>
+                                
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="dataTables_scrollBody" style="position: relative; overflow: auto; max-height: 200px; height: 200px; width: 100%;">
+                        <table class="table table-striped table-bordered table-hover dataTable" id="dt-showhidecolumn" role="grid" aria-describedby="dt-showhidecolumn_info" style="width: 100%;">
+                        <thead>
+                                    <tr role="row" style="height: 0px;">
+                                    <th class="sorting" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 181.238px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;">
+                                    <div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Name</div></th>
+                                
+                                    <th class="sorting" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 278.025px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;">
+                                    <div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Position</div>
+                                </th>
+                                <th class="sorting" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 132.363px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;">
+                                <div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Office</div>
+                            </th>
+                            <th class="sorting" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 68.4875px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;">
+                            <div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Age</div>
+                        </th>
+                        <th class="sorting" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 131.387px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;">
+                        <div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Start date</div>
+                    </th>
+                    <th class="sorting" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 91.5px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;">
+                    <div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Salary</div>
+                </th>
+            </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr style="height: 0px;"><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 199.837px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Name</div></th><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 296.625px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Position</div></th><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 150.962px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Office</div></th><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 87.0875px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Age</div></th><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 149.988px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Start date</div></th><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 110.1px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Salary</div></th></tr>
+                                </tfoot>
+                                
+                                <tbody>
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Position</th>
+                                        <th>Office</th>
+                                        <th>Age</th>
+                                        <th>Start date</th>
+                                        <th>Salary</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Tiger Nixon</td>
+                                        <td>System Architect</td>
+                                        <td>Edinburgh</td>
+                                        <td>61</td>
+                                        <td>2011/04/25</td>
+                                        <td>$320,800</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Garrett Winters</td>
+                                        <td>Accountant</td>
+                                        <td>Tokyo</td>
+                                        <td>63</td>
+                                        <td>2011/07/25</td>
+                                        <td>$170,750</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ashton Cox</td>
+                                        <td>Junior Technical Author</td>
+                                        <td>San Francisco</td>
+                                        <td>66</td>
+                                        <td>2009/01/12</td>
+                                        <td>$86,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Cedric Kelly</td>
+                                        <td>Senior Javascript Developer</td>
+                                        <td>Edinburgh</td>
+                                        <td>22</td>
+                                        <td>2012/03/29</td>
+                                        <td>$433,060</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Airi Satou</td>
+                                        <td>Accountant</td>
+                                        <td>Tokyo</td>
+                                        <td>33</td>
+                                        <td>2008/11/28</td>
+                                        <td>$162,700</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Brielle Williamson</td>
+                                        <td>Integration Specialist</td>
+                                        <td>New York</td>
+                                        <td>61</td>
+                                        <td>2012/12/02</td>
+                                        <td>$372,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Herrod Chandler</td>
+                                        <td>Sales Assistant</td>
+                                        <td>San Francisco</td>
+                                        <td>59</td>
+                                        <td>2012/08/06</td>
+                                        <td>$137,500</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rhona Davidson</td>
+                                        <td>Integration Specialist</td>
+                                        <td>Tokyo</td>
+                                        <td>55</td>
+                                        <td>2010/10/14</td>
+                                        <td>$327,900</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Colleen Hurst</td>
+                                        <td>Javascript Developer</td>
+                                        <td>San Francisco</td>
+                                        <td>39</td>
+                                        <td>2009/09/15</td>
+                                        <td>$205,500</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sonya Frost</td>
+                                        <td>Software Engineer</td>
+                                        <td>Edinburgh</td>
+                                        <td>23</td>
+                                        <td>2008/12/13</td>
+                                        <td>$103,600</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Jena Gaines</td>
+                                        <td>Office Manager</td>
+                                        <td>London</td>
+                                        <td>30</td>
+                                        <td>2008/12/19</td>
+                                        <td>$90,560</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Quinn Flynn</td>
+                                        <td>Support Lead</td>
+                                        <td>Edinburgh</td>
+                                        <td>22</td>
+                                        <td>2013/03/03</td>
+                                        <td>$342,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Charde Marshall</td>
+                                        <td>Regional Director</td>
+                                        <td>San Francisco</td>
+                                        <td>36</td>
+                                        <td>2008/10/16</td>
+                                        <td>$470,600</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Haley Kennedy</td>
+                                        <td>Senior Marketing Designer</td>
+                                        <td>London</td>
+                                        <td>43</td>
+                                        <td>2012/12/18</td>
+                                        <td>$313,500</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tatyana Fitzpatrick</td>
+                                        <td>Regional Director</td>
+                                        <td>London</td>
+                                        <td>19</td>
+                                        <td>2010/03/17</td>
+                                        <td>$385,750</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Michael Silva</td>
+                                        <td>Marketing Designer</td>
+                                        <td>London</td>
+                                        <td>66</td>
+                                        <td>2012/11/27</td>
+                                        <td>$198,500</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Paul Byrd</td>
+                                        <td>Chief Financial Officer (CFO)</td>
+                                        <td>New York</td>
+                                        <td>64</td>
+                                        <td>2010/06/09</td>
+                                        <td>$725,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Gloria Little</td>
+                                        <td>Systems Administrator</td>
+                                        <td>New York</td>
+                                        <td>59</td>
+                                        <td>2009/04/10</td>
+                                        <td>$237,500</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Position</th>
+                                        <th>Office</th>
+                                        <th>Age</th>
+                                        <th>Start date</th>
+                                        <th>Salary</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>  
+        <!-- EOF MAIN-BODY -->
+        
+        
 
         <!-- BOF FOOTER -->
         <div class="footer">
             <p class="text-center">Copyright © 2021 G&G <a href="#">Software</a>. All rights reserved.</p>
         </div>
-        
-        <!-- Preloader -->
-        <div id="preloader"></div>
         <!-- EOF FOOTER -->
 
         <!-- BOF ASIDE-RIGHT -->
@@ -534,8 +823,8 @@
 
     </div> <!-- END WRAPPER -->
 
-    <script src="<?=base_url("js/siqtheme.js")?>"></script>
 
+    <script src="<?=base_url("js/siqtheme.js")?>"></script>
 </body>
 
 </html>
