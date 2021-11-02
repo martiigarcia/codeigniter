@@ -39,7 +39,8 @@ class Home extends BaseController
         $userModel = new UserModel();
         $data['usuarioInfo'] = $userModel->obtenerUsuarios();
 
-        return view('login/login');
+       // if(session())
+        return view('viewAdministrador/viewMaster');
     }
     public function eliminar($id)
     {
@@ -67,6 +68,7 @@ class Home extends BaseController
             'email' => 'required|is_unique[usuarios.email]',
             'id_rol' => 'required',
             'fecha_de_nacimiento'=> 'required|valid_date',
+            'password'=> 'required',
         ]);
 
         if ($validacion) {
@@ -85,7 +87,10 @@ class Home extends BaseController
             $error = $this->validator->listErrors();
             session()->setFlashdata('mensaje', $error);
 
-            return redirect()->to(base_url() . '/home/addUser');
+            return redirect()->back()->with('mensaje', 'El usuario o la contraseña son incorrectos')
+            ->withInput();
+
+            return redirect()->back()->withInput();
         }
     }
 
@@ -101,6 +106,7 @@ class Home extends BaseController
             'email' => 'required|is_unique[usuarios.{id}]',
             'id_rol' => 'required',
             'fecha_de_nacimiento'=> 'required|valid_date',
+            'password'=> 'required',
         ]);
 
 

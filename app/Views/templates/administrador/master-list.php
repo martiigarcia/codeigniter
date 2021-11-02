@@ -11,11 +11,15 @@
     <meta name="author" content="siQuang - Simon Nguyen" />
 
     <title>Master LIST</title>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <link rel="stylesheet" href="<?=base_url("css/siqtheme.css")?>">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
 
+    
+    <link rel="stylesheet" href="<?= base_url('asserts/DataTable/DataTables-1.11.3/css/dataTables.bootstrap4.css')?>">
+    <link rel="stylesheet" href="<?= base_url('asserts/DataTable/datatables.css')?>">
+    <link rel="stylesheet" href="<?= base_url('asserts/DataTables/datatables.css/datatables.min.css')?>">
 
 </head>
 
@@ -204,110 +208,61 @@
         <!-- BOF MAIN -->
         <div class="main">
             <?= $this->renderSection("content")?>
+
+            <div class="container">
     
+                    <div class="table-responsive container">
 
-            <!-- BOF MAIN-BODY -->
-           
-            <!-- BOF Datatable Show/Hide Columns -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card mb-3">
-                        <div class="card-header">
-                            <div class="caption uppercase">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
-                                <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z"/>
-                                </svg> Listado de usuarios existentes
-                            </div>
-                            <div class="tools">
-                                <a href="javascript:;" class="btn btn-outline-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
-                                <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
-                                </svg></a>
-                                <a href="javascript:;" class="btn btn-outline-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
-                                <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
-                                <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
-                                </svg></a>
-                            </div>
-                        </div>
-                        
-                        <div class="card-body">
-                            <div id="dt-showhidecolumn_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                                <div class="row"><div class="col-sm-12 col-md-6"></div>
-                                <div class="col-sm-12 col-md-6"><div id="dt-showhidecolumn_filter" class="dataTables_filter">
-                                    <label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dt-showhidecolumn"></label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="dataTables_scroll">
-                                    <div class="dataTables_scrollHead" style="position: relative; border: 0px; width: 100%;">
-                                    <div class="dataTables_scrollHeadInner" style="box-sizing: content-box; width: 1138.4px; padding-right: 17px;">
-                                    <table class="table table-striped table-bordered table-hover dataTable" role="grid" style="margin-left: 0px; width: 1138.4px;">
-                                    <thead>
-                                        <tr role="row">
-                                            
-                                            <th tabindex="0" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1"  >DNI</th>
-                                            <th tabindex="0" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" >Nombre</th>
-                                            <th tabindex="0" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" >Apellido</th>
-                                            <th tabindex="0" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" >Fecha de nacimiento</th>
-                                            <th tabindex="0" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" >Email</th>
-                                            <th tabindex="0" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" >Rol</th>
-                                            <th tabindex="0" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" >Opciones</th>
-                                        
+                        <table id="tableUsuarios" class="table table-striped table-bordered table-hover ">
+
+                                <thead>
+                                    <tr >
+
+                                        <th>DNI</th>
+                                        <th>Nombre</th>
+                                        <th>Apellido</th>
+                                        <th>Fecha de nacimiento</th>
+                                        <th>Email</th>
+                                        <th>Rol</th>
+                                        <th>Opciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <?php foreach ($usuarioInfo as $usuario) : ?>
+
+                                        <tr>
+                                            <td><?= $usuario['DNI']; ?></td>
+                                            <td><?= $usuario['nombre']; ?></td>
+                                            <td><?= $usuario['apellido']; ?></td>
+                                            <td><?= $usuario['fecha_de_nacimiento']; ?></td>
+                                            <td><?= $usuario['email']; ?></td>
+                                            <td><?= $usuario['rol_nombre']; ?> </td>
+                                            <td>
+                                                <a href="<?= base_url('home/editar/' . $usuario['id']); ?>"
+                                                class="btn btn-outline-warning bt-sm      ">
+                                                    <i class="bi bi-pencil-square"></i></a>
+
+                                                <a style="margin-left:10px"
+                                                onclick="return mensajeEliminado('<?= base_url('home/eliminar/' . $usuario['id']); ?>')"
+                                                class="btn btn-outline-danger bt-sm  ">
+                                                    <i class="bi bi-trash"></i>
+                                                </a>
+
+
+                                            </td>
                                         </tr>
-                                    </thead> 
+                                    <?php endforeach; ?>
+                                </tbody>
 
-                                    <tbody>
-                                    
-                                        <?php foreach ($usuarioInfo as  $usuario) : ?>
-
-                                                    <tr role="row" class="odd">
-                                                        <td><?= $usuario['DNI']; ?></td>
-                                                        <td><?= $usuario['nombre']; ?></td>
-                                                        <td><?= $usuario['apellido']; ?></td>
-                                                        <td><?= $usuario['fecha_de_nacimiento']; ?></td>
-                                                        <td><?= $usuario['email']; ?></td>
-                                                        <td><?= $usuario['rol_nombre']; ?> </td>
-                                                        <td>
-                                                            <a href="<?= base_url('home/editar/' . $usuario['id']); ?>" class="btn btn-outline-warning bt-sm">
-                                                                <i class="bi bi-pencil-square"></i></a>
-
-                                                            <a style="margin-left:10px" onclick="return mensajeEliminado('<?= base_url('home/eliminar/' . $usuario['id']); ?>')" class="btn btn-outline-danger bt-sm  ">
-                                                                <i class="bi bi-trash"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr><tr role="row" class="even">
-                                        <?php endforeach; ?>
-
-                                    </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                            
-                        <div class="dataTables_scrollBody" style="position: relative; overflow: auto; max-height: 200px; height: 200px; width: 100%;">
-                            <table class="table table-striped table-bordered table-hover dataTable" id="dt-showhidecolumn" role="grid" aria-describedby="dt-showhidecolumn_info" style="width: 100%;">
-                            
-                            </table>
-                        </div>
-                        <div class="dataTables_scrollFoot" style="overflow: hidden; border: 0px; width: 100%;">
-                        <div class="dataTables_scrollFootInner" style="width: 1138.4px; padding-right: 17px;">
-                        <table class="table table-striped table-bordered table-hover dataTable" role="grid" style="margin-left: 0px; width: 1138.4px;">
-                            
                         </table>
-                        </div>
-                        </div>
+                    </div>
                 </div>
-                </div>
-                </div>
-            </div>
-            </div>
-            </div>
+    
         </div>
-        <!-- EOF MAIN -->
 
         <!-- BOF FOOTER -->
+        
         <div class="footer">
             <p class="text-center">Copyright © 2021 G&G <a href="#">Software</a>. All rights reserved.</p>
         </div>
@@ -684,5 +639,11 @@
         }
     </script>
 
+<script src="<?= base_url('asserts/DataTable/datatables.js')?>">  </script>
+<script src="<?= base_url('asserts/DataTable/DataTables-1.11.3/js/dataTables.bootstrap4.js')?>">  </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="<?= base_url('asserts/Js/tables.js')?>">  </script>
 
 </body></html>

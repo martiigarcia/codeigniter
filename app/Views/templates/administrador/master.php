@@ -139,6 +139,8 @@
         <!-- EOF HEADER -->
 
         <!-- BOF ASIDE-LEFT -->
+        
+
         <div id="sidebar" class="sidebar" style="width: fit-content;">
             <div class="sidebar-content">
                 <!-- sidebar-menu  -->
@@ -219,6 +221,7 @@
         <div id="preloader"></div>
         <!-- EOF FOOTER -->
 
+        
         <!-- BOF ASIDE-RIGHT -->
         <div id="sidebar-right">
             <div class="sidebar-right-container">

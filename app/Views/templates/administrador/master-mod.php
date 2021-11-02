@@ -21,7 +21,16 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
 
-    
+    <style>
+        .headerAdd{
+            grid-area: header;
+            
+            width: calc(100% - 32px);
+            background-color: #343a40;
+            z-index: 21;
+        }
+    </style>
+
 </head>
 
 <body class="theme-dark" style="overflow: auto;">
@@ -219,9 +228,17 @@
                 <!-- BOF Horizontal Form -->
                 <div class="col-lg-9">
 
-                
+                    <?php if (session('mensaje')) { ?>
 
-
+                        <div class="alert alert-danger d-flex align-items-center" role="alert">
+                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+                            <use xlink:href="#exclamation-triangle-fill" />
+                        </svg>
+                        <div>
+                            <?= session('mensaje'); ?>
+                        </div>
+                        </div>
+                    <?php } ?>
                     
                     <div class="card mb-3">
                     <form method="POST" action="<?= base_url('home/guardar'); ?>">
@@ -241,8 +258,8 @@
                                         <label class="col-md-3 col-form-label">Nombre completo</label>
                                         <div class="col">
                                             <div class="input-group">
-                                                <input type="text" name="nombre" class="form-control" placeholder="Nombre" value="<?=old("nombre")?>">
-                                                <input type="text" name="apellido" class="form-control" placeholder="Apellido" value="<?=old("apellido")?>">
+                                                <input type="text" name="nombre" class="form-control" placeholder="Nombre">
+                                                <input type="text" name="apellido" class="form-control" placeholder="Apellido">
                                             </div>
                                         </div>
                                     </div>
@@ -256,13 +273,13 @@
                                                     </svg>
                                                 </span>
                                             </div>
-                                            <input type="email" name="email" class="form-control" placeholder="Email" value="<?=old("email")?>">
+                                            <input type="email" name="email" class="form-control" placeholder="Email">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-md-3 col-form-label">DNI</label>
                                         <div class="input-group col">
-                                            <input type="text" name="DNI" class="form-control" placeholder="DNI" value="<?=old("dni")?>">
+                                            <input type="text" name="DNI" class="form-control" placeholder="DNI">
                                             <div class="input-group-append">
                                                 <span class="input-group-text bg-danger"><span class="text-light">Obligatorio</span></span>
                                             </div>
@@ -271,7 +288,7 @@
                                     <div class="form-group row">
                                         <label class="col-md-3 col-form-label">Contraseña</label>
                                         <div class="input-group col">
-                                            <input type="password" name="password" class="form-control" placeholder="Contraseña" value="<?=old("contraseña")?>">
+                                            <input type="password" class="form-control" placeholder="Contraseña">
                                             <div class="input-group-append">
                                                 <span class="input-group-text bg-danger"><span class="text-light">Obligatorio</span></span>
                                             </div>
@@ -301,7 +318,7 @@
                                                     </span>
                                                 </div>
                                                 
-                                                <input type="text" name="fecha_de_nacimiento" class="datepicker" class="form-control calender-black" placeholder="dd/mm/aaaa" style="width:90%;" value="<?=old("fecha de nacimiento")?>">
+                                                <input type="text" name="fecha_de_nacimiento" class="datepicker" class="form-control calender-black" placeholder="dd/mm/aaaa" style="width:90%;">
                                             </div>
                                             <span class="form-text text-muted">Seleccionar fecha</span>
 
@@ -320,7 +337,7 @@
                                             <div class="form-group">
                                                 
                                             <label>Seleccione un rol de la lista</label>
-                                            <select class="form-control" name="id_rol" id="eleccionRol" value="<?=old("rol")?>">
+                                            <select class="form-control" name="id_rol" id="eleccionRol">
                                             <option disabled selected=inicial>Roles:</option>
                                                 <?php foreach ($roles as $rol) : ?>
 
@@ -334,11 +351,8 @@
                                 </li>
                                 
                             </ul>
-                            
-                            <div class="card-footer" id="div1">
-                            <p style="color: rgb(232,74,103, 1)"> <?= session('mensaje'); ?></p>
+                            <div class="card-footer">
                                 <div class="row">
-                                
                                     <div class="col text-center">
                                         <button type="submit" class="btn btn-flat mb-1 btn-primary">Confirmar</button>
                                         
