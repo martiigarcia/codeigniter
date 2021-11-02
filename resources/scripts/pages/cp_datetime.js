@@ -68,7 +68,7 @@ var CP_datepicker = function() {
             e.preventDefault();
             $(this).parent('.input-group').find('input').timepicker('showWidget');
         });
-    }
+    
 
     return {
         init: function() {
@@ -81,3 +81,4 @@ var CP_datepicker = function() {
 $(function() {
     CP_datepicker.init();
 });
+}

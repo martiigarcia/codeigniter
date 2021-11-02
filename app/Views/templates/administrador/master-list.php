@@ -157,7 +157,7 @@
                                         </a>
                                         <ul class="collapse list-unstyled" id="homeSubmenu">
                                             <li>
-                                                <a href="<?=base_url("home/agregar")?>">Registrar nuevo usuario</a>
+                                                <a href="<?=base_url("home/addUser")?>">Registrar nuevo usuario</a>
                                             </li>
                                             <li>
                                                 <a href="<?=base_url("home/listadoUsuarios")?>">Modificar usuario existente</a>
@@ -288,34 +288,7 @@
                             
                         <div class="dataTables_scrollBody" style="position: relative; overflow: auto; max-height: 200px; height: 200px; width: 100%;">
                             <table class="table table-striped table-bordered table-hover dataTable" id="dt-showhidecolumn" role="grid" aria-describedby="dt-showhidecolumn_info" style="width: 100%;">
-                            <thead>
-                                <tr role="row" style="height: 0px;">
-                                    <th class="sorting" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 181.238px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;">
-                                        <div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Name</div>
-                                    </th>
-                                    <th class="sorting" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 278.025px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;">
-                                        <div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Position</div>
-                                    </th>
-                                    <th class="sorting" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 132.363px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;">
-                                        <div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Office</div>
-                                    </th>
-                                    <th class="sorting" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 68.4875px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;">
-                                        <div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Age</div>
-                                    </th>
-                                    <th class="sorting" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 131.387px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;">
-                                        <div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Start date</div>
-                                    </th>
-                                    <th class="sorting" aria-controls="dt-showhidecolumn" rowspan="1" colspan="1" style="width: 91.5px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;">
-                                        <div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Salary</div>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tfoot>
-                                <tr style="height: 0px;"><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 199.837px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Name</div></th><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 296.625px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Position</div></th><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 150.962px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Office</div></th><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 87.0875px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Age</div></th><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 149.988px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Start date</div></th><th rowspan="1" colspan="1" style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 110.1px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;">Salary</div></th></tr>
-                            </tfoot>
-                                
                             
-
                             </table>
                         </div>
                         <div class="dataTables_scrollFoot" style="overflow: hidden; border: 0px; width: 100%;">

@@ -162,7 +162,7 @@
                                         </a>
                                         <ul class="collapse list-unstyled" id="homeSubmenu">
                                             <li>
-                                                <a href="<?=base_url("home/agregar")?>">Registrar nuevo usuario</a>
+                                                <a href="<?=base_url("home/addUser")?>">Registrar nuevo usuario</a>
                                             </li>
                                             <li>
                                                 <a href="<?=base_url("home/listadoUsuarios")?>">Modificar usuario existente</a>

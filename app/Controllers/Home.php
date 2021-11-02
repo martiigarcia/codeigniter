@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\UserModel;
 use App\Models\RolModel;
+use DateTime;
 
 class Home extends BaseController
 {
@@ -47,7 +48,7 @@ class Home extends BaseController
         $userModel = new UserModel();
         $userModel->delete($id);
 
-        return redirect()->to(base_url());
+        return redirect()->to(base_url('home/listadoUsuarios'));
     }
 
     public function agregar()
@@ -58,7 +59,7 @@ class Home extends BaseController
     }
     public function guardar()
     {
-
+        
         $validacion = $this->validate([
             'nombre' => 'required',
             'apellido' => 'required',
@@ -69,18 +70,22 @@ class Home extends BaseController
         ]);
 
         if ($validacion) {
+            
+            $_POST['fecha_de_nacimiento'] = DateTime::createFromFormat("d-m-Y", $_POST['fecha_de_nacimiento'])->format('Y-m-d');
 
             $userModel = new UserModel();
             $userModel->save($_POST);
 
             session()->setFlashdata('mensaje', 'Los datos se guardaron con exito');
-            return redirect()->to(base_url());
+            return redirect()->to(base_url('/home/addUser'));
         } else {
+
+           
 
             $error = $this->validator->listErrors();
             session()->setFlashdata('mensaje', $error);
 
-            return redirect()->to(base_url() . '/home/agregar');
+            return redirect()->to(base_url() . '/home/addUser');
         }
     }
 
@@ -152,6 +157,11 @@ public function buscarDNI()
         $rolModel = new RolModel();
         $data['roles'] = $rolModel->findAll();
         return view('viewAdministrador/viewMasterList', $data);
+    }
+    public function addUser(){
+        $rolModel = new RolModel();
+        $data['roles'] = $rolModel->findAll();
+        return view('viewAdministrador/viewMasterAdd', $data);
     }
 
 }
