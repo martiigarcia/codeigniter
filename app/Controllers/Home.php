@@ -18,6 +18,7 @@ class Home extends BaseController
       
        return view('viewAdministrador/viewMaster', $data);
     }
+    
     public function eliminar($id)
     {
 
@@ -27,9 +28,6 @@ class Home extends BaseController
 
         return redirect()->to(base_url('home/listadoUsuarios'));
     }
-
-    
-    
 
     public function guardarModificaciones()
     {
@@ -62,6 +60,7 @@ class Home extends BaseController
             return redirect()->back()->withInput();
         }
     }
+
     public function editar($id)
     {
         $userModel = new UserModel();
@@ -69,8 +68,9 @@ class Home extends BaseController
         $rolModel = new RolModel();
         $data['roles'] = $rolModel->findAll();
 
-        return view('usuarios/modificacionUsuarios', $data);
+        return view('viewAdministrador/viewMasterMod', $data);
     }
+
     public function buscarDNI()
     {
         $userModel = new UserModel();
@@ -87,12 +87,7 @@ class Home extends BaseController
                     return view('usuarios/usuarios', $data);
                 }
     }
-    public function login()
-    {
-        return view ('login/login');
-    }
 
-    
     public function listadoUsuarios()
     {
         $userModel = new UserModel();
@@ -101,12 +96,14 @@ class Home extends BaseController
         $data['roles'] = $rolModel->findAll();
         return view('viewAdministrador/viewMasterList', $data);
     }
+
     public function addUser()
     {
         $rolModel = new RolModel();
         $data['roles'] = $rolModel->findAll();
         return view('viewAdministrador/viewMasterAdd', $data);
     }
+
     public function guardar()
     {
         
