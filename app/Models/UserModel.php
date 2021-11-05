@@ -21,6 +21,7 @@ class UserModel extends Model
     protected $updatedField  = 'updated_at';
     protected $deletedField  = 'deleted_at';
     protected $skipValidation     = false;
+    
     public function obtenerUsuarios()
     {
         return $this->db->table('usuarios')
@@ -28,6 +29,7 @@ class UserModel extends Model
             ->join('roles', 'roles.id=usuarios.id_rol')
             ->get()->getResultArray();
     }
+
     public function obtenerUsuario($id)
     {
         return $this
@@ -36,27 +38,28 @@ class UserModel extends Model
             ->find($id);
     }
 
-     public function obtenerUsuarioDNI($DNI)
-        {
+    public function obtenerUsuarioDNI($DNI)
+    {
            return $this
                 ->select('usuarios.*,roles.id rol_id,roles.nombre rol_nombre,roles.descripcion rol_descripcion')
                 ->where('DNI',$DNI)
                 ->join('roles', "roles.id = usuarios.id_rol")->get()->getResultArray();
 
-        }
-    public function obtenerUsuarioEmail($email){
+    }
+    public function obtenerUsuarioEmail($email)
+    {
         return $this
                 ->select('usuarios.*,roles.id rol_id,roles.nombre rol_nombre,roles.descripcion rol_descripcion')
                 ->where('email',$email)
                 ->join('roles', "roles.id = usuarios.id_rol")->get()->getResultArray();
-}
+    }
 
-    public function obtenerDatosParaTabla(){
-        {
+    public function obtenerDatosParaTabla()
+    {
             return $this->db->table('usuarios')
                 ->select('usuarios.*,roles.id rol_id,roles.nombre rol_nombre,roles.descripcion rol_descripcion')
                 ->join('roles', 'roles.id=usuarios.id_rol')
                 ->get()->getResult();
-        }
     }
+    
 }

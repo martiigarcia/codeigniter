@@ -13,10 +13,15 @@ class Home extends BaseController
     public function index()
     {
         $userModel = new UserModel();
-        $data['usuarioInfo'] = $userModel->obtenerUsuarios();
+        $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
 
-      
-       return view('viewAdministrador/viewMaster', $data);
+        //dd($data['usuarioInfo']);
+        if($data['usuarioActual'][0]['id_rol'] == 1){
+            return view('viewAdministrador/viewMaster', $data);
+        }
+        return view('usuarios/usuarios', $data);
+            
+
     }
 
     public function eliminar($id)
@@ -69,28 +74,30 @@ class Home extends BaseController
     {
         $userModel = new UserModel();
         $data['usuario'] = $userModel->obtenerUsuario($id);
-       // dd($data);
+       
         $rolModel = new RolModel();
         $data['roles'] = $rolModel->findAll();
-        //return view('usuarios/modificacionUsuarios', $data);
+        $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
+        
         return view('viewAdministrador/viewMasterMod', $data);
     }
 
     public function buscarDNI()
     {
         $userModel = new UserModel();
-                $data['usuarioInfo'] = $userModel->obtenerUsuarioDNI($_POST['DNI']);
-                if(empty($data['usuarioInfo'])){
+        $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
 
-                    $userModel = new UserModel();
-                    $data['usuarioInfo'] = $userModel->obtenerUsuarios();
-                    session()->setFlashdata('mensaje', 'No se encontraron resultados');
-                    return redirect()->to(base_url());
+        $data['usuarioInfo'] = $userModel->obtenerUsuarioDNI($_POST['DNI']);
+        if(empty($data['usuarioInfo'])){
 
-                }else{
+            $userModel = new UserModel();
+            $data['usuarioInfo'] = $userModel->obtenerUsuarios();
+            session()->setFlashdata('mensaje', 'No se encontraron resultados');
+            return redirect()->to(base_url());
 
-                    return view('usuarios/usuarios', $data);
-                }
+        }else{
+            return view('usuarios/usuarios', $data);
+        }
     }
 
     public function listadoUsuarios()
@@ -99,6 +106,7 @@ class Home extends BaseController
         $data['usuarioInfo'] = $userModel->obtenerUsuarios();
         $rolModel = new RolModel();
         $data['roles'] = $rolModel->findAll();
+        $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
         return view('viewAdministrador/viewMasterList', $data);
     }
 
@@ -106,6 +114,11 @@ class Home extends BaseController
     {
         $rolModel = new RolModel();
         $data['roles'] = $rolModel->findAll();
+
+        $userModel = new UserModel();
+
+        $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username')); 
+
         return view('viewAdministrador/viewMasterAdd', $data);
     }
 
@@ -140,6 +153,43 @@ class Home extends BaseController
 
             return redirect()->back()->with('mensaje', 'El usuario o la contraseña son incorrectos')
             ->withInput();
+
+            return redirect()->back()->withInput();
+        }
+    }
+
+    public function actualizarPerfil()
+    {
+        $userModel = new UserModel();
+        $datos['datos'] = $userModel->find($_POST['id']);
+        
+
+
+        $validacion = $this->validate([
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'DNI' => 'required|is_unique[usuarios.{id}]',
+            'email' => 'required|is_unique[usuarios.{id}]',
+            'fecha_de_nacimiento'=> 'required|valid_date',
+            'password'=> 'required',
+        ]);
+
+
+
+        if ($validacion) {
+
+            if(empty($_POST['id_rol'])){
+                $_POST['id_rol'] = $datos['datos']['id_rol'];
+            }
+
+            $userModel->update($_POST['id'], $_POST);
+
+            session()->setFlashdata('mensaje', 'Los datos se guardaron con exito');
+            return redirect()->to(base_url());
+        } else {
+
+            $error = $this->validator->listErrors();
+            session()->setFlashdata('mensaje', $error);
 
             return redirect()->back()->withInput();
         }

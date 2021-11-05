@@ -37,7 +37,7 @@
     <?= $this->renderSection("content")?>
     </div>
        
-    <?= $this->include('layout/sidebarRight') ?>
+    <?= $this->include('layout/sidebarRight', $usuarioActual) ?>
     <?= $this->include('layout/footer') ?>
         
         
@@ -72,6 +72,7 @@
                 confirmButtonText: ' Si ',
                 cancelButtonText: ' No ',
                 reverseButtons: true
+                
             }).then((result) => {
                 if (result.isConfirmed) {
                     swalWithBootstrapButtons.fire(

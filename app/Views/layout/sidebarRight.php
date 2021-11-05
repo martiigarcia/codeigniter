@@ -29,7 +29,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
                                 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                 <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
-                            </svg> <span class="profile-user">Insertar rol del usuario</span>
+                            </svg> <span class="profile-user"><?= $usuarioActual[0]['rol_nombre']; ?></span>
                             <span class="float-right"><a href="#" class="text-carolina">Log-Out</a></span>
                         </div>
                         <div class="pane-body">
@@ -38,47 +38,50 @@
                                     
                                     <li class="list-group-item">
                                         <h5 class="mb-3">Mi informacion</h5>
-                                        <form class="form-update-profile">
+                                        <form class="form-update-profile" method="POST" action="<?= base_url('home/actualizarPerfil'); ?>">
                                             <div class="form-group row">
+                                            
+                                            <input type="text" name="id" value="<?= $usuarioActual[0]['id']; ?>" hidden="" class="form-control">
+                            
                                                 <label class="col-form-label col-md-4">Nombre:</label>
                                                 <div class="col">
                                                     <input type="text" name="nombre" class="form-control-plaintext"
-                                                        value="siQuang">
+                                                        value="<?= $usuarioActual[0]['nombre']; ?>">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label class="col-form-label col-md-4">Apellido:</label>
                                                 <div class="col">
                                                     <input type="text" name="apellido" class="form-control-plaintext"
-                                                        value="Humbleman">
+                                                    value="<?= $usuarioActual[0]['apellido']; ?>">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label class="col-form-label col-md-4">DNI:</label>
                                                 <div class="col">
-                                                    <input type="text" name="dni" class="form-control-plaintext"
-                                                        value="Humbleman">
+                                                    <input type="text" name="DNI" class="form-control-plaintext"
+                                                    value="<?= $usuarioActual[0]['DNI']; ?>">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label class="col-form-label col-md-4">Email:</label>
                                                 <div class="col">
-                                                    <input type="text" name="email" class="form-control-plaintext"
-                                                        value="siquang@example.com">
+                                                    <input type="email" name="email" class="form-control-plaintext"
+                                                    value="<?= $usuarioActual[0]['email']; ?>">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label class="col-form-label col-md-4">Fecha de nacimiento:</label>
                                                 <div class="col">
-                                                    <input type="text" name="fecha_nacimiento" class="form-control-plaintext"
-                                                        value="siquang">
+                                                    <input type="text" name="fecha_de_nacimiento" class="form-control-plaintext"
+                                                    value="<?= $usuarioActual[0]['fecha_de_nacimiento']; ?>">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label class="col-form-label col-md-4">Password:</label>
                                                 <div class="col">
                                                     <input type="password" name="password" class="form-control-plaintext"
-                                                        value="123456789">
+                                                    value="<?= $usuarioActual[0]['password']; ?>">
                                                 </div>
                                             </div>
                                             <div class="col offset-md-4 pl-2">

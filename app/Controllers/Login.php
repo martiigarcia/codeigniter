@@ -26,7 +26,7 @@ class Login extends BaseController
             return redirect()->back()->with('mensajeLogin','El usuario o la contraseña son incorrectos')
                 ->withInput();
         }else {
-            if ($data[0]['contraseña'] !== $_POST['password']) {
+            if ($data[0]['password'] !== $_POST['password']) {
                 return redirect()->back()->with('mensajeLogin', 'El usuario o la contraseña son incorrectos')
                     ->withInput();
             }
