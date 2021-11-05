@@ -9,38 +9,14 @@ use DateTime;
 class Home extends BaseController
 {
 
-    public function redireccionar() 
-    {
-        if(empty($_POST)){
-            $valor=0;
-        }else{
-            $valor = $_POST['opcion'];
-        }
-        
-        $rolModel = new RolModel();
-        $data['roles'] = $rolModel->findAll();
-        $userModel = new UserModel();
-        $data['usuarioInfo'] = $userModel->obtenerUsuarios();
-        
-        switch($valor) {
-            case 1: return view('usuarios/altaUsuarios', $data); break;
-            case 2: return view('usuarios/usuarios', $data); break;
-            case 3: return view('usuarios/usuarios', $data); break;
-            case 4: return view('usuarios/usuarios', $data); break;
-            default: return redirect()->to(base_url());; break;
-        }
     
-    
-    }
-
-
     public function index()
     {
         $userModel = new UserModel();
         $data['usuarioInfo'] = $userModel->obtenerUsuarios();
 
-       // if(session())
-        return view('viewAdministrador/viewMaster');
+      
+       return view('viewAdministrador/viewMaster', $data);
     }
     public function eliminar($id)
     {
@@ -52,47 +28,8 @@ class Home extends BaseController
         return redirect()->to(base_url('home/listadoUsuarios'));
     }
 
-    public function agregar()
-    {
-        $rolModel = new RolModel();
-        $data['roles'] = $rolModel->findAll();
-        return view('usuarios/altaUsuarios', $data);
-    }
-    public function guardar()
-    {
-        
-        $validacion = $this->validate([
-            'nombre' => 'required',
-            'apellido' => 'required',
-            'DNI' => 'required|is_unique[usuarios.DNI]',
-            'email' => 'required|is_unique[usuarios.email]',
-            'id_rol' => 'required',
-            'fecha_de_nacimiento'=> 'required|valid_date',
-            'password'=> 'required',
-        ]);
-
-        if ($validacion) {
-            
-            $_POST['fecha_de_nacimiento'] = DateTime::createFromFormat("d-m-Y", $_POST['fecha_de_nacimiento'])->format('Y-m-d');
-
-            $userModel = new UserModel();
-            $userModel->save($_POST);
-
-            session()->setFlashdata('mensaje', 'Los datos se guardaron con exito');
-            return redirect()->to(base_url('/home/addUser'));
-        } else {
-
-           
-
-            $error = $this->validator->listErrors();
-            session()->setFlashdata('mensaje', $error);
-
-            return redirect()->back()->with('mensaje', 'El usuario o la contraseña son incorrectos')
-            ->withInput();
-
-            return redirect()->back()->withInput();
-        }
-    }
+    
+    
 
     public function guardarModificaciones()
     {
@@ -134,7 +71,7 @@ class Home extends BaseController
 
         return view('usuarios/modificacionUsuarios', $data);
     }
-public function buscarDNI()
+    public function buscarDNI()
     {
         $userModel = new UserModel();
                 $data['usuarioInfo'] = $userModel->obtenerUsuarioDNI($_POST['DNI']);
@@ -150,24 +87,61 @@ public function buscarDNI()
                     return view('usuarios/usuarios', $data);
                 }
     }
-    public function login(){
+    public function login()
+    {
         return view ('login/login');
     }
 
-    public function prueba(){
-        return view ('viewAdministrador/viewMaster');
-    }
-    public function listadoUsuarios(){
+    
+    public function listadoUsuarios()
+    {
         $userModel = new UserModel();
         $data['usuarioInfo'] = $userModel->obtenerUsuarios();
         $rolModel = new RolModel();
         $data['roles'] = $rolModel->findAll();
         return view('viewAdministrador/viewMasterList', $data);
     }
-    public function addUser(){
+    public function addUser()
+    {
         $rolModel = new RolModel();
         $data['roles'] = $rolModel->findAll();
         return view('viewAdministrador/viewMasterAdd', $data);
     }
+    public function guardar()
+    {
+        
+        $validacion = $this->validate([
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'DNI' => 'required|is_unique[usuarios.DNI]',
+            'email' => 'required|is_unique[usuarios.email]',
+            'id_rol' => 'required',
+            'fecha_de_nacimiento'=> 'required|valid_date',
+            'password'=> 'required',
+        ]);
+
+        if ($validacion) {
+            
+            $_POST['fecha_de_nacimiento'] = DateTime::createFromFormat("d-m-Y", $_POST['fecha_de_nacimiento'])->format('Y-m-d');
+
+            $userModel = new UserModel();
+            $userModel->save($_POST);
+
+            session()->setFlashdata('mensaje', 'Los datos se guardaron con exito');
+            return redirect()->to(base_url('/home/addUser'));
+        } else {
+
+           
+
+            $error = $this->validator->listErrors();
+            session()->setFlashdata('mensaje', $error);
+
+            return redirect()->back()->with('mensaje', 'El usuario o la contraseña son incorrectos')
+            ->withInput();
+
+            return redirect()->back()->withInput();
+        }
+    }
+    
 
 }
