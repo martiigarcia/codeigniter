@@ -18,7 +18,7 @@ class Home extends BaseController
       
        return view('viewAdministrador/viewMaster', $data);
     }
-    
+
     public function eliminar($id)
     {
 
@@ -34,12 +34,12 @@ class Home extends BaseController
         $userModel = new UserModel();
         $datos['datos'] = $userModel->find($_POST['id']);
 
+
         $validacion = $this->validate([
             'nombre' => 'required',
             'apellido' => 'required',
             'DNI' => 'required|is_unique[usuarios.{id}]',
             'email' => 'required|is_unique[usuarios.{id}]',
-            'id_rol' => 'required',
             'fecha_de_nacimiento'=> 'required|valid_date',
             'password'=> 'required',
         ]);
@@ -48,10 +48,14 @@ class Home extends BaseController
 
         if ($validacion) {
 
+            if(empty($_POST['id_rol'])){
+                $_POST['id_rol'] = $datos['datos']['id_rol'];
+            }
+
             $userModel->update($_POST['id'], $_POST);
 
             session()->setFlashdata('mensaje', 'Los datos se guardaron con exito');
-            return redirect()->to(base_url());
+            return redirect()->to(base_url('home/listadoUsuarios'));
         } else {
 
             $error = $this->validator->listErrors();
@@ -65,9 +69,10 @@ class Home extends BaseController
     {
         $userModel = new UserModel();
         $data['usuario'] = $userModel->obtenerUsuario($id);
+       // dd($data);
         $rolModel = new RolModel();
         $data['roles'] = $rolModel->findAll();
-
+        //return view('usuarios/modificacionUsuarios', $data);
         return view('viewAdministrador/viewMasterMod', $data);
     }
 

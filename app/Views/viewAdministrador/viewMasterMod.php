@@ -15,7 +15,7 @@
 
         
         <div class="card mb-3">
-        <form method="POST" action="<?= base_url('home/guardar'); ?>">
+        <form method="POST" action="<?= base_url('home/guardarModificaciones'); ?>">
                 <div class="card-header uppercase">
                     <div class="caption">
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-plus" viewBox="0 0 16 16">
@@ -114,16 +114,20 @@
                                     
                                 <label>Seleccione un rol de la lista</label>
                                 
-                                <select class="form-control" name="id_rol" id="eleccionRol" value="<?= $usuario['id_rol'] ?>">
-                                <option disabled selected=inicial>Roles:</option>
+                                <select class="form-control" name="id_rol" value="<?= $usuario['rol_id']; ?>">
+                                
+                                    <option disabled selected=inicial>Roles:</option>
                                     <?php foreach ($roles as $rol) : ?>
 
                                     <option value=<?= $rol['id']; ?>> <?= $rol['nombre']; ?>: <?= $rol['descripcion']; ?></option>
                                     <?php endforeach; ?>
+
                                 </select>
-                                <h6>Nombre del rol actual del usuario: <?= $usuario['rol_nombre'] ?></h6>
-                                <h7>Descripcion del rol actual del usuario: <?= $usuario['rol_descripcion'] ?></h7>
-                                </div>
+
+                                <p>Nombre del rol actual del usuario: <?= $usuario['rol_nombre'] ?></p>
+                                <p>Descripcion del rol actual del usuario: <?= $usuario['rol_descripcion'] ?></p>
+                                
+                            </div>
                             </div>
                         </div>
                         
@@ -138,7 +142,7 @@
                         <div class="col text-center">
                             <button type="submit" class="btn btn-flat mb-1 btn-primary">Confirmar</button>
                             
-                            <a href="<?=base_url("home/listadoUsuarios")?>" class="btn btn-flat mb-1 btn-secondary"> Cancelar</a>
+                            <a href="<?=base_url("home/listadoUsuarios")?>" class="btn btn-flat mb-1 btn-secondary">Cancelar</a>
                         </div>
                     </div>
                 </div>
