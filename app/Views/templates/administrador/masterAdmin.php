@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="<?= base_url('asserts/DataTable/datatables.css')?>">
     <link rel="stylesheet" href="<?= base_url('asserts/DataTables/datatables.css/datatables.min.css')?>">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
     
     
 
@@ -66,33 +67,32 @@
             })
 
             swalWithBootstrapButtons.fire({
-                title: '¿Esta seguro que desea eliminar el usuario?',
-                icon: 'warning',
+                title: 'Estas seguro que desea eliminar al usuario?',
+                'icon': 'warning',
                 showCancelButton: true,
-                confirmButtonText: ' Si ',
-                cancelButtonText: ' No ',
+                confirmButtonText: 'Si',
+                cancelButtonText: 'No',
                 reverseButtons: true
-                
-            }).then((result) => {
+            }).then(result => {
                 if (result.isConfirmed) {
-                    swalWithBootstrapButtons.fire(
-                        'El Usuario fue eliminado',
-                        'Your file has been deleted.',
-                        'success'
-                    );
-                    location.href = direccion;
-                } else if (
-                    /* Read more about handling dismissals below */
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-                    swalWithBootstrapButtons.fire(
-                        'Cancelado',
-                        'Your imaginary file is safe :)',
-                        'error'
-                    )
-                    return false;
+                    swalWithBootstrapButtons.fire({
+                        icon: 'success',
+                        text: 'El usuario fue eliminado con éxito.',
+                        showConfirmButton: false,
+                        timer: 1500,
+                        timerProgressBar: true
+                    }).then(result => {
+                        if (result.dismiss === Swal.DismissReason.timer) {
+                            window.location.href = direccion;
+                        }
+                    });
+                } else {
+                    swalWithBootstrapButtons.fire({
+                        icon: 'error',
+                        text: 'No se eliminó al usuario.'
+                    }).then();
                 }
-            })
+            });
         }
     </script>
 
@@ -102,6 +102,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="<?= base_url('asserts/Js/tables.js')?>">  </script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/locales/bootstrap-datepicker.es.min.js"></script>
+
+    <script >
+        $(function () {
+            $('.datepicker').datepicker({
+                format: "dd-mm-yyyy",
+                language: "es",
+                autoclose: true,
+                todayHighlight: true
+            });
+        });
+    </script>
 
 </body>
 

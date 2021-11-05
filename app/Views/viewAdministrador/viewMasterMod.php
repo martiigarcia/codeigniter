@@ -1,4 +1,4 @@
-<?= $this->extend("templates/administrador/master")?>
+<?= $this->extend("templates/administrador/masterAdmin")?>
 <?= $this->section('content') ?>
     <div class="main">
 
