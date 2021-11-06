@@ -19,6 +19,9 @@ class Home extends BaseController
         if($data['usuarioActual'][0]['id_rol'] == 1){
             return view('viewAdministrador/viewMaster', $data);
         }
+        if($data['usuarioActual'][0]['id_rol'] == 4){
+            return view('viewCliente/viewMaster', $data);
+        }
         return view('usuarios/usuarios', $data);
             
 
@@ -194,6 +197,8 @@ class Home extends BaseController
             return redirect()->back()->withInput();
         }
     }
+
+    
     
 
 }

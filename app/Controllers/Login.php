@@ -38,4 +38,9 @@ class Login extends BaseController
         ]);
         return redirect()->to(base_url("home/"));
     }
+
+    public function salir(){
+        session()->session_write_close;
+        return redirect()->to(base_url());
+    }
 }
