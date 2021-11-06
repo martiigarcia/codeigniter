@@ -51,6 +51,26 @@ class Vehiculos extends BaseController
         echo("desestacionar");
     }
 
+    public function verPagarEstadiasPendientes()
+    {
+        $userModel = new UserModel();
+        $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
+        return view('viewCliente/viewMasterPagarEstadiasPendientes', $data);
+    }
+
+    public function PagarEstadiasPendientes()
+    {
+        echo("pagar estadia");
+    }
+
+    public function verListadoVehiculosEstacionados()
+    {
+        $userModel = new UserModel();
+        $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
+        return view('viewAdministrador/viewMasterListadoVehiculosEstacionados', $data);
+    }
+
+
 
     
 
