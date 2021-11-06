@@ -70,6 +70,8 @@ class Vehiculos extends BaseController
         return view('viewAdministrador/viewMasterListadoVehiculosEstacionados', $data);
     }
 
+    
+
 
 
     

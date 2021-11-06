@@ -19,10 +19,16 @@ class Home extends BaseController
         if($data['usuarioActual'][0]['id_rol'] == 1){
             return view('viewAdministrador/viewMaster', $data);
         }
+        if($data['usuarioActual'][0]['id_rol'] == 2){
+            return view('viewVendedor/viewMaster', $data);
+        }
+        if($data['usuarioActual'][0]['id_rol'] == 3){
+            return view('viewInspector/viewMaster', $data);
+        }
         if($data['usuarioActual'][0]['id_rol'] == 4){
             return view('viewCliente/viewMaster', $data);
         }
-        return view('usuarios/usuarios', $data);
+        
             
 
     }
