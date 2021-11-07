@@ -16,7 +16,7 @@
 
             
             <div class="card mb-3">
-            <form method="POST" action="<?= base_url('vehiculos/registrarVehiculo'); ?>">
+            <form method="POST" action="<?= base_url('cliente/registrarVehiculo'); ?>">
                     <div class="card-header uppercase">
                         <div class="caption">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor">
@@ -36,26 +36,32 @@
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">Patente</label>
                                 <div class="col">
-                                    
-                                    <input type="text" name="patente" class="form-control" placeholder="Patente" >
+
+                                    <input type="text" name="patente" class="form-control" placeholder="Patente" value="<?=old("patente")?>" >
                                     
                                 </div>
                             </div>
                             
                             <div class="form-group row">
-                                <label class="col-md-3 col-form-label">Marca</label>
-                                <div class="input-group col">
-                                    <input type="text" name="marca" class="form-control" placeholder="Marca" >
-                                    
+                                <label  class="col-md-3 col-form-label">Marca</label>
+                                <div class="col">
+                                <select class="form-control" id="marcaBox"name="marca" onchange="cargarModelos()" >
+                                    <option disabled selected=inicial>Seleccione una Marca:</option>
+                                    <?php foreach ($marcas as $marca) : ?>
+
+                                        <option value=<?= $marca['id']; ?>> <?= $marca['nombre']; ?> </option>
+                                    <?php endforeach; ?>
+                                </select>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-3 col-form-label">Modelo</label>
-                                <div class="input-group col">
-                                    <input type="text" name="modelo" class="form-control" placeholder="Modelo" >
-                                    
+                                <label  class="col-md-3 col-form-label">Modelo</label>
+                                <div class="col">
+                                    <select class="form-control" name="modelo" id="modeloBox" >
+                                        <option disabled selected=inicial>Seleccione un Modelo:</option>
+
+                                    </select>
                                 </div>
-                                
                             </div>
                             
                             

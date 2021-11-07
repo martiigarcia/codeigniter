@@ -51,7 +51,7 @@ class UserModel extends Model
         return $this
                 ->select('usuarios.*,roles.id rol_id,roles.nombre rol_nombre,roles.descripcion rol_descripcion')
                 ->where('email',$email)
-                ->join('roles', "roles.id = usuarios.id_rol")->get()->getResultArray();
+                ->join('roles', "roles.id = usuarios.id_rol")->get()->getFirstRow('array');
     }
 
     public function obtenerDatosParaTabla()

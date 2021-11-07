@@ -6,7 +6,9 @@ use App\Models\UserModel;
 class Login extends BaseController
 {
     public function login()
-    {
+    {   if(session('logged_in')){
+        return redirect()->to(base_url("home/"));
+    }
         return view('Login/login');
     }
 
@@ -26,21 +28,25 @@ class Login extends BaseController
             return redirect()->back()->with('mensajeLogin','El usuario o la contraseña son incorrectos')
                 ->withInput();
         }else {
-            if ($data[0]['password'] !== $_POST['password']) {
+            if ($data['password'] !== $_POST['password']) {
                 return redirect()->back()->with('mensajeLogin', 'El usuario o la contraseña son incorrectos')
                     ->withInput();
             }
         }
-        d($data);
+
         session()->set([
-            'username'  => $data[0]['email'],
+            'id'=>$data['id'],
+            'username'  => $data['email'],
+            'rol'=>$data['rol_id'],
             'logged_in' => true,
         ]);
         return redirect()->to(base_url("home/"));
     }
 
     public function salir(){
-        session()->session_write_close;
+        session()->destroy();
         return redirect()->to(base_url());
     }
+
+
 }
