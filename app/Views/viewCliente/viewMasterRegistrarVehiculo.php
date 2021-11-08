@@ -39,9 +39,11 @@
 
                                     <input type="text" name="patente" class="form-control" placeholder="Patente" value="<?=old("patente")?>" >
                                     
+                                <p >(ingrese la patente en formato AAA-000 ó AA-000-AA ó A-000-AAA, sin espacios ni guiones)</p>
+                                    <p  style="color: rgb(232,74,103)"> <?= session('patente'); ?></p>
                                 </div>
                             </div>
-                            
+
                             <div class="form-group row">
                                 <label  class="col-md-3 col-form-label">Marca</label>
                                 <div class="col">
@@ -52,6 +54,7 @@
                                         <option value=<?= $marca['id']; ?>> <?= $marca['nombre']; ?> </option>
                                     <?php endforeach; ?>
                                 </select>
+                                    <p  style="color: rgb(232,74,103)"> <?= session('marca'); ?></p>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -61,6 +64,7 @@
                                         <option disabled selected=inicial>Seleccione un Modelo:</option>
 
                                     </select>
+                                    <p  style="color: rgb(232,74,103)" > <?= session('modelo'); ?></p>
                                 </div>
                             </div>
                             
@@ -72,14 +76,15 @@
                         
                     </ul>
                     
-                    <div class="card-footer" id="div1">
-                    <p style="color: rgb(232,74,103, 1)"> <?= session('mensaje'); ?></p>
+                    <div class="card-footer" style="color: rgb(232,74,103)">
+                    <p > <?= session('mensaje'); ?></p>
+
                         <div class="row">
                         
                             <div class="col text-center">
                                 <button type="submit" class="btn btn-flat mb-1 btn-primary">Confirmar</button>
                                 
-                                <a href="#" class="btn btn-flat mb-1 btn-secondary"> Cancelar</a>
+                                <a href="<?=base_url('/home')?>" class="btn btn-flat mb-1 btn-secondary"> Cancelar</a>
                             </div>
                         </div>
                     </div>

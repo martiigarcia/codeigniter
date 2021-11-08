@@ -46,9 +46,9 @@ class Cliente extends BaseController
         if (!$this->esCliente()) {
             return redirect()->to(base_url());
         }
-
+        $_POST['patente']=strtoupper($_POST['patente']);//cambiar formato de patente a mayúsculas
         $validacion = $this->validate([
-            'patente' => 'required',
+            'patente' => 'required|alpha_numeric|regex_match[/(^[a-zA-Z]{2}[0-9]{3}[a-zA-Z]{2}$)|(^[a-zA-Z]{3}[0-9]{3}$)|(^[a-zA-Z]{1}[0-9]{3}[a-zA-Z]{3}$)/]',
             'marca' => 'required',
             'modelo' => 'required',
 
@@ -58,22 +58,16 @@ class Cliente extends BaseController
             $dominiVehiculoModel = new DominioVehiculoModel();
             $data = $vehiculoModel->obtenerPorPatente($_POST['patente']);
 
-            //var_dump(session('id'));
-
             //comprobar si el vehiculo ya existe
             if (!empty($data)) {
                 //si existe comprobar que sean todos sus campos iguales
                 if (($data->modelo === $_POST['modelo']) && ($data->marca === $_POST['marca'])) {
                     //comprobar si el vehiculo ya esta asociado al cliente
                     if (empty($dominiVehiculoModel->obtenerPorUsuario(session('id'), $data->id))) {
-                        
                         $dominioData = [
                             'id_usuario' => session('id'),
                             'id_vehiculo' => $data->id
                         ];
-
-                        //dd($data);
-
                         $dominiVehiculoModel->save($dominioData);
                         return redirect()->to(base_url('/home'));
                     } else {
@@ -90,22 +84,18 @@ class Cliente extends BaseController
                 $vehiculoModel->save($_POST);
                 //volver a buscar el vehiculo para optener el id
                 $data = $vehiculoModel->obtenerPorPatente($_POST['patente']);
-               
                 $dominioData = [
                     'id_usuario' => session('id'),
                     'id_vehiculo' => $data->id
                 ];
-
-               // dd($dominioData);
-
                 $dominiVehiculoModel->save($dominioData);
                 session()->setFlashdata('mensaje', 'Los datos se guardaron con exito');
                 return redirect()->to(base_url('/home'));
             }
         } else {
-            $error = $this->validator->listErrors();
-            session()->setFlashdata('mensaje', $error);
-            return redirect()->back()->with('mensaje', 'Debe completar los campos correctamente')
+            $error = $this->validator->getErrors();
+            session()->setFlashdata( $error);
+            return redirect()->back()
                 ->withInput();
 
         }

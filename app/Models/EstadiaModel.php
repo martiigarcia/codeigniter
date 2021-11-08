@@ -24,8 +24,12 @@ class EstadiaModel extends Model
     
     public function verificarEstadias($id_usuario){
         return $this
-                ->select('estadias.*')
-                ->where('id_usuario',$id_usuario )
+                ->select('estadias.*,
+                dominio_vehiculo.id dominio_vehiculo_id,
+                usuarios.id id_usuario')
+                ->join('dominio_vehiculo', 'dominio_vehiculo.id = estadias.id_dominio_vehiculo')
+                ->join('usuarios', 'usuarios.id = dominio_vehiculo.id_usuario')
+                ->where('id_usuario',$id_usuario) 
                ->get()->getFirstRow();
     }
 
