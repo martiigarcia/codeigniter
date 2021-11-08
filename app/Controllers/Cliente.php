@@ -8,6 +8,8 @@ use App\Models\ModeloModel;
 use App\Models\UserModel;
 use App\Models\VehiculoModel;
 use App\Models\DominioVehiculoModel;
+use CodeIgniter\I18n\Time;
+use DateTime;
 
 class Cliente extends BaseController
 {
@@ -24,11 +26,11 @@ class Cliente extends BaseController
         $data['marcas'] = $marcaModel->findAll();
 
         $estadiaModel = new EstadiaModel();
-        $data['estadia'] = $estadiaModel->verificarEstadias();
+        $data['estadia'] = $estadiaModel->verificarEstadias(session('id'));
         //dd($data);
 
         $dominioVehiculoModel = new DominioVehiculoModel();
-        $data['dominio'] = $dominioVehiculoModel->tieneVegiculos();
+        $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
         
         return view('viewCliente/viewMasterRegistrarVehiculo', $data);
     }
@@ -56,7 +58,7 @@ class Cliente extends BaseController
             $dominiVehiculoModel = new DominioVehiculoModel();
             $data = $vehiculoModel->obtenerPorPatente($_POST['patente']);
 
-            
+            //var_dump(session('id'));
 
             //comprobar si el vehiculo ya existe
             if (!empty($data)) {
@@ -64,12 +66,13 @@ class Cliente extends BaseController
                 if (($data->modelo === $_POST['modelo']) && ($data->marca === $_POST['marca'])) {
                     //comprobar si el vehiculo ya esta asociado al cliente
                     if (empty($dominiVehiculoModel->obtenerPorUsuario(session('id'), $data->id))) {
+                        
                         $dominioData = [
                             'id_usuario' => session('id'),
                             'id_vehiculo' => $data->id
                         ];
 
-                        dd($data);
+                        //dd($data);
 
                         $dominiVehiculoModel->save($dominioData);
                         return redirect()->to(base_url('/home'));
@@ -93,7 +96,7 @@ class Cliente extends BaseController
                     'id_vehiculo' => $data->id
                 ];
 
-                dd($dominioData);
+               // dd($dominioData);
 
                 $dominiVehiculoModel->save($dominioData);
                 session()->setFlashdata('mensaje', 'Los datos se guardaron con exito');
@@ -118,26 +121,75 @@ class Cliente extends BaseController
         $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
 
         $estadiaModel = new EstadiaModel();
-        $data['estadia'] = $estadiaModel->verificarEstadias();
-        //dd($data);
+        $data['estadia'] = $estadiaModel->verificarEstadias(session('id'));
+        
 
         $dominioVehiculoModel = new DominioVehiculoModel();
-        $data['dominio'] = $dominioVehiculoModel->tieneVegiculos();
-
+        $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
+        
+       
         return view('viewCliente/viewMasterEstacionar', $data);
     }
 
     public function estacionar()
     {
+       //dd($_POST);
         if (!$this->esCliente()) {
             return redirect()->to(base_url());
         }
-        echo("estacionar  ");
-        if (empty($_POST['cantidad_horas'])) {
-            echo("indefinida  ");
-        } else {
-            echo("definida  ");
+
+        session('id');
+        $estadiaModel = new EstadiaModel();
+
+        //crear la estadia en la base
+        //agregar los parametros de horas(puede ser nulo)
+        //con las horas poner si es definida o no
+        //siempre el etado es activa cuando se crea
+        //la fecha se pone con la finalizacion
+        //ver si el pago esta pendiente o no
+        
+        $validacion = $this->validate([
+            'dominio_vehiculo' => 'required',
+        ]);
+        if ($validacion) {
+            //echo("estacionar -->>  ");
+
+            if (empty($_POST['cantidad_horas'])) {
+                //echo("indefinida  ");
+                $estadoDefinido=false;
+                $_POST['cantidad_horas']=null;
+                $fecha=null;
+
+            } else {
+               // echo("definida  ");
+                $estadoDefinido=true;
+                //$fecha = date("l jS \of F Y h:i:s A", Time()); 
+                $fecha = (new DateTime())->format('Y-m-d H:i:s');
+
+                //no deberia ser la fecha de ahora, sino la fecha de ahoras mas la cantidad de horas ingresadas
+            }
+
+            $estadiaData = [
+                'estado' => true,
+                'duracion_definida' => $estadoDefinido,
+                'cantidad_horas' => $_POST['cantidad_horas'],
+                'fecha' => $fecha,
+                'pago_pendiente' => null,
+                'id_dominio_vehiculo' => $_POST['dominio_vehiculo'],
+                'id_zona' => null
+            ];
+
+            $estadiaModel->save($estadiaData);
+            session()->setFlashdata('mensaje', 'Los datos se guardaron con exito');
+                return redirect()->to(base_url('/home'));
+
+        } else{
+            $error = $this->validator->listErrors();
+            session()->setFlashdata('mensaje', $error);
+            return redirect()->back()->with('mensaje', 'Debe completar los campos correctamente')
+                ->withInput();
         }
+        
 
         //verificar si se ingreso a la opcion de pago o no-> se puede hacer con un cartel emergente del template
 
@@ -152,11 +204,11 @@ class Cliente extends BaseController
         $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
         
         $estadiaModel = new EstadiaModel();
-        $data['estadia'] = $estadiaModel->verificarEstadias();
+        $data['estadia'] = $estadiaModel->verificarEstadias(session('id'));
         //dd($data);
 
         $dominioVehiculoModel = new DominioVehiculoModel();
-        $data['dominio'] = $dominioVehiculoModel->tieneVegiculos();
+        $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
 
         return view('viewCliente/viewMasterDesEstacionar', $data);
     }
@@ -178,11 +230,11 @@ class Cliente extends BaseController
         $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
 
         $estadiaModel = new EstadiaModel();
-        $data['estadia'] = $estadiaModel->verificarEstadias();
+        $data['estadia'] = $estadiaModel->verificarEstadias(session('id'));
         //dd($data);
 
         $dominioVehiculoModel = new DominioVehiculoModel();
-        $data['dominio'] = $dominioVehiculoModel->tieneVegiculos();
+        $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
 
         return view('viewCliente/viewMasterPagarEstadiasPendientes', $data);
     }
@@ -206,11 +258,11 @@ class Cliente extends BaseController
         $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
 
         $estadiaModel = new EstadiaModel();
-        $data['estadia'] = $estadiaModel->verificarEstadias();
+        $data['estadia'] = $estadiaModel->verificarEstadias(session('id'));
         //dd($data);
 
         $dominioVehiculoModel = new DominioVehiculoModel();
-        $data['dominio'] = $dominioVehiculoModel->tieneVegiculos();
+        $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
 
         return view('viewAdministrador/viewMasterListadoVehiculosEstacionados', $data);
     }

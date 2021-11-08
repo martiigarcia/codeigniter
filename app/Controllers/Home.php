@@ -2,46 +2,12 @@
 
 namespace App\Controllers;
 
-use App\Models\DominioVehiculoModel;
 use App\Models\RolModel;
 use App\Models\UserModel;
-use App\Models\EstadiaModel;
 use DateTime;
 
 class Home extends BaseController
 {
-
-
-    public function index()
-    {
-        $userModel = new UserModel();
-        $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
-
-
-        if ($this->esAdministrador()) {
-            return view('viewAdministrador/viewMaster', $data);
-        }
-        if ($this->esVendedor()) {
-            return view('viewVendedor/viewMaster', $data);
-        }
-        if ($this->esInspector()) {
-            return view('viewInspector/viewMaster', $data);
-        }
-        if ($this->esCliente()) {
-
-            $estadiaModel = new EstadiaModel();
-            $data['estadia'] = $estadiaModel->verificarEstadias();
-
-            $dominioVehiculoModel = new DominioVehiculoModel();
-            $data['dominio'] = $dominioVehiculoModel->tieneVegiculos();
-            //dd($data);
-            return view('viewCliente/viewMaster', $data);
-        }
-
-       
-
-
-    }
 
     public function eliminar($id)
     {
@@ -125,7 +91,7 @@ class Home extends BaseController
             return redirect()->to(base_url());
 
         } else {
-            return view('usuarios/usuarios', $data);
+            
         }
     }
 
@@ -221,7 +187,7 @@ class Home extends BaseController
             $userModel->update($_POST['id'], $_POST);
 
             session()->setFlashdata('mensaje', 'Los datos se guardaron con exito');
-            return redirect()->to(base_url());
+            return redirect()->to(base_url('/home'));
         } else {
 
             $error = $this->validator->listErrors();
@@ -239,27 +205,4 @@ class Home extends BaseController
         return false;
     }
 
-    private function esVendedor()
-    {
-        if (session('rol') === '2') {
-            return true;
-        }
-        return false;
-    }
-
-    private function esInspector()
-    {
-        if (session('rol') === '3') {
-            return true;
-        }
-        return false;
-    }
-
-    private function esCliente()
-    {
-        if (session('rol') === '4') {
-            return true;
-        }
-        return false;
-    }
 }

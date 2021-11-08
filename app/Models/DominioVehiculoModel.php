@@ -34,9 +34,20 @@ class DominioVehiculoModel extends Model
 
     }
 
-    public function tieneVegiculos(){
-        return true;
+    public function tieneVehiculos($id_usuario){
+        return $this
+        ->select('dominio_vehiculo.*, 
+        vehiculos.id vehiculo_id, vehiculos.patente vehiculo_patente, 
+        marcas.nombre vehiculo_marca_nombre,
+        modelos.nombre vehiculo_modelo_nombre')
+        ->join('vehiculos', 'vehiculos.id = dominio_vehiculo.id_vehiculo')
+        ->join('marcas', 'marcas.id = vehiculos.marca')
+        ->join('modelos', 'modelos.id = vehiculos.modelo')
+        ->where('id_usuario',$id_usuario )
+       ->get()->getResultArray();
     }
+
+    
 
     
 }

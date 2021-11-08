@@ -22,8 +22,11 @@ class EstadiaModel extends Model
     protected $deletedField  = 'deleted_at';
     protected $skipValidation     = false;
     
-    public function verificarEstadias(){
-        return true;
+    public function verificarEstadias($id_usuario){
+        return $this
+                ->select('estadias.*')
+                ->where('id_usuario',$id_usuario )
+               ->get()->getFirstRow();
     }
 
 }

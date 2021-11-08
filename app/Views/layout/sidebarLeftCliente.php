@@ -27,9 +27,9 @@
                                             
 
                                             <li>
-                                            <?php if ($dominio): ?>
+                                            <?php if (!empty($dominio)): ?>
          
-                                                <?php if (!$estadia): ?>
+                                                <?php if (!empty($estadia)): ?>
 
                                                     <a href="<?= base_url('cliente/verDesEstacionar'); ?>">DesEstacionar</a>
 

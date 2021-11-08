@@ -36,7 +36,7 @@ Estacionar:
 
             
             <div class="card mb-3">
-            <form method="POST" action="<?= base_url('vehiculos/estacionar'); ?>">
+            <form method="POST" action="<?= base_url('cliente/estacionar'); ?>">
                     <div class="card-header uppercase">
                         <div class="caption">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor">
@@ -60,10 +60,16 @@ Estacionar:
                                         <div class="form-group">
                                             
                                             <label>Seleccione un vehiculo</label>
-                                            <select class="form-control" name="vehiculo" id="eleccionRol" >
+                                            <select class="form-control" name="dominio_vehiculo" >
                                                 
                                                 <option disabled selected=inicial>Vehiculos bajo dominio:</option>
-                                                
+                                                <?php foreach ($dominio as $d) : ?>
+
+                                                    <option value=<?= $d['id']; ?>> 
+                                                    <?= $d['vehiculo_patente']; ?> --> <?= $d['vehiculo_marca_nombre']; ?>, <?= $d['vehiculo_modelo_nombre']; ?>
+                                                    </option>
+
+                                                <?php endforeach; ?>
                                             </select>
                                         </div>
                                     </div>

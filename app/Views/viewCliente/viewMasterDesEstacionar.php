@@ -18,7 +18,7 @@ desEstacionar place
 
             
             <div class="card mb-3">
-            <form method="POST" action="<?= base_url('vehiculos/desEstacionar'); ?>">
+            <form method="POST" action="<?= base_url('cliente/desEstacionar'); ?>">
                     <div class="card-header uppercase">
                         <div class="caption">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor">
