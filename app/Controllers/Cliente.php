@@ -26,7 +26,7 @@ class Cliente extends BaseController
         $data['marcas'] = $marcaModel->findAll();
 
         $estadiaModel = new EstadiaModel();
-        $data['estadia'] = $estadiaModel->verificarEstadias(session('id'));
+        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
         //dd($data);
 
         $dominioVehiculoModel = new DominioVehiculoModel();
@@ -111,24 +111,32 @@ class Cliente extends BaseController
         $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
 
         $estadiaModel = new EstadiaModel();
-        $data['estadia'] = $estadiaModel->verificarEstadias(session('id'));
+        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
         
 
         $dominioVehiculoModel = new DominioVehiculoModel();
         $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
+
+        $marcaModel = new MarcaModel();
+        $data['marcas'] = $marcaModel->findAll();
         
+       // dd($data['estadia']);
        
         return view('viewCliente/viewMasterEstacionar', $data);
     }
 
     public function estacionar()
     {
-       //dd($_POST);
         if (!$this->esCliente()) {
             return redirect()->to(base_url());
         }
 
-        session('id');
+       // dd($_POST);
+        $datosRegistro = $_POST;
+        $this->registrarVehiculo($datosRegistro);
+        
+
+        
         $estadiaModel = new EstadiaModel();
 
         //crear la estadia en la base
@@ -148,13 +156,16 @@ class Cliente extends BaseController
                 //echo("indefinida  ");
                 $estadoDefinido=false;
                 $_POST['cantidad_horas']=null;
-                $fecha=null;
+                $fechaInicio = (new DateTime())->format('Y-m-d H:i:s');
+                $fechaFin = (new DateTime())->format('Y-m-d H:i:s');
+
 
             } else {
                // echo("definida  ");
                 $estadoDefinido=true;
                 //$fecha = date("l jS \of F Y h:i:s A", Time()); 
-                $fecha = (new DateTime())->format('Y-m-d H:i:s');
+                $fechaInicio = (new DateTime())->format('Y-m-d H:i:s');
+                $fechaFin = (new DateTime())->format('Y-m-d H:i:s');
 
                 //no deberia ser la fecha de ahora, sino la fecha de ahoras mas la cantidad de horas ingresadas
             }
@@ -163,8 +174,10 @@ class Cliente extends BaseController
                 'estado' => true,
                 'duracion_definida' => $estadoDefinido,
                 'cantidad_horas' => $_POST['cantidad_horas'],
-                'fecha' => $fecha,
-                'pago_pendiente' => null,
+                'fecha_inicio' => $fechaInicio,
+                'fecha_fin' => $fechaFin,
+                'pago_pendiente' => false, //esto cambiaria cuando se haga la parte de pagar en el estacionar
+                'monto' => 0,
                 'id_dominio_vehiculo' => $_POST['dominio_vehiculo'],
                 'id_zona' => null
             ];
@@ -194,7 +207,7 @@ class Cliente extends BaseController
         $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
         
         $estadiaModel = new EstadiaModel();
-        $data['estadia'] = $estadiaModel->verificarEstadias(session('id'));
+        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
         //dd($data);
 
         $dominioVehiculoModel = new DominioVehiculoModel();
@@ -208,6 +221,15 @@ class Cliente extends BaseController
         if (!$this->esCliente()) {
             return redirect()->to(base_url());
         }
+        //poner:
+        //estado=false(terminado)
+        //duracion_definida =true (esta definida pq ya termino)
+        //actualizar la cantidad de horas si no estaba(o sea si era indefinida)
+        //actualizar la fecha de fin si no estaba(o sea si era indefinida)
+        
+        //actualizar el monto dependiendo de la zona, la hora y el precio x hora en la zona
+        
+        //actualizar si se paga o no en el momento de finalizacion(ver como se haria esto)
         echo("desestacionar");
     }
 
@@ -220,7 +242,8 @@ class Cliente extends BaseController
         $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
 
         $estadiaModel = new EstadiaModel();
-        $data['estadia'] = $estadiaModel->verificarEstadias(session('id'));
+        $data['estadia'] = $estadiaModel->verificarEstadiasPagoPendiente(session('id'));
+        
         //dd($data);
 
         $dominioVehiculoModel = new DominioVehiculoModel();
@@ -229,11 +252,16 @@ class Cliente extends BaseController
         return view('viewCliente/viewMasterPagarEstadiasPendientes', $data);
     }
 
-    public function PagarEstadiasPendientes()
+    public function PagarEstadiasPendientes($id)
     {
+        
         if (!$this->esCliente()) {
             return redirect()->to(base_url());
         }
+
+        //poner:
+        //pago_pendiente=false(ya no esta pendiente)
+
         echo("pagar estadia");
     }
 
@@ -248,7 +276,7 @@ class Cliente extends BaseController
         $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
 
         $estadiaModel = new EstadiaModel();
-        $data['estadia'] = $estadiaModel->verificarEstadias(session('id'));
+        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
         //dd($data);
 
         $dominioVehiculoModel = new DominioVehiculoModel();

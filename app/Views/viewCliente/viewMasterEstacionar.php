@@ -72,6 +72,61 @@ Estacionar:
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                data-target="#exampleModalToolPop">Registrar nuevo vehiculo</button>
+                                            
+                                            <div class="modal fade" id="exampleModalToolPop" tabindex="-1" role="dialog" aria-labelledby="exampleModalToolPopTitle" style="display: none;" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalToolPopTitle">Registro rapido</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">×</span>
+                                                            </button>
+                                                        </div>
+                                                        
+                                                            <div class="modal-body">
+                                                                <label class="col-md-3 col-form-label">Patente</label>
+                                                                <div class="col">
+
+                                                                    <input type="text" name="patente" class="form-control" placeholder="Patente" value="<?=old("patente")?>" >
+                                                                    
+                                                                    <p >(ingrese la patente en formato AAA-000 ó AA-000-AA ó A-000-AAA, sin espacios ni guiones)</p>
+                                                                    <p  style="color: rgb(232,74,103)"> <?= session('patente'); ?></p>
+                                                                </div>
+
+                                                                <label  class="col-md-3 col-form-label">Marca</label>
+                                                                
+                                                                <div class="col">
+                                                                    <select class="form-control" id="marcaBox"name="marca" onchange="cargarModelos()" >
+                                                                        <option disabled selected=inicial>Seleccione una Marca:</option>
+                                                                        <?php foreach ($marcas as $marca) : ?>
+
+                                                                            <option value=<?= $marca['id']; ?>> <?= $marca['nombre']; ?> </option>
+                                                                        <?php endforeach; ?>
+                                                                    </select>
+                                                                    <p  style="color: rgb(232,74,103)"> <?= session('marca'); ?></p>
+                                                                </div>
+                                                                <label  class="col-md-3 col-form-label">Modelo</label>
+                                                                <div class="col">
+                                                                        <select class="form-control" name="modelo" id="modeloBox" >
+                                                                            <option disabled selected=inicial>Seleccione un Modelo:</option>
+
+                                                                        </select>
+                                                                        <p  style="color: rgb(232,74,103)" > <?= session('modelo'); ?></p>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Calcelar</button>
+                                                                <button type="submit" class="btn btn-outline-primary">Registrar</button>
+                                                            </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                             </div>
                                 

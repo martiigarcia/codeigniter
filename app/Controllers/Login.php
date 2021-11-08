@@ -71,7 +71,7 @@ class Login extends BaseController
         if ($this->esCliente()) {
 
             $estadiaModel = new EstadiaModel();
-            $data['estadia'] = $estadiaModel->verificarEstadias(session('id'));
+            $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
 
             $dominioVehiculoModel = new DominioVehiculoModel();
             $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));

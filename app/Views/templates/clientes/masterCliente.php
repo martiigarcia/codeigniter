@@ -49,7 +49,8 @@
         var baseurl='<?= base_url( )?>'
     </script>
     <script src="<?=base_url("js/siqtheme.js")?>"></script>
-    <script src="<?=base_url("asserts/js/registroVeiculos.js")?>"></script>
+    <script src="<?=base_url("asserts/js/registroVehiculos.js")?>"></script>
+    <script src="<?=base_url("asserts/js/emergente.js")?>"></script>
 
 
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
