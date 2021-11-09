@@ -19,7 +19,10 @@ desEstacionar place
             
             <div class="card mb-3">
             <form method="POST" action="<?= base_url('cliente/desEstacionar'); ?>">
-                    <div class="card-header uppercase">
+                
+                
+                    
+                <div class="card-header uppercase">
                         <div class="caption">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor">
                             <path d="M0 0h24v24H0V0z" fill="none"/>
@@ -50,6 +53,8 @@ desEstacionar place
                         </li>
 
                         <li class="list-group-item">
+                        
+                            <input type="text" name="id_estadia" value="<?= $estadia->id; ?>" hidden="" class="form-control">
                         
                             <button class="btn btn-flat mb-1 btn-primary" type="button" data-toggle="collapse" data-target="#desplegable" aria-expanded="false" aria-controls="desplegable">Parar conteo de horas</button>
                             

@@ -8,6 +8,7 @@ use App\Models\ModeloModel;
 use App\Models\UserModel;
 use App\Models\VehiculoModel;
 use App\Models\DominioVehiculoModel;
+use App\Models\ZonaModel;
 use CodeIgniter\I18n\Time;
 use DateTime;
 
@@ -119,6 +120,9 @@ class Cliente extends BaseController
 
         $marcaModel = new MarcaModel();
         $data['marcas'] = $marcaModel->findAll();
+
+        $zonaModel = new ZonaModel();
+        $data['zonas'] = $zonaModel->findAll();
         
        // dd($data['estadia']);
        
@@ -131,9 +135,6 @@ class Cliente extends BaseController
             return redirect()->to(base_url());
         }
 
-       // dd($_POST);
-        $datosRegistro = $_POST;
-        $this->registrarVehiculo($datosRegistro);
         
 
         
@@ -148,6 +149,7 @@ class Cliente extends BaseController
         
         $validacion = $this->validate([
             'dominio_vehiculo' => 'required',
+            'id_zona' => 'required'
         ]);
         if ($validacion) {
             //echo("estacionar -->>  ");
@@ -179,7 +181,8 @@ class Cliente extends BaseController
                 'pago_pendiente' => false, //esto cambiaria cuando se haga la parte de pagar en el estacionar
                 'monto' => 0,
                 'id_dominio_vehiculo' => $_POST['dominio_vehiculo'],
-                'id_zona' => null
+                'id_zona' => $_POST['id_zona'] //por defecto, cambiar cuando se recuperen las zonas
+                
             ];
 
             $estadiaModel->save($estadiaData);
@@ -208,6 +211,7 @@ class Cliente extends BaseController
         
         $estadiaModel = new EstadiaModel();
         $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
+        
         //dd($data);
 
         $dominioVehiculoModel = new DominioVehiculoModel();
@@ -221,6 +225,7 @@ class Cliente extends BaseController
         if (!$this->esCliente()) {
             return redirect()->to(base_url());
         }
+
         //poner:
         //estado=false(terminado)
         //duracion_definida =true (esta definida pq ya termino)
@@ -230,7 +235,21 @@ class Cliente extends BaseController
         //actualizar el monto dependiendo de la zona, la hora y el precio x hora en la zona
         
         //actualizar si se paga o no en el momento de finalizacion(ver como se haria esto)
-        echo("desestacionar");
+       
+
+        $estadiaModel = new EstadiaModel();
+        $data['estadia'] = $estadiaModel->find($_POST['id_estadia']);
+        
+        $data['estadia']['estado'] = false; //cambio el estado a inactiva
+        $data['estadia']['duracion_definida'] = true; //cambio la duracion definida a true como definida
+
+
+        $estadiaModel->update($_POST['id_estadia'], $data['estadia']);
+        session()->setFlashdata('mensaje', 'Los datos se guardaron con exito');
+        return redirect()->to(base_url('/home'));
+
+        
+        
     }
 
     public function verPagarEstadiasPendientes()
@@ -269,15 +288,18 @@ class Cliente extends BaseController
     //funcionalidad del adminsitrador
     public function verListadoVehiculosEstacionados()
     {
-        if (!$this->esCliente()) {
+        if (!$this->esAdministrador()) {
             return redirect()->to(base_url());
         }
+
         $userModel = new UserModel();
         $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
 
         $estadiaModel = new EstadiaModel();
-        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
+        
         //dd($data);
+
+        $data['estadias_activas'] = $estadiaModel->estadiasActivas();
 
         $dominioVehiculoModel = new DominioVehiculoModel();
         $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
@@ -288,6 +310,14 @@ class Cliente extends BaseController
     private function esCliente()
     {
         if (session('rol') === '4') {
+            return true;
+        }
+        return false;
+    }
+
+    private function esAdministrador()
+    {
+        if (session('rol') === '1') {
             return true;
         }
         return false;

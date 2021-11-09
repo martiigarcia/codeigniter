@@ -72,6 +72,22 @@ Estacionar:
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
+
+                                        <div class="form-group">
+                                            
+                                            <label>Seleccione una zona</label>
+                                            <select class="form-control" name="id_zona" >
+                                                
+                                                <option disabled selected=inicial>Zonas:</option>
+                                                <?php foreach ($zonas as $zona) : ?>
+
+                                                    <option value=<?= $zona['id']; ?>><?= $zona['nombre']; ?>, <?= $zona['descripcion']; ?>
+                                                    </option>
+
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+
                                         <div class="form-group">
                                             <button type="button" class="btn btn-primary" data-toggle="modal"
                                                 data-target="#exampleModalToolPop">Registrar nuevo vehiculo</button>
