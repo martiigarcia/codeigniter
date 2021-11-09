@@ -25,7 +25,7 @@
                                     <tbody>
 
 
-                                        <?php foreach ($estadia as $e) : ?>
+                                        <?php foreach ($estadiasPendientes as $e) : ?>
 
                                             
                                             <tr>

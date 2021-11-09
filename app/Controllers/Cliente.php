@@ -261,7 +261,8 @@ class Cliente extends BaseController
         $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
 
         $estadiaModel = new EstadiaModel();
-        $data['estadia'] = $estadiaModel->verificarEstadiasPagoPendiente(session('id'));
+        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
+        $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendiente(session('id'));
         
         //dd($data);
 
