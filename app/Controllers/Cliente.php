@@ -9,7 +9,7 @@ use App\Models\UserModel;
 use App\Models\VehiculoModel;
 use App\Models\DominioVehiculoModel;
 use App\Models\ZonaModel;
-use CodeIgniter\I18n\Time;
+
 use DateTime;
 
 class Cliente extends BaseController
@@ -339,6 +339,14 @@ class Cliente extends BaseController
         return false;
     }
 
+    private function esVendedor()
+    {
+        if (session('rol') === '2') {
+            return true;
+        }
+        return false;
+    }
+
     //funcionalidad del inspector
     public function verConsultaEstacionamiento()
     {
@@ -358,5 +366,28 @@ class Cliente extends BaseController
         return view('viewInspector/viewMasterConsultarEstacionamiento', $data);
     }
 
+     //funcionalidad del vendedor
+     public function verVenderEstadiaListadoVehiculo()
+     {
+         if (!$this->esVendedor()) {
+             return redirect()->to(base_url());
+         }
+ 
+         $userModel = new UserModel();
+         $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
+ 
+        // $estadiaModel = new EstadiaModel();
+         
+         //dd($data);
+ 
+        // $data['estadias'] = $estadiaModel->obtenerTodas();
+
+        $dominioModel = new DominioVehiculoModel();
+        $data['vehiculos'] = $dominioModel->obtenerTodos();
+ 
+        //dd($data);
+         return view('viewVendedor/viewMasterListadoVehiculos', $data);
+     }
+     
 
 }

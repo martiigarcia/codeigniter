@@ -47,6 +47,23 @@ class DominioVehiculoModel extends Model
        ->get()->getResultArray();
     }
 
+    public function obtenerTodos(){
+        return $this
+        ->select('dominio_vehiculo.*, 
+        vehiculos.id vehiculo_id, 
+        vehiculos.patente vehiculo_patente, 
+        marcas.nombre vehiculo_marca_nombre,
+        modelos.nombre vehiculo_modelo_nombre,
+        usuarios.nombre vehiculo_usuario_nombre,
+        usuarios.apellido vehiculo_usuario_apellido,
+        usuarios.DNI vehiculo_usuario_dni')
+        ->join('vehiculos', 'vehiculos.id = dominio_vehiculo.id_vehiculo')
+        ->join('marcas', 'marcas.id = vehiculos.marca')
+        ->join('modelos', 'modelos.id = vehiculos.modelo')
+        ->join('usuarios', 'usuarios.id = dominio_vehiculo.id_usuario')
+       ->get()->getResultArray();
+    }
+
     
 
     

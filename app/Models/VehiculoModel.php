@@ -30,4 +30,14 @@ class VehiculoModel extends Model
             ->get()->getFirstRow();
 
     }
+
+    public function obtenerTodos()
+    {
+        return $this
+            ->select('vehiculos.*')
+            ->get()->getFirstRow();
+
+    }
+
+
 }
