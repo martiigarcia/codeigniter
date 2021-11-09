@@ -65,7 +65,7 @@ class EstadiaModel extends Model
                 
                 ->where('id_usuario', $id_usuario)
                 ->where('estado',false) 
-                ->where('pago_pendiente', false)
+                ->where('pago_pendiente', true)
                 
                ->get()->getResultArray();
     }
@@ -95,6 +95,34 @@ class EstadiaModel extends Model
                 ->join('zonas', 'zonas.id = estadias.id_zona')
                 
                 ->where('estado',true) 
+                
+               ->get()->getResultArray();
+    }
+
+    public function obtenerTodas()
+    {
+        return $this
+                ->select('estadias.*,
+                dominio_vehiculo.id dominio_vehiculo_id,
+
+                vehiculos.id vehiculo_id, 
+                vehiculos.patente vehiculo_patente, 
+                marcas.nombre vehiculo_marca_nombre,
+                modelos.nombre vehiculo_modelo_nombre,
+
+                usuarios.id id_usuario,
+                usuarios.nombre nombre_usuario,
+
+                zonas.id zona_id,
+                zonas.nombre zona_nombre,
+                zonas.descripcion zona_descripcion')
+
+                ->join('dominio_vehiculo', 'dominio_vehiculo.id = estadias.id_dominio_vehiculo')
+                ->join('usuarios', 'usuarios.id = dominio_vehiculo.id_usuario')
+                ->join('vehiculos', 'vehiculos.id = dominio_vehiculo.id_vehiculo')
+                ->join('marcas', 'marcas.id = vehiculos.marca')
+                ->join('modelos', 'modelos.id = vehiculos.modelo')
+                ->join('zonas', 'zonas.id = estadias.id_zona')
                 
                ->get()->getResultArray();
     }

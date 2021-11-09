@@ -178,7 +178,7 @@ class Cliente extends BaseController
                 'cantidad_horas' => $_POST['cantidad_horas'],
                 'fecha_inicio' => $fechaInicio,
                 'fecha_fin' => $fechaFin,
-                'pago_pendiente' => false, //esto cambiaria cuando se haga la parte de pagar en el estacionar
+                'pago_pendiente' => true, //esto cambiaria cuando se haga la parte de pagar en el estacionar
                 'monto' => 0,
                 'id_dominio_vehiculo' => $_POST['dominio_vehiculo'],
                 'id_zona' => $_POST['id_zona'] //por defecto, cambiar cuando se recuperen las zonas
@@ -281,7 +281,17 @@ class Cliente extends BaseController
         //poner:
         //pago_pendiente=false(ya no esta pendiente)
 
-        echo("pagar estadia");
+
+       
+        $estadiaModel = new EstadiaModel();
+        $data['estadia'] = $estadiaModel->find($id);
+        $data['estadia']['pago_pendiente'] = false;
+        
+        $estadiaModel->update($id, $data['estadia']);
+        session()->setFlashdata('mensaje', 'Los datos se guardaron con exito');
+        return redirect()->to(base_url('/home'));
+
+        
     }
 
 
@@ -301,9 +311,6 @@ class Cliente extends BaseController
 
         $data['estadias_activas'] = $estadiaModel->estadiasActivas();
 
-        $dominioVehiculoModel = new DominioVehiculoModel();
-        $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
-
         return view('viewAdministrador/viewMasterListadoVehiculosEstacionados', $data);
     }
 
@@ -321,6 +328,33 @@ class Cliente extends BaseController
             return true;
         }
         return false;
+    }
+
+    private function esInspector()
+    {
+        if (session('rol') === '3') {
+            return true;
+        }
+        return false;
+    }
+
+    //funcionalidad del inspector
+    public function verConsultaEstacionamiento()
+    {
+        if (!$this->esInspector()) {
+            return redirect()->to(base_url());
+        }
+
+        $userModel = new UserModel();
+        $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
+
+        $estadiaModel = new EstadiaModel();
+        
+        //dd($data);
+
+        $data['estadias'] = $estadiaModel->obtenerTodas();
+
+        return view('viewInspector/viewMasterConsultarEstacionamiento', $data);
     }
 
 

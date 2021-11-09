@@ -2,8 +2,7 @@
 <?= $this->section('content') ?>
 
     <div class="main">
-                <?= $this->renderSection("content")?>
-
+                
                 <div class="container">
         
                         <div class="table-responsive container">

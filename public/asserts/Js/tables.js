@@ -51,7 +51,7 @@ $(document).ready(function() {
             "lengthMenu": "Mostrar _MENU_ registros por pagina",
             "zeroRecords": "No se encontraron coincidencias",
             "info": "Mostrando pagina _PAGE_ de _PAGES_",
-            "infoEmpty": "No records available",
+            "infoEmpty": "No hay contenido que mostrar",
             "infoFiltered": "(Filtrado de _MAX_ registros totales)",
             "search": "Buscar",
             "paginate": {
