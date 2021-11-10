@@ -38,7 +38,7 @@
                                     
                                     <li class="list-group-item">
                                         <h5 class="mb-3">Mi informacion</h5>
-                                        <form class="form-update-profile" method="POST" action="<?= base_url('home/actualizarPerfil'); ?>">
+                                        <form class="form-update-profile" method="POST" action="<?= base_url('administrador/actualizarPerfil'); ?>">
                                             <div class="form-group row">
                                             
                                             <input type="text" name="id" value="<?= $usuarioActual['id']; ?>" hidden="" class="form-control">

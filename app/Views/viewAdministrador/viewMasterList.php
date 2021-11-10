@@ -33,12 +33,12 @@
                                                 <td><?= $usuario['email']; ?></td>
                                                 <td><?= $usuario['rol_nombre']; ?> </td>
                                                 <td>
-                                                    <a href="<?= base_url('home/editar/' . $usuario['id']); ?>"
+                                                    <a href="<?= base_url('administrador/editar/' . $usuario['id']); ?>"
                                                     class="btn btn-outline-warning bt-sm      ">
                                                         <i class="bi bi-pencil-square"></i></a>
 
                                                     <a style="margin-left:10px"
-                                                    onclick="return mensajeEliminado('<?= base_url('home/eliminar/' . $usuario['id']); ?>')"
+                                                    onclick="return mensajeEliminado('<?= base_url('administrador/eliminar/' . $usuario['id']); ?>')"
                                                     class="btn btn-outline-danger bt-sm  ">
                                                         <i class="bi bi-trash"></i>
                                                     </a>

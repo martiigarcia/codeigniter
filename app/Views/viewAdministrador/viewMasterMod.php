@@ -9,7 +9,7 @@
             <div class="col-lg-9">
 
                 <div class="card mb-3">
-                <form method="POST" action="<?= base_url('home/guardarModificaciones'); ?>">
+                <form method="POST" action="<?= base_url('administrador/guardarModificaciones'); ?>">
                         <div class="card-header uppercase">
                             <div class="caption">
                             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-plus" viewBox="0 0 16 16">
@@ -136,7 +136,7 @@
                                 <div class="col text-center">
                                     <button type="submit" class="btn btn-flat mb-1 btn-primary">Confirmar</button>
                                     
-                                    <a href="<?=base_url("home/listadoUsuarios")?>" class="btn btn-flat mb-1 btn-secondary">Cancelar</a>
+                                    <a href="<?=base_url("administrador/listadoUsuarios")?>" class="btn btn-flat mb-1 btn-secondary">Cancelar</a>
                                 </div>
                             </div>
                         </div>

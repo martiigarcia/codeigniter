@@ -153,7 +153,7 @@
     <div class="div" style="padding-top: 2%;">
         <div class="row">
             <div class="col" style="padding-left: 15%;">
-            <form method="POST" action="<?= base_url('home/redireccionar'); ?>">
+            <form method="POST" action="<?= base_url('administrador/redireccionar'); ?>">
                 <select name="opcion" id="opcionUsuarios" style="background: var(--bs-green); color: white" class="form-control">
                 <option value="0" id="opcion" disabled selected=inicial style="background:darkgrey; color:black"> --Opciones de usuarios-- ↓↓
                 </option>

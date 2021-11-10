@@ -23,7 +23,7 @@
                                                 </thead>
                                                 <tbody>
                                                     
-                                                    <?php foreach ($vehiculos as $vehiculo) : ?>
+                                                    <?php foreach ($dominio_vehiculos as $vehiculo) : ?>
 
                                                             <tr>
                                                                 <td><?= $vehiculo['vehiculo_patente'];?></td>
@@ -31,9 +31,12 @@
                                                                 <td><?= $vehiculo['vehiculo_usuario_nombre'];?> <?= $vehiculo['vehiculo_usuario_apellido'];?>. <?= $vehiculo['vehiculo_usuario_dni'];?></td>
                                                                 
                                                                 <td>
-                                                                    <a href="#"
+                                                                    <a href="<?= base_url('vendedor/verVenderEstadia/' . $vehiculo['id']); ?>"
                                                                     class="btn btn-outline-warning bt-sm      ">
-                                                                    <i class="bi bi-search"></i></a>
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor">
+                                                                        <path d="M0 0h24v24H0V0z" fill="none"/>
+                                                                        <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/>
+                                                                    </svg></a>
 
                                                                 </td>
                                                                 

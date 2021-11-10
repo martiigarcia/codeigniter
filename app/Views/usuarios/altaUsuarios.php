@@ -25,7 +25,7 @@
     <nav class="navbar navbar-light navbar-expand-md navigation-clean-button" style="background: #80aebd;">
         
         <div style="padding-left:50px">
-            <a href="<?= base_url('home/prueba'); ?>" class="btn btn-success">
+            <a href="<?= base_url('administrador/prueba'); ?>" class="btn btn-success">
             <i class="bi bi-arrow-left-circle">  Volver  </i>
             </a>
         </div>
@@ -50,7 +50,7 @@
     <br>
       <div class="row">
         <div class="col align-self-center">
-          <form method="POST" action="<?= base_url('home/guardar'); ?>">
+          <form method="POST" action="<?= base_url('administrador/guardar'); ?>">
             <input type="text" name="nombre" placeholder="Nombre" class="form-control">
             <br>
             <input type="text" name="apellido" placeholder="Apellido" class="form-control">

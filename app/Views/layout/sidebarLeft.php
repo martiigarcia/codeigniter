@@ -25,24 +25,19 @@
                                         </a>
                                         <ul class="collapse list-unstyled" id="homeSubmenu">
                                             <li>
-                                                <a href="<?=base_url("home/addUser")?>">Registrar nuevo usuario</a>
+                                                <a href="<?=base_url("administrador/addUser")?>">Registrar nuevo usuario</a>
                                             </li>
-                                            <li>
-                                                <a href="<?=base_url("home/listadoUsuarios")?>">Modificar usuario existente</a>
+                                            <li> 
+                                                <a href="<?=base_url("administrador/listadoUsuarios")?>">Modificar/Eliminar------<br>Buscar usuario existente</a>
                                             </li>
-                                            <li>
-                                                <a href="<?=base_url("home/listadoUsuarios")?>">Eliminar usuario existente</a>
-                                            </li>
-                                            <li>
-                                                <a href="<?=base_url("home/listadoUsuarios")?>">Buscar usuario</a>
-                                            </li>
+                                            
                                             <li>
                                                 <a href="#">Restablecer contraseña<br>de usuario existente</a>
                                             </li>
                                         </ul>
                                     </li>
                                     <li>
-                                        <a href="<?=base_url("cliente/verListadoVehiculosEstacionados")?>">
+                                        <a href="<?=base_url("administrador/verListadoVehiculosEstacionados")?>">
                                         <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor">
                                         <g>
                                             <rect fill="none" height="24" width="24"/>

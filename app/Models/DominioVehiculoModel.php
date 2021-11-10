@@ -34,7 +34,17 @@ class DominioVehiculoModel extends Model
 
     }
 
-    public function tieneVehiculos($id_usuario){
+    public function obtenerPorId($id)
+    {
+           return $this
+                ->select('dominio_vehiculo.*')
+                ->where('id',$id )
+               ->get()->getFirstRow();
+
+    }
+
+    public function tieneVehiculos($id_usuario)
+    {
         return $this
         ->select('dominio_vehiculo.*, 
         vehiculos.id vehiculo_id, vehiculos.patente vehiculo_patente, 
@@ -47,7 +57,8 @@ class DominioVehiculoModel extends Model
        ->get()->getResultArray();
     }
 
-    public function obtenerTodos(){
+    public function obtenerTodos()
+    {
         return $this
         ->select('dominio_vehiculo.*, 
         vehiculos.id vehiculo_id, 

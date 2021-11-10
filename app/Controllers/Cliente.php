@@ -295,26 +295,6 @@ class Cliente extends BaseController
         
     }
 
-
-    //funcionalidad del adminsitrador
-    public function verListadoVehiculosEstacionados()
-    {
-        if (!$this->esAdministrador()) {
-            return redirect()->to(base_url());
-        }
-
-        $userModel = new UserModel();
-        $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
-
-        $estadiaModel = new EstadiaModel();
-        
-        //dd($data);
-
-        $data['estadias_activas'] = $estadiaModel->estadiasActivas();
-
-        return view('viewAdministrador/viewMasterListadoVehiculosEstacionados', $data);
-    }
-
     private function esCliente()
     {
         if (session('rol') === '4') {
@@ -323,71 +303,13 @@ class Cliente extends BaseController
         return false;
     }
 
-    private function esAdministrador()
-    {
-        if (session('rol') === '1') {
-            return true;
-        }
-        return false;
-    }
+    
 
-    private function esInspector()
-    {
-        if (session('rol') === '3') {
-            return true;
-        }
-        return false;
-    }
+    
 
-    private function esVendedor()
-    {
-        if (session('rol') === '2') {
-            return true;
-        }
-        return false;
-    }
 
-    //funcionalidad del inspector
-    public function verConsultaEstacionamiento()
-    {
-        if (!$this->esInspector()) {
-            return redirect()->to(base_url());
-        }
+    
 
-        $userModel = new UserModel();
-        $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
-
-        $estadiaModel = new EstadiaModel();
-        
-        //dd($data);
-
-        $data['estadias'] = $estadiaModel->obtenerTodas();
-
-        return view('viewInspector/viewMasterConsultarEstacionamiento', $data);
-    }
-
-     //funcionalidad del vendedor
-     public function verVenderEstadiaListadoVehiculo()
-     {
-         if (!$this->esVendedor()) {
-             return redirect()->to(base_url());
-         }
- 
-         $userModel = new UserModel();
-         $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
- 
-        // $estadiaModel = new EstadiaModel();
-         
-         //dd($data);
- 
-        // $data['estadias'] = $estadiaModel->obtenerTodas();
-
-        $dominioModel = new DominioVehiculoModel();
-        $data['vehiculos'] = $dominioModel->obtenerTodos();
- 
-        //dd($data);
-         return view('viewVendedor/viewMasterListadoVehiculos', $data);
-     }
      
 
 }

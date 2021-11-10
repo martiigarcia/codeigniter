@@ -139,7 +139,7 @@
     <nav class="navbar navbar-light navbar-expand-md navigation-clean-button" style="background: #80aebd;">
         
         <div style="padding-left:50px">
-            <a href="<?= base_url('home/prueba'); ?>" class="btn btn-success">
+            <a href="<?= base_url('administrador/prueba'); ?>" class="btn btn-success">
             <i class="bi bi-arrow-left-circle">  Volver  </i>
             </a>
         </div>
@@ -160,7 +160,7 @@
     </div>
     <div class="container">
     <br>
-        <form method="POST" action="<?= base_url('home/buscarDNI'); ?>">
+        <form method="POST" action="<?= base_url('administrador/buscarDNI'); ?>">
             <div class="input-group ">
 
                 <input type="number" name="DNI" class="form-control" placeholder="Buscar por DNI" aria-label="Username"
@@ -200,10 +200,10 @@
                             <td><?= $usuario['email']; ?></td>
                             <td><?= $usuario['rol_nombre']; ?> </td>
                             <td>
-                                <a href="<?= base_url('home/editar/' . $usuario['id']); ?>" class="btn btn-outline-warning bt-sm      ">
+                                <a href="<?= base_url('administrador/editar/' . $usuario['id']); ?>" class="btn btn-outline-warning bt-sm      ">
                                     <i class="bi bi-pencil-square"></i></a>
 
-                                <a style="margin-left:10px" onclick="return mensajeEliminado('<?= base_url('home/eliminar/' . $usuario['id']); ?>')" class="btn btn-outline-danger bt-sm  ">
+                                <a style="margin-left:10px" onclick="return mensajeEliminado('<?= base_url('administrador/eliminar/' . $usuario['id']); ?>')" class="btn btn-outline-danger bt-sm  ">
                                     <i class="bi bi-trash"></i>
                                 </a>
 
