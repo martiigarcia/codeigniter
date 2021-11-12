@@ -77,13 +77,7 @@
                                                     value="<?= $usuarioActual['fecha_de_nacimiento']; ?>">
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
-                                                <label class="col-form-label col-md-4">Password:</label>
-                                                <div class="col">
-                                                    <input type="password" name="password" class="form-control-plaintext"
-                                                    value="<?= $usuarioActual['password']; ?>">
-                                                </div>
-                                            </div>
+                                            
                                             <div class="col offset-md-4 pl-2">
                                                 <button type="submit" class="btn btn-sm btn-primary">Actualizar</button>
                                             </div>

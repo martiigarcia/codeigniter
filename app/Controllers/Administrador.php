@@ -16,10 +16,18 @@ class Administrador extends BaseController
             return redirect()->to(base_url());
         }
 
-        $userModel = new UserModel();
-        $userModel->delete($id);
+        if($id == session('id')){
+            
+            session()->setFlashdata('mensaje', "no se puede eliminar el usuario de la sesion");
 
-        return redirect()->to(base_url('administrador/listadoUsuarios'));
+            return redirect()->back()->withInput();
+        }else{
+
+            $userModel = new UserModel();
+            $userModel->delete($id);
+
+            return redirect()->to(base_url('administrador/listadoUsuarios'));
+            }
     }
 
     public function guardarModificaciones()

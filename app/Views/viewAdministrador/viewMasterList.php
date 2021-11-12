@@ -51,6 +51,8 @@
 
                             </table>
                         </div>
+
+                        <p style="color: rgb(232,74,103, 1)"> <?= session('mensaje'); ?></p>
                     </div>
         
     </div>
