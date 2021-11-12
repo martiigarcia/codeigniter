@@ -19,7 +19,7 @@ class Home extends BaseController
         $validacion = $this->validate([
             'nombre' => 'required',
             'apellido' => 'required',
-            'DNI' => 'required|is_unique[usuarios.{id}]',
+            'dni' => 'required|is_unique[usuarios.{id}]',
             'email' => 'required|is_unique[usuarios.{id}]',
             'fecha_de_nacimiento' => 'required|valid_date',
             'password' => 'required',

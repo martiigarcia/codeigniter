@@ -5,6 +5,10 @@ use App\Models\UserModel;
 
 class Login extends BaseController
 {
+
+    public $usuario;
+
+
     public function login()
     {   
         if(session('logged_in')){
@@ -15,6 +19,7 @@ class Login extends BaseController
 
     public function ingresar()
     {
+       
         if (!$this->validate([
                 'email' => 'required',
                 'password' => 'required'
@@ -24,7 +29,7 @@ class Login extends BaseController
                 ->withInput();
         }
         $userModel = new UserModel();
-        $data=$userModel->obtenerUsuarioEmail($_POST['email']);
+        $data = $userModel->obtenerUsuarioEmail($_POST['email']);
         if(empty($data)){
             return redirect()->back()->with('mensajeLogin','El usuario o la contraseña son incorrectos')
                 ->withInput();
@@ -35,12 +40,16 @@ class Login extends BaseController
             }
         }
 
+      
+        
+
         session()->set([
             'id'=>$data['id'],
             'username'  => $data['email'],
             'rol'=>$data['rol_id'],
             'logged_in' => true,
         ]);
+
         return redirect()->to(base_url("home/index"));
     }
 
@@ -49,6 +58,9 @@ class Login extends BaseController
         session()->destroy();
         return redirect()->to(base_url());
     }
+
+
+   
 
     
 

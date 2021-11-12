@@ -168,7 +168,7 @@
                     <br>
                     <input type="text" name="apellido" value="<?= $usuario['apellido']; ?>" class="form-control">
                     <br>
-                    <input type="text" name="DNI" value="<?= $usuario['DNI']; ?>" class="form-control">
+                    <input type="text" name="dni" value="<?= $usuario['DNI']; ?>" class="form-control">
                     <br>
                     <input type="email" name="email" value="<?= $usuario['email']; ?>" class="form-control">
                     <br>

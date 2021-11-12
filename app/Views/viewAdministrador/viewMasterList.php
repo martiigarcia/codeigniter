@@ -26,7 +26,7 @@
                                         <?php foreach ($usuarioInfo as $usuario) : ?>
 
                                             <tr>
-                                                <td><?= $usuario['DNI']; ?></td>
+                                                <td><?= $usuario['dni']; ?></td>
                                                 <td><?= $usuario['nombre']; ?></td>
                                                 <td><?= $usuario['apellido']; ?></td>
                                                 <td><?= $usuario['fecha_de_nacimiento']; ?></td>

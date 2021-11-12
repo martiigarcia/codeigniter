@@ -38,7 +38,7 @@
                         <div class="form-group d-md-flex">
                             <div class="w-50">
                                 <label class="checkbox-wrap checkbox-primary">Recordarme
-                                    <input type="checkbox" checked>
+                                    <input type="checkbox" name="recuerdame" value="true"checked>
                                     <span class="checkmark"></span>
                                 </label>
                             </div>

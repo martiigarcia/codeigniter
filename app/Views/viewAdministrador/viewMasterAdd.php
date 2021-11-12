@@ -54,7 +54,7 @@
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">DNI</label>
                                 <div class="input-group col">
-                                    <input type="text" name="DNI" class="form-control" placeholder="DNI" value="<?=old("dni")?>">
+                                    <input type="text" name="dni" class="form-control" placeholder="DNI" value="<?=old("dni")?>">
                                     <div class="input-group-append">
                                         <span class="input-group-text bg-danger"><span class="text-light">Obligatorio</span></span>
                                     </div>

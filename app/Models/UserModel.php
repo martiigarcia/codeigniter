@@ -14,7 +14,7 @@ class UserModel extends Model
     protected $returnType     = 'array';
     protected $useSoftDeletes = false;
 
-    protected $allowedFields = ['id','DNI', 'nombre', 'apellido', 'fecha_de_nacimiento', 'email', 'id_rol','password'];
+    protected $allowedFields = ['id','dni', 'nombre', 'apellido', 'fecha_de_nacimiento', 'email', 'id_rol','password'];
 
     protected $useTimestamps = false;
     protected $createdField  = 'created_at';
@@ -40,11 +40,11 @@ class UserModel extends Model
             ->find($id);
     }
 
-    public function obtenerUsuarioDNI($DNI)
+    public function obtenerUsuarioDNI($dni)
     {
            return $this
                 ->select('usuarios.*,roles.id rol_id,roles.nombre rol_nombre,roles.descripcion rol_descripcion')
-                ->where('DNI',$DNI)
+                ->where('dni',$dni)
                 ->join('roles', "roles.id = usuarios.id_rol")->get()->getResultArray();
 
     }

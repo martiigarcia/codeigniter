@@ -67,7 +67,7 @@ class DominioVehiculoModel extends Model
         modelos.nombre vehiculo_modelo_nombre,
         usuarios.nombre vehiculo_usuario_nombre,
         usuarios.apellido vehiculo_usuario_apellido,
-        usuarios.DNI vehiculo_usuario_dni')
+        usuarios.dni vehiculo_usuario_dni')
         ->join('vehiculos', 'vehiculos.id = dominio_vehiculo.id_vehiculo')
         ->join('marcas', 'marcas.id = vehiculos.marca')
         ->join('modelos', 'modelos.id = vehiculos.modelo')

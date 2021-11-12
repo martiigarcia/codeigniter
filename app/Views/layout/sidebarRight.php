@@ -38,7 +38,7 @@
                                     
                                     <li class="list-group-item">
                                         <h5 class="mb-3">Mi informacion</h5>
-                                        <form class="form-update-profile" method="POST" action="<?= base_url('administrador/actualizarPerfil'); ?>">
+                                        <form class="form-update-profile" method="POST" action="<?= base_url('home/actualizarPerfil'); ?>">
                                             <div class="form-group row">
                                             
                                             <input type="text" name="id" value="<?= $usuarioActual['id']; ?>" hidden="" class="form-control">
@@ -59,8 +59,8 @@
                                             <div class="form-group row">
                                                 <label class="col-form-label col-md-4">DNI:</label>
                                                 <div class="col">
-                                                    <input type="text" name="DNI" class="form-control-plaintext"
-                                                    value="<?= $usuarioActual['DNI']; ?>">
+                                                    <input type="text" name="dni" class="form-control-plaintext"
+                                                    value="<?= $usuarioActual['dni']; ?>">
                                                 </div>
                                             </div>
                                             <div class="form-group row">

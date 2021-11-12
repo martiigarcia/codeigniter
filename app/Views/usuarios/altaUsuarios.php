@@ -55,7 +55,7 @@
             <br>
             <input type="text" name="apellido" placeholder="Apellido" class="form-control">
             <br>
-            <input type="text" name="DNI" placeholder="DNI" class="form-control">
+            <input type="text" name="dni" placeholder="DNI" class="form-control">
             <br>
             <input type="email" name="email" placeholder="Email" class="form-control">
             <br>

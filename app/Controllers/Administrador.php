@@ -34,7 +34,7 @@ class Administrador extends BaseController
         $validacion = $this->validate([
             'nombre' => 'required',
             'apellido' => 'required',
-            'DNI' => 'required|is_unique[usuarios.{id}]',
+            'dni' => 'required|is_unique[usuarios.{id}]',
             'email' => 'required|is_unique[usuarios.{id}]',
             'fecha_de_nacimiento' => 'required|valid_date',
             'password' => 'required',
@@ -83,7 +83,7 @@ class Administrador extends BaseController
         $userModel = new UserModel();
         $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
 
-        $data['usuarioInfo'] = $userModel->obtenerUsuarioDNI($_POST['DNI']);
+        $data['usuarioInfo'] = $userModel->obtenerUsuarioDNI($_POST['dni']);
         if (empty($data['usuarioInfo'])) {
 
             $userModel = new UserModel();
@@ -133,7 +133,7 @@ class Administrador extends BaseController
         $validacion = $this->validate([
             'nombre' => 'required',
             'apellido' => 'required',
-            'DNI' => 'required|is_unique[usuarios.DNI]',
+            'dni' => 'required|is_unique[usuarios.dni]',
             'email' => 'required|is_unique[usuarios.email]',
             'id_rol' => 'required',
             'fecha_de_nacimiento' => 'required|valid_date',
