@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Login 08</title>
+    <title>Ingreso al sistema</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
@@ -43,9 +43,11 @@
                                 </label>
                             </div>
                             <div class="w-50 text-md-right">
-                                <a href="#">¿Olvidaste tu contraseña?</a>
+                                <a href="#" hidden="">¿Olvidaste tu contraseña?</a>
                             </div>
+                            
                         </div>
+                        
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary rounded submit p-3 px-5">Ingresar</button>
                         </div>

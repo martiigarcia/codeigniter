@@ -144,11 +144,13 @@ class Administrador extends BaseController
 
             $_POST['fecha_de_nacimiento'] = DateTime::createFromFormat("d-m-Y", $_POST['fecha_de_nacimiento'])->format('Y-m-d');
 
+            $_POST['password'] = password_hash($_POST['password'], PASSWORD_BCRYPT);
+
             $userModel = new UserModel();
             $userModel->save($_POST);
 
             session()->setFlashdata('mensaje', 'Los datos se guardaron con exito');
-            return redirect()->to(base_url('/administrador/addUser'));
+            return redirect()->to(base_url('home/index'));
         } else {
 
 

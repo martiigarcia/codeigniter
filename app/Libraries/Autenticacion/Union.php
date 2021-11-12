@@ -11,7 +11,7 @@ use DateTime;
 use ReflectionException;
 use RuntimeException;
 
-class RecordarmeDecorator extends AuthenticationDecorator
+class RecordarmeDecorator 
 {
 
     /**
