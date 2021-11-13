@@ -20,12 +20,14 @@ class Administrador extends BaseController
             
             session()->setFlashdata('mensaje', "no se puede eliminar el usuario de la sesion");
 
-            return redirect()->back()->withInput();
+            return redirect()->back()->withInput(session());
+
         }else{
 
             $userModel = new UserModel();
             $userModel->delete($id);
 
+            session()->setFlashdata('mensaje', 'Los datos se eliminaron con exito');
             return redirect()->to(base_url('administrador/listadoUsuarios'));
             }
     }

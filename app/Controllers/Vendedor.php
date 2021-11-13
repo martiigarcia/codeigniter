@@ -4,6 +4,9 @@ namespace App\Controllers;
 
 use App\Models\UserModel;
 use App\Models\DominioVehiculoModel;
+use App\Models\EstadiaModel;
+use App\Models\MarcaModel;
+use App\Models\ZonaModel;
 
 
 class Vendedor extends BaseController
@@ -20,6 +23,8 @@ class Vendedor extends BaseController
 
         $dominioModel = new DominioVehiculoModel();
         $data['dominio_vehiculos'] = $dominioModel->obtenerTodos();
+
+        
  
         //dd($data);
          return view('viewVendedor/viewMasterListadoVehiculos', $data);
@@ -34,8 +39,17 @@ class Vendedor extends BaseController
         $userModel = new UserModel();
         $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
 
-      
-        $data['dominio'] = $id_dominio;
+        $marcaModel = new MarcaModel();
+        $data['marcas'] = $marcaModel->findAll();
+
+        $estadiaModel = new EstadiaModel();
+        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
+
+        $dominioModel = new DominioVehiculoModel();
+        $data['dominio'] = $dominioModel->obtenerPorId($id_dominio);
+
+        $zonaModel = new ZonaModel();
+        $data['zonas'] = $zonaModel->findAll();
 
         //dd($data);
         return view('viewVendedor/viewMasterVender', $data);

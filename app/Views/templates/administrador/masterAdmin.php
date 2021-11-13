@@ -56,8 +56,9 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 
     <script>
-        function mensajeEliminado(direccion) {
+        function mensajeEliminado(direccion, usuarioId, usuarioActual) {
 
+            
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-success',
@@ -65,6 +66,8 @@
                 },
                 buttonsStyling: false
             })
+
+            
 
             swalWithBootstrapButtons.fire({
                 title: 'Estas seguro que desea eliminar al usuario?',
@@ -75,22 +78,42 @@
                 reverseButtons: true
             }).then(result => {
                 if (result.isConfirmed) {
-                    swalWithBootstrapButtons.fire({
-                        icon: 'success',
-                        text: 'El usuario fue eliminado con éxito.',
-                        showConfirmButton: false,
-                        timer: 1500,
-                        timerProgressBar: true
-                    }).then(result => {
-                        if (result.dismiss === Swal.DismissReason.timer) {
-                            window.location.href = direccion;
-                        }
-                    });
+
+                    console.log(usuarioActual);
+                    console.log(usuarioId);
+
+                    //if (usuarioActual === usuarioId){
+
+                        swalWithBootstrapButtons.fire({
+                            icon: 'success',
+                            text: 'El usuario fue eliminado con éxito.',
+                            showConfirmButton: false,
+                            timer: 1500,
+                            timerProgressBar: true
+                        }).then(result => {
+                            if (result.dismiss === Swal.DismissReason.timer) {
+                                window.location.href = direccion;
+                                
+                            }
+                        });
+
+                    //}else{
+
+                     /*   swalWithBootstrapButtons.fire({
+                        icon: 'error',
+                        text: 'No se puede eliminar el usuario de la sesion actual.'
+                        }).then();
+                    */
+
+                    //}
+
                 } else {
+
                     swalWithBootstrapButtons.fire({
                         icon: 'error',
                         text: 'No se eliminó al usuario.'
                     }).then();
+
                 }
             });
         }

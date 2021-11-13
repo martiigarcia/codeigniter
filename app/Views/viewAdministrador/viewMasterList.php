@@ -37,9 +37,9 @@
                                                     class="btn btn-outline-warning bt-sm      ">
                                                         <i class="bi bi-pencil-square"></i></a>
 
-                                                    <a style="margin-left:10px"
-                                                    onclick="return mensajeEliminado('<?= base_url('administrador/eliminar/' . $usuario['id']); ?>')"
-                                                    class="btn btn-outline-danger bt-sm  ">
+                                                    <a style="margin-left:10px" class="btn btn-outline-danger bt-sm  " 
+                                                    onclick="return mensajeEliminado('<?= base_url('administrador/eliminar/' . $usuario['id'] )?>')"
+                                                    >
                                                         <i class="bi bi-trash"></i>
                                                     </a>
 
