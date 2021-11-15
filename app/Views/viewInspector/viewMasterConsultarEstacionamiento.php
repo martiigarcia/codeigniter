@@ -36,7 +36,7 @@
                                                             <td>insertar horas hasta el momento de listado</td>
                                                             <td><?= $estadia['zona_nombre']; ?></td>
                                                             <td>
-                                                                <a href="#"
+                                                                <a href="<?= base_url('inspector/verDetalleEstacionamiento/'. $estadia['id']); ?>"
                                                                 class="btn btn-outline-warning bt-sm      ">
                                                                 <i class="bi bi-search"></i></a>
 

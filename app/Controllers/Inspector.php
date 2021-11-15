@@ -28,6 +28,24 @@ class Inspector extends BaseController
         return view('viewInspector/viewMasterConsultarEstacionamiento', $data);
     }
 
+    public function verDetalleEstacionamiento($id)
+    {
+        if (!$this->esInspector()) {
+            return redirect()->to(base_url());
+        }
+
+        $userModel = new UserModel();
+        $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
+
+        $estadiaModel = new EstadiaModel();
+        
+        //dd($data);
+
+        $data['estadia'] = $estadiaModel->obtenerEstadiaById($id);
+
+        return view('viewInspector/viewMasterDetalleEstacionamiento', $data);
+    }
+
     private function esInspector()
     {
         if (session('rol') === '3') {
