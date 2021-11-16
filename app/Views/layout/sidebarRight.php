@@ -8,12 +8,10 @@
                     <li class="nav-item">
                         <a href="#tab-1" data-toggle="tab" class="nav-link active">Informacion</a>
                     </li>
-                    <li>
+                    <li class="nav-item">
                         <a href="#tab-2" data-toggle="tab" class="nav-link">Configuracion</a>
                     </li>
-                    <li>
-                        <a href="#tab-3" data-toggle="tab" class="nav-link">Help</a>
-                    </li>
+                    
                 </ul>
                 <!-- EOF TABS -->
 
@@ -111,163 +109,15 @@
                                             <button type="button" class="btn switch-theme btn-dark" data-theme="theme-dark">Dark</button>
                                         </div>
                                     </li>
-                                    <li class="list-group-item">
-                                        <h5 class="text-carolina"><i class="ti-user"></i> User Settings</h5>
-                                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                                        deserunt mollit anim id est laborum.
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input type="checkbox" checked data-toggle="toggle" data-size="sm">
-                                        Notifications
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input type="checkbox" checked data-toggle="toggle" data-size="sm"> Dashboard
-                                        Graphs
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input type="checkbox" checked data-toggle="toggle" data-size="sm" data-on="Yes"
-                                            data-off="No"> Get Daily Feed
-                                    </li>
-                                    <li class="list-group-item">
-                                        <h5 class="text-carolina"><i class="ti-world"></i> Global Settings</h5>
-                                        Global settings are only accessible by a super administrator or admin group.
-                                        These settings control the application globally.
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input type="checkbox" data-toggle="toggle" data-size="sm" data-on="Yes" data-off="No">
-                                        Show Subscription
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input type="checkbox" data-toggle="toggle" data-size="sm"> SMTP Server
-                                        <div class="row mt-3">
-                                            <div class="input-group input-group-sm col">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text">SMTP</span>
-                                                </div>
-                                                <input type="text" class="form-control">
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input type="checkbox" checked data-toggle="toggle" data-size="sm" data-on="Yes"
-                                            data-off="No"> Send Out Daily Report
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input type="checkbox" data-toggle="toggle" data-size="sm" data-on="Yes" data-off="No">
-                                        Send Daily Cron Report
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input type="checkbox" data-toggle="toggle" data-size="sm" data-on="Yes" data-off="No">
-                                        Backup Database Daily
-                                    </li>
+                                    
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <!-- EOF TAB-PANE #2 -->
 
-                    <!-- BOF TAB-PANE #3 -->
-                    <div id="tab-3" class="tab-pane">
-                        <div class="pane-header">
-                            <h3><i class="ti-agenda"></i> Help</h3>
-                            Frequently Asked Questions
-                            <span class="float-right"><a href="#" class="text-carolina">Log-Out</a></span>
-                        </div>
-                        <div class="pane-body">
-                            <div class="accordion" id="faq-example">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link" type="button" data-toggle="collapse"
-                                                data-target="#faq1">
-                                                Frequently Asked Question #1
-                                            </button>
-                                        </h2>
-                                    </div>
-                                    
-                                </div>
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
-                                                data-target="#faq2">
-                                                Frequently Asked Question #2
-                                            </button>
-                                        </h2>
-                                    </div>
-                                    
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
-                                                data-target="#faq3">
-                                                Frequently Asked Question #3
-                                            </button>
-                                        </h2>
-                                    </div>
-                                    <div id="faq3" class="collapse" data-parent="#faq-example">
-                                    
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
-                                                data-target="#faq4">
-                                                Frequently Asked Question #4
-                                            </button>
-                                        </h2>
-                                    </div>
-                                    <div id="faq4" class="collapse" data-parent="#faq-example">
-                                        
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
-                                                data-target="#faq5">
-                                                Frequently Asked Question #5
-                                            </button>
-                                        </h2>
-                                    </div>
-                                    <div id="faq5" class="collapse" data-parent="#faq-example">
-                                        
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
-                                                data-target="#faq6">
-                                                Frequently Asked Question #6
-                                            </button>
-                                        </h2>
-                                    </div>
-                                    <div id="faq6" class="collapse" data-parent="#faq-example">
-                                        
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
-                                                data-target="#faq7">
-                                                Frequently Asked Question #7
-                                            </button>
-                                        </h2>
-                                    </div>
-                                    <div id="faq7" class="collapse" data-parent="#faq-example">
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                   
                     </div>
-                    <!-- EOF TAB-PANE #3 -->
-                </div>
                 <!-- EOF TAB PANES -->
 
             </div>
