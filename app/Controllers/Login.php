@@ -23,6 +23,11 @@ class Login extends BaseController
         return view('Login/login');
     }
 
+    /*public function verifyPassword(string $password): bool
+    {
+        return password_verify($password, $this->attributes['password']);
+    }*/
+
     public function ingresar()
     {
       
@@ -41,8 +46,8 @@ class Login extends BaseController
             return redirect()->back()->with('mensajeLogin','El usuario o la contraseña son incorrectos')
                 ->withInput();
         }else {
-            
-            if(password_verify($data['password'], $_POST['password'])){
+           
+            if(!password_verify($_POST['password'],$data['password'])){
            
                 return redirect()->back()->with('mensajeLogin', 'El usuario o la contraseña son incorrectos')
                     ->withInput();

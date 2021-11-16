@@ -203,8 +203,52 @@ class Administrador extends BaseController
         return view('viewAdministrador/viewMasterListadoVehiculosEstacionados', $data);
     }
 
-    
+    public function verRestablecerPassword($id)
+    {
+        if (!$this->esAdministrador()) {
+            return redirect()->to(base_url());
+        }
+        $userModel = new UserModel();
+        $data['usuario'] = $userModel->obtenerUsuario($id);
 
-    
+        $rolModel = new RolModel();
+        $data['roles'] = $rolModel->findAll();
+        $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
+
+        return view('viewAdministrador/viewMasterRestablecerPassword', $data);
+    }
+
+    public function restablecerPassword()
+    {
+        if (!$this->esAdministrador()) {
+            return redirect()->to(base_url());
+        }
+        $userModel = new UserModel();
+        $datos['datos'] = $userModel->find($_POST['id']);
+
+
+        $validacion = $this->validate([
+            'password' => 'required'
+            
+        ]);
+
+
+        if ($validacion) {
+
+            $_POST['password'] = password_hash($_POST['password'], PASSWORD_BCRYPT);
+
+            $userModel->update($_POST['id'], $_POST);
+
+            session()->setFlashdata('mensaje', 'Los datos se guardaron con exito');
+            return redirect()->to(base_url('administrador/listadoUsuarios'));
+        
+        } else {
+
+            $error = $this->validator->listErrors();
+            session()->setFlashdata('mensaje', $error);
+
+            return redirect()->back()->withInput();
+        }
+    }
 
 }
