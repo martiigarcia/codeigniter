@@ -67,8 +67,12 @@ class Home extends BaseController
 
             $dominioVehiculoModel = new DominioVehiculoModel();
             $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
+
             //dd($data);
             return view('viewCliente/viewMaster', $data);
+        }
+        else{
+            return redirect()->to(base_url());
         }
 
     }

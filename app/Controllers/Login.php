@@ -117,8 +117,8 @@ class Login extends BaseController
     {
         if (!is_null($this->usuario))
             return true;
-
-        if ($userId = session()->get('logged_id'))
+//dd(session()->get('logged_id'));
+        if ($userId = session()->get('id'))
             $this->usuario = (new UserModel())->obtenerUsuario($userId);
 
         if (! is_null($this->usuario))
@@ -161,7 +161,7 @@ class Login extends BaseController
              'id'=>$usuario['id'],
              'username'  => $usuario['email'],
              'rol'=>$usuario['rol_id'],
-             'logged_in' => true,
+
          ]);
 
         $this->remember($token, true);

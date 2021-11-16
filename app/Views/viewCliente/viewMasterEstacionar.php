@@ -61,7 +61,7 @@ Estacionar:
                                             
                                             <label>Seleccione un vehiculo</label>
                                             <select class="form-control" name="dominio_vehiculo" >
-                                                
+
                                                 <option disabled selected=inicial>Vehiculos bajo dominio:</option>
                                                 <?php foreach ($dominio as $d) : ?>
 
@@ -71,6 +71,7 @@ Estacionar:
 
                                                 <?php endforeach; ?>
                                             </select>
+                                            <p style="color: rgb(232,74,103)"> <?= session('dominio_vehiculo')?'Debe Completar este campo':'' ?></p>
                                         </div>
 
                                         <div class="form-group">
@@ -86,6 +87,7 @@ Estacionar:
 
                                                 <?php endforeach; ?>
                                             </select>
+                                            <p style="color: rgb(232,74,103)"> <?= session('id_zona')?'Debe Completar este campo':''; ?></p>
                                         </div>
 
                                         <div class="form-group">
@@ -149,7 +151,7 @@ Estacionar:
                         </li>
 
                         <li class="list-group-item">
-                        
+                            <p  style="color: rgb(232,74,103)"> <?= session('errorDeCantidadDeHoras'); ?></p>
                             <button class="btn btn-flat mb-1 btn-primary" type="button" data-toggle="collapse" data-target="#desplegable" aria-expanded="false" aria-controls="desplegable">Estadia definida</button>
                             
                             <div class="collapse" id="desplegable">
@@ -159,7 +161,7 @@ Estacionar:
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Cantidad de horas</label>
                                     <div class="col">
-                                        <input type="text" name="cantidad_horas" class="form-control" placeholder="Cantidad de horas" >
+                                        <input type="time" name="cantidad_horas" class="form-control"  >
                                         
                                     </div>
                                 </div>
@@ -189,7 +191,9 @@ Estacionar:
                     </ul>
                     
                     <div class="card-footer" id="div1">
-                    <p style="color: rgb(232,74,103, 1)"> <?= session('mensaje'); ?></p>
+
+                    <p style="color: rgb(232,74,103)"> <?= session('errorHoraDeInicio'); ?></p>
+
                         <div class="row">
                         
                             <div class="col text-center">

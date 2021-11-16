@@ -22,6 +22,13 @@ class HistorialZonaModel extends Model
     protected $deletedField  = 'deleted_at';
     protected $skipValidation     = false;
 
+    public function obtenerZonas($id_zona){
+        return $this
+            ->select('historial_zonas.*')
+            ->where('id_zona',$id_zona )
+            ->get()->getResultArray();
+    }
+
 
 
 }
