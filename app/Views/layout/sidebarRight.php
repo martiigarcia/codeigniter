@@ -84,40 +84,7 @@
                                         </form>
                                     </li>
                                     
-                                    <li class="list-group-item">
-                                        <h5>Upcoming Events</h5>
-                                        <p class="card-text">for Monday - February 25, 2019</p>
-                                        <div class="profile-calendar">
-                                            <table class="table table-bordered table-hover table-sm">
-                                                <thead class="thead-light">
-                                                    <tr>
-                                                        <th scope="col">Schedule</th>
-                                                        <th scope="col">Events</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>All-day</td>
-                                                        <td><i class="fa fa-circle text-info"></i> Project concept</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>10:00 am</td>
-                                                        <td><i class="fa fa-circle text-info"></i> Staff meeting</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>2:50 pm</td>
-                                                        <td><i class="fa fa-circle text-warning"></i> Send out report
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>4:30 pm</td>
-                                                        <td><i class="fa fa-circle text-danger"></i> Appointment with
-                                                            Tang</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </li>
+                                    <p style="color: rgb(232,74,103, 1)"> <?= session('mensaje'); ?></p>
                                 </ul>
                             </div>
                         </div>
@@ -137,7 +104,7 @@
                         <div class="pane-body">
                             <div class="card bg-transparent mb-3">
                                 <ul class="list-group list-group-flush">
-                                <li class="list-group-item">
+                                    <li class="list-group-item">
                                         <h5 class="mb-3">Tema</h5>
                                         <div class="btn-group mb-2">
                                             <button type="button" class="btn switch-theme btn-light" data-theme="theme-default">Light</button>

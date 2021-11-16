@@ -55,16 +55,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 col-form-label">Contraseña</label>
-                                    <div class="input-group col">
-                                        <input type="password" name="password" class="form-control" placeholder="Contraseña" value="<?= $usuario['password']; ?>">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text bg-danger"><span class="text-light">Obligatorio</span></span>
-                                        </div>
-                                    </div>
-                                    
-                                </div>
+                                
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label"></label>
                                     <div class="col">

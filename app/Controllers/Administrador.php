@@ -47,7 +47,7 @@ class Administrador extends BaseController
             'dni' => 'required|is_unique[usuarios.{id}]',
             'email' => 'required|is_unique[usuarios.{id}]',
             'fecha_de_nacimiento' => 'required|valid_date',
-            'password' => 'required',
+            
         ]);
 
 
@@ -56,6 +56,7 @@ class Administrador extends BaseController
             if (empty($_POST['id_rol'])) {
                 $_POST['id_rol'] = $datos['datos']['id_rol'];
             }
+            
 
             $userModel->update($_POST['id'], $_POST);
 
