@@ -23,8 +23,12 @@
     <link rel="stylesheet" href="<?= base_url('asserts/DataTables/datatables.min.css')?>">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
-    
-    
+
+    <script>
+        window.userData = {
+            id: <?=session('id');?>
+        }
+    </script>
 
 </head>
 
@@ -56,9 +60,9 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 
     <script>
-        function mensajeEliminado(direccion, usuarioId, usuarioActual) {
+        function mensajeEliminado(usuarioId, usuarioActual) {
 
-            
+            console.log(usuarioId);
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-success',
@@ -79,10 +83,10 @@
             }).then(result => {
                 if (result.isConfirmed) {
 
-                    console.log(usuarioActual);
-                    console.log(usuarioId);
 
-                    //if (usuarioActual === usuarioId){
+
+
+                    if (window.userData.id != usuarioId) {
 
                         swalWithBootstrapButtons.fire({
                             icon: 'success',
@@ -92,20 +96,19 @@
                             timerProgressBar: true
                         }).then(result => {
                             if (result.dismiss === Swal.DismissReason.timer) {
-                                window.location.href = direccion;
-                                
+                                window.location.href = "<?=base_url('administrador/eliminar')?>/"+usuarioId;
+
                             }
                         });
+                    }else{
 
-                    //}else{
-
-                     /*   swalWithBootstrapButtons.fire({
+                        swalWithBootstrapButtons.fire({
                         icon: 'error',
                         text: 'No se puede eliminar el usuario de la sesion actual.'
                         }).then();
-                    */
 
-                    //}
+
+                    }
 
                 } else {
 
