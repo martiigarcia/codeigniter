@@ -2,9 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Models\EstadiaModel;
 use App\Models\RolModel;
 use App\Models\UserModel;
-use App\Models\EstadiaModel;
 use DateTime;
 
 class Administrador extends BaseController
@@ -16,20 +16,20 @@ class Administrador extends BaseController
             return redirect()->to(base_url());
         }
 
-        if($id == session('id')){
-            
+        if ($id == session('id')) {
+
             session()->setFlashdata('mensaje', "no se puede eliminar el usuario de la sesion");
 
             return redirect()->back()->withInput(session());
 
-        }else{
+        } else {
 
             $userModel = new UserModel();
             $userModel->delete($id);
 
             session()->setFlashdata('mensaje', 'Los datos se eliminaron con exito');
             return redirect()->to(base_url('administrador/listadoUsuarios'));
-            }
+        }
     }
 
     public function guardarModificaciones()
@@ -47,7 +47,7 @@ class Administrador extends BaseController
             'dni' => 'required|is_unique[usuarios.{id}]',
             'email' => 'required|is_unique[usuarios.{id}]',
             'fecha_de_nacimiento' => 'required|valid_date',
-            
+
         ]);
 
 
@@ -56,7 +56,7 @@ class Administrador extends BaseController
             if (empty($_POST['id_rol'])) {
                 $_POST['id_rol'] = $datos['datos']['id_rol'];
             }
-            
+
 
             $userModel->update($_POST['id'], $_POST);
 
@@ -64,9 +64,8 @@ class Administrador extends BaseController
             return redirect()->to(base_url('administrador/listadoUsuarios'));
         } else {
 
-            $error = $this->validator->listErrors();
-            session()->setFlashdata('mensaje', $error);
-
+            $error = $this->validator->getErrors();
+            session()->setFlashdata($error);
             return redirect()->back()->withInput();
         }
     }
@@ -103,7 +102,7 @@ class Administrador extends BaseController
             return redirect()->to(base_url());
 
         } else {
-            
+
         }
     }
 
@@ -165,17 +164,13 @@ class Administrador extends BaseController
         } else {
 
 
-            $error = $this->validator->listErrors();
-            session()->setFlashdata('mensaje', $error);
-
-            return redirect()->back()->with('mensaje', 'El usuario o la contraseña son incorrectos')
-                ->withInput();
-
+            $error = $this->validator->getErrors();
+            session()->setFlashdata($error);
             return redirect()->back()->withInput();
         }
     }
 
-    
+
     private function esAdministrador()
     {
         if (session('rol') === '1') {
@@ -195,7 +190,7 @@ class Administrador extends BaseController
         $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
 
         $estadiaModel = new EstadiaModel();
-        
+
         //dd($data);
 
         $data['estadias_activas'] = $estadiaModel->estadiasActivas();
@@ -229,7 +224,7 @@ class Administrador extends BaseController
 
         $validacion = $this->validate([
             'password' => 'required'
-            
+
         ]);
 
 
@@ -241,12 +236,11 @@ class Administrador extends BaseController
 
             session()->setFlashdata('mensaje', 'Los datos se guardaron con exito');
             return redirect()->to(base_url('administrador/listadoUsuarios'));
-        
+
         } else {
 
-            $error = $this->validator->listErrors();
-            session()->setFlashdata('mensaje', $error);
-
+            $error = $this->validator->getErrors();
+            session()->setFlashdata($error);
             return redirect()->back()->withInput();
         }
     }
