@@ -34,31 +34,15 @@
 
                         </div>
 
-                        <ul class="list-group list-group-flush">
 
-                            <li class="list-group-item">
-
-                                <input type="text" name="id_estadia" value="<?= $estadia->id; ?>" hidden=""
-                                       class="form-control">
-
-                                <div class="form-group row">
-                                    <label class="col-md-3 col-form-label">Cantidad de horas</label>
-                                    <div class="col">
-                                        <input type="text" name="cantidad_horas" class="form-control"
-                                               placeholder="Cantidad de horas">
-                                    </div>
-                                </div>
-
-                            </li>
-
-                        </ul>
 
                         <div class="card-footer" id="div1">
 
                             <div class="row">
 
                                 <div class="col text-center">
-
+                                    <input type="text" name="id_estadia" value="<?= $estadia->id; ?>" hidden=""
+                                           class="form-control">
                                     <button type="submit" class="btn btn-flat mb-1 btn-primary">Finalizar estadia
                                     </button>
 
