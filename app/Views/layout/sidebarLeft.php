@@ -28,12 +28,10 @@
                                                 <a href="<?=base_url("administrador/addUser")?>">Registrar nuevo usuario</a>
                                             </li>
                                             <li> 
-                                                <a href="<?=base_url("administrador/listadoUsuarios")?>">Modificar/Eliminar------<br>Buscar usuario existente</a>
+                                                <a href="<?=base_url("administrador/listadoUsuarios")?>">Modificar/Eliminar<br>Restablecer contraseña<br>Buscar usuario existente</a>
                                             </li>
                                             
-                                            <li>
-                                                <a href="#">Restablecer contraseña<br>de usuario existente</a>
-                                            </li>
+
                                         </ul>
                                     </li>
                                     <li>
