@@ -27,7 +27,7 @@
                                                     <tr>
                                                         <td><?= $estadia['vehiculo_patente']; ?></td>
                                                         <td><?= $estadia['fecha_inicio']; ?></td>
-                                                        <td>insertar horas hasta el momento de listado</td>
+                                                        <td><?=$estadia['duracion_definida']? $estadia['fecha']:"INDEFINIDO"?></td>
                                                         <td><?= $estadia['zona_nombre']; ?></td>
                                                         
                                                     </tr>

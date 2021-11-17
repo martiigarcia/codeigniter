@@ -22,7 +22,19 @@ class EstadiaModel extends Model
     protected $updatedField  = 'updated_at';
     protected $deletedField  = 'deleted_at';
     protected $skipValidation     = false;
-    
+
+
+    public function buscarPorDominio($id_dominio,$id_zona,$fecha_inicio){
+        return $this
+            ->select('estadias.*,')
+            ->where('id_dominio_vehiculo',$id_dominio )
+            ->where('id_zona',$id_zona)
+            ->where('fecha_inicio',$fecha_inicio)
+            ->get()
+            ->getFirstRow();
+    }
+
+
     //para ver si se muestran las opciones de estacionar o desestacionar
     public function verificarEstadiasExistentesActivasIndefinidas($id_usuario)
     {
@@ -49,7 +61,7 @@ class EstadiaModel extends Model
                 vehiculos.patente vehiculo_patente, 
                 marcas.nombre vehiculo_marca_nombre,
                 modelos.nombre vehiculo_modelo_nombre,
-
+                
                 usuarios.id id_usuario,
 
                 zonas.id zona_id,

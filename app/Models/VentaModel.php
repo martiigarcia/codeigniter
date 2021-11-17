@@ -25,9 +25,19 @@ class VentaModel extends Model
     public function obtenerPorVendedor($id_vendedor)
     {
         return $this
-            ->select('ventas.*')
-            ->where('patente',$id_vendedor)
+            ->select('ventas.*,            
+            vehiculos.patente patente,
+            estadias.fecha_inicio fecha_inicio,
+            estadias.fecha_fin fecha_fin,
+            usuarios.nombre nombre,
+            usuarios.apellido apellido')
+            ->join('estadias','estadias.id = ventas.id_estadia')
+            ->join('dominio_vehiculo',' dominio_vehiculo.id=estadias.id_dominio_vehiculo')
+            ->join('usuarios','usuarios.id=dominio_vehiculo.id_usuario')
+            ->join('vehiculos','vehiculos.id=dominio_vehiculo.id_vehiculo')
+            ->where('id_vendedor',$id_vendedor)
             ->get()->getResultArray();
     }
+
 
 }

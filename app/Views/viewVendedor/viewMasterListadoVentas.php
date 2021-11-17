@@ -1,7 +1,7 @@
 <?= $this->extend("templates/vendedor/masterVendedor")?>
 <?= $this->section('content') ?>
 
-*cambiar los nombres de las columnas
+
     <div class="main">
                         
 
@@ -15,17 +15,25 @@
                                                     <tr >
                                                         
                                                         <th>Patente del vehiculo</th>
-                                                        <th>Marca y modelo</th>
-                                                        <th>Propietario (Nombre completo y DNI)</th>
-                                                       
-                                                        <th>Opciones</th>
+                                                        <th>Fecha de Inicio</th>
+                                                        <th>Fecha de Fin</th>
+                                                        <th>Propietario</th>
+
 
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    
-                                                    
-                                                    
+                                                <?php foreach ($ventas as $venta) : ?>
+
+                                                    <tr>
+                                                        <td><?= $venta['patente']; ?></td>
+                                                        <td><?= $venta['fecha_inicio']; ?></td>
+                                                        <td><?= $venta['fecha_fin']; ?></td>
+                                                        <td><?= $venta['nombre']; ?>-<?= $venta['apellido']; ?></td>
+
+
+                                                    </tr>
+                                                <?php endforeach; ?>
                                                 </tbody>
 
                                         </table>

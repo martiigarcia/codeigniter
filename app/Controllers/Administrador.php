@@ -6,6 +6,7 @@ use App\Models\EstadiaModel;
 use App\Models\RolModel;
 use App\Models\UserModel;
 use DateTime;
+use function Sodium\add;
 
 class Administrador extends BaseController
 {
@@ -191,9 +192,12 @@ class Administrador extends BaseController
 
         $estadiaModel = new EstadiaModel();
 
-        //dd($data);
-
         $data['estadias_activas'] = $estadiaModel->estadiasActivas();
+        $cantidadDeHoras=null;
+        foreach ($data['estadias_activas'] as $infoEstadia){
+            array_push($cantidadDeHoras,$this->calcularHoras($infoEstadia['fecha_inicio'],$infoEstadia['fecha_fin']));
+        }
+        dd($data['estadias_activas']);
 
         return view('viewAdministrador/viewMasterListadoVehiculosEstacionados', $data);
     }
@@ -244,5 +248,12 @@ class Administrador extends BaseController
             return redirect()->back()->withInput();
         }
     }
+    private function calcularHoras($fecha_inicio,$fecha_fin):String{
+       $fecha=new DateTime($fecha_inicio);
+        $fecha2=new DateTime($fecha_fin);
 
+        $a=$fecha->diff($fecha2);
+       dd($a,$fecha_inicio,$fecha_fin);
+        return a;
+    }
 }
