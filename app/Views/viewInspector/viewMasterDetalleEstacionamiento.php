@@ -1,4 +1,4 @@
-<?= $this->extend("templates/inspector/masterInspector")?>
+<?= $this->extend("templates/administrador/masterAdmin")?>
 <?= $this->section('content') ?>
 
     <div class="row">

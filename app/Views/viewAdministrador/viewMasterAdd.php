@@ -1,4 +1,7 @@
 <?= $this->extend("templates/administrador/masterAdmin") ?>
+<?= $this->section('titulo') ?>
+    Registrar usuario
+<?= $this->endSection() ?>
 <?= $this->section('content') ?>
 
     <div class="main">

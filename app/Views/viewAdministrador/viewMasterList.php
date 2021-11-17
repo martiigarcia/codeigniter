@@ -1,4 +1,9 @@
 <?= $this->extend("templates/administrador/masterAdmin")?>
+
+<?= $this->section('titulo') ?>
+    Listado de usuarios
+<?= $this->endSection() ?>
+
 <?= $this->section('content') ?>
 
     <div class="main">
