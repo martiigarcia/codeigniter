@@ -1,4 +1,9 @@
-<?= $this->extend("templates/administrador/masterAdmin")?>
+<?= $this->extend("templates/master")?>
+
+<?= $this->section('titulo') ?>
+    Listado de vehiculos
+<?= $this->endSection() ?>
+
 <?= $this->section('content') ?>
 
     <div class="main">
@@ -44,11 +49,9 @@
                     <?php endforeach; ?>
 
                     </tbody>
-
                 </table>
             </div>
         </div>
-
     </div>
 
 <?= $this->endSection() ?>

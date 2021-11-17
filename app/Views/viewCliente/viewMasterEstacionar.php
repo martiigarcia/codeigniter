@@ -1,35 +1,16 @@
-<?= $this->extend("templates/administrador/masterAdmin")?>
+<?= $this->extend("templates/master")?>
+
+<?= $this->section('titulo') ?>
+    Estacionar
+<?= $this->endSection() ?>
+
 <?= $this->section('content') ?>
-
-    estacionar place
-
-    <!--
-        Cuando un Cliente desea estacionar deberá poder activar una estadía de
-    estacionamiento seleccionando un vehículo ingresado en su cuenta o también
-    puede ingresar un dominio de otro vehículo, durante la activación podrá
-    seleccionar la cantidad de horas o si la estadía es indefinida, si selecciona
-    indefinida esto activara una estadía sin fecha y hora de finalización mientras que si
-    el cliente selecciona la cantidad de horas la estadía tendrá fecha y hora de
-    finalización. Para las estadías indefinidas el Cliente podrá finalizarlas ingresando
-    en la aplicación.
-
-
-    Estacionar:
-    -seleccionar vehiculo
-    -definida: cantidad de horas : fecha y hora
-    -indefinida -> estadia sin fecha y hora de finalizacion (cuando se presione finalizar)
-
-     -->
 
     <div class="main">
 
-
-        <!-- BOF MAIN-BODY -->
-
         <div class="row">
-            <!-- BOF Horizontal Form -->
-            <div class="col-lg-9">
 
+            <div class="col-lg-9">
 
                 <div class="card mb-3">
                     <form method="POST" action="<?= base_url('cliente/estacionar'); ?>">
@@ -161,7 +142,6 @@
                                                                 Registrar
                                                             </button>
                                                         </div>
-
                                                     </div>
                                                 </div>
                                             </div>
@@ -193,28 +173,6 @@
 
                             </li>
 
-                            <li class="list-group-item">
-
-                                <button class="btn btn-flat mb-1 btn-primary" type="button" data-toggle="collapse"
-                                        data-target="#desplegablePago" aria-expanded="false"
-                                        aria-controls="desplegable">Pagar estadia
-                                </button>
-
-                                <div class="collapse" id="desplegablePago">
-                                     
-
-
-                                    <div class="form-group row">
-                                        <label class="col-md-3 col-form-label">Pagar</label>
-                                        <div class="col">
-                                            <p>Ver como se pagaria</p>
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </li>
-
                         </ul>
 
                         <div class="card-footer" id="div1">
@@ -234,11 +192,8 @@
                     </form>
                 </div>
             </div>
-            <!-- EOF Horizontal Form -->
+
         </div>
-
-
-        <!-- EOF MAIN-BODY -->
 
     </div>
 

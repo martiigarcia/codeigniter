@@ -1,13 +1,15 @@
-<?= $this->extend("templates/administrador/masterAdmin")?>
+<?= $this->extend("templates/master")?>
+
+<?= $this->section('titulo') ?>
+    Registrar venta
+<?= $this->endSection() ?>
+
 <?= $this->section('content') ?>
 
     <div class="main">
 
-
-        <!-- BOF MAIN-BODY -->
-
         <div class="row">
-            <!-- BOF Horizontal Form -->
+
             <div class="col-lg-9">
                 <div class="card mb-3">
                     <form method="POST" action="<?= base_url('vendedor/estacionar'); ?>">
@@ -55,9 +57,7 @@
                                         <p style="color: rgb(232,74,103)"> <?= session('id_zona') ? 'Debe Completar este campo' : ''; ?></p>
                                     </div>
 
-
                                 </div>
-
 
                             </li>
 
@@ -71,7 +71,6 @@
                                 <div class="collapse" id="desplegable">
                                      
 
-
                                     <div class="form-group row">
                                         <label class="col-md-3 col-form-label">Cantidad de horas</label>
                                         <div class="col">
@@ -80,7 +79,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </li>
                         </ul>
 
@@ -99,12 +97,7 @@
                     </form>
                 </div>
             </div>
-            <!-- EOF Horizontal Form -->
         </div>
-
-
-        <!-- EOF MAIN-BODY -->
-
     </div>
 
 <?= $this->endSection() ?>

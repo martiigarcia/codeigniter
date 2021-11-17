@@ -1,11 +1,15 @@
-<?= $this->extend("templates/administrador/masterAdmin") ?>
+<?= $this->extend("templates/master")?>
+
+<?= $this->section('titulo') ?>
+    Restablecer contraseña
+<?= $this->endSection() ?>
+
 <?= $this->section('content') ?>
+
     <div class="main">
 
-        <!-- BOF MAIN-BODY -->
-
         <div class="row">
-            <!-- BOF Horizontal Form -->
+
             <div class="col-lg-9">
 
                 <div class="card mb-3">
@@ -43,9 +47,7 @@
                                     </div>
                                 </div>
 
-
                             </li>
-
 
                         </ul>
 
@@ -64,10 +66,8 @@
                     </form>
                 </div>
             </div>
-            <!-- EOF Horizontal Form -->
+
         </div>
-
-        <!-- EOF MAIN-BODY -->
-
     </div>
+
 <?= $this->endSection() ?>

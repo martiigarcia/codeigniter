@@ -1,11 +1,14 @@
-<?= $this->extend("templates/administrador/masterAdmin") ?>
+<?= $this->extend("templates/master")?>
+
+<?= $this->section('titulo') ?>
+    Modificar usuario
+<?= $this->endSection() ?>
+
 <?= $this->section('content') ?>
+
     <div class="main">
 
-        <!-- BOF MAIN-BODY -->
-
         <div class="row">
-            <!-- BOF Horizontal Form -->
             <div class="col-lg-9">
 
                 <div class="card mb-3">
@@ -82,9 +85,7 @@
                                     <label class="col-md-3 col-form-label">Fecha de nacimiento</label>
                                     <div class="col">
                                         <div class="input-group date">
-                                            <!--
-                                            <input type="date" name="fecha_de_nacimiento" placeholder="Fecha de nacimiento" class="form-control calender-black">
-                                            -->
+
 
                                             <div class="input-group input-group-sm mb-3">
                                                 <div class="input-group-append">
@@ -146,7 +147,7 @@
                         </ul>
 
                         <div class="card-footer" id="div1">
-                            <p style="color: rgb(232,74,103, 1)"> <?= session('mensaje'); ?></p>
+
                             <div class="row">
 
                                 <div class="col text-center">
@@ -160,10 +161,9 @@
                     </form>
                 </div>
             </div>
-            <!-- EOF Horizontal Form -->
+
         </div>
 
-        <!-- EOF MAIN-BODY -->
-
     </div>
+
 <?= $this->endSection() ?>
