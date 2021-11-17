@@ -14,7 +14,8 @@
                                             <tr >
 
                                                 <th>Patente del vehiculo</th>
-                                                <th>Fecha</th>
+                                                <th>Fecha de Inicio</th>
+                                                <th>Fecha de Fin</th>
                                                 <th>Horas estacionado</th>
                                                 <th>Zona</th>
 
@@ -22,16 +23,21 @@
                                         </thead>
                                         <tbody>
                                             
-                                            <?php foreach ($estadias_activas as $estadia) : ?>
+                                            <?php
+                                            $i=0;
+                                            foreach ($estadias_activas as $estadia) : ?>
 
                                                     <tr>
                                                         <td><?= $estadia['vehiculo_patente']; ?></td>
                                                         <td><?= $estadia['fecha_inicio']; ?></td>
-                                                        <td><?=$estadia['duracion_definida']? $estadia['fecha']:"INDEFINIDO"?></td>
+                                                        <td><?= $estadia['fecha_fin']; ?></td>
+                                                        <td><?=$estadia['duracion_definida']? $cantidad_horas[$i]:"INDEFINIDO"?></td>
                                                         <td><?= $estadia['zona_nombre']; ?></td>
                                                         
                                                     </tr>
-                                            <?php endforeach; ?>
+
+                                            <?php $i++;
+                                            endforeach; ?>
                                             
                                         </tbody>
 

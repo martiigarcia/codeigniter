@@ -106,7 +106,7 @@ class EstadiaModel extends Model
                 ->join('modelos', 'modelos.id = vehiculos.modelo')
                 ->join('zonas', 'zonas.id = estadias.id_zona')
                 
-                ->where('estado',true) 
+
                 
                ->get()->getResultArray();
     }
