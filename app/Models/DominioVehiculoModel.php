@@ -54,7 +54,14 @@ class DominioVehiculoModel extends Model
                 ->get()->getFirstRow();
 
     }
+    public function obtenerDominioPorIdVehiculo($id_vehiculo)
+    {
+        return $this
+            ->select('dominio_vehiculo.*')
+            ->where('id_vehiculo', $id_vehiculo )
+            ->get()->getResultArray();
 
+    }
     public function tieneVehiculos($id_usuario)
     {
         return $this

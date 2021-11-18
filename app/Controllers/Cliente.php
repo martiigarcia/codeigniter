@@ -117,6 +117,27 @@ class Cliente extends BaseController
 
         $dominioVehiculoModel = new DominioVehiculoModel();
         $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
+        $fechaAcual = (new DateTime())->format('Y-m-d H:i:s');
+
+
+        $i = 0;
+        foreach ($data['dominio'] as $dom) {
+            $listadoDominio = $dominioVehiculoModel->obtenerDominioPorIdVehiculo($dom['id_vehiculo']);
+
+            foreach ($listadoDominio as $dominio) {
+                $estadias = $estadiaModel->buscarPorDominioId($dominio['id']);
+                if (!empty($estadias)) {
+                    foreach ($estadias as $estadia) {
+                        if ($estadia['fecha_fin'] >= $fechaAcual) {
+                            var_dump($estadia['fecha_fin']);
+                            unset($data['dominio'][$i]);
+                        }
+                    }
+                }
+            }
+                $i++;
+
+        }
 
         $marcaModel = new MarcaModel();
         $data['marcas'] = $marcaModel->findAll();
@@ -180,7 +201,7 @@ class Cliente extends BaseController
 
 
             } else {
-                $estadoDefinido = false;
+                $estadoDefinido = true;
                 $horasFin = explode(':', $_POST['cantidad_horas']);
                 $fechaFin = (new DateTime())->setTime($horasFin[0], $horasFin[1])->format('Y-m-d H:i:s');
 
@@ -267,6 +288,12 @@ class Cliente extends BaseController
         $data['estadia']['estado'] = false; //cambio el estado a inactiva
         $data['estadia']['duracion_definida'] = true; //cambio la duracion definida a true como definida
 
+        $fechaAcual = (new DateTime())->format('Y-m-d H:i');
+        if ($data['estadia']['fecha_fin'] >= $fechaAcual) {
+
+            $data['estadia']['fecha_fin'] = $fechaAcual;
+        }
+
 
         $estadiaModel->update($_POST['id_estadia'], $data['estadia']);
         session()->setFlashdata('mensaje', 'Los datos se guardaron con exito');
@@ -301,9 +328,6 @@ class Cliente extends BaseController
         if (!$this->esCliente()) {
             return redirect()->to(base_url());
         }
-
-        //poner:
-        //pago_pendiente=false(ya no esta pendiente)
 
 
         $estadiaModel = new EstadiaModel();

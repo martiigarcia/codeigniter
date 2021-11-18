@@ -34,6 +34,14 @@ class EstadiaModel extends Model
             ->getFirstRow();
     }
 
+    public function buscarPorDominioId($id_dominio){
+        return $this
+            ->select('estadias.*')
+            ->where('id_dominio_vehiculo',$id_dominio )
+            ->get()
+            ->getResultArray();
+    }
+
 
     //para ver si se muestran las opciones de estacionar o desestacionar
     public function verificarEstadiasExistentesActivasIndefinidas($id_usuario)

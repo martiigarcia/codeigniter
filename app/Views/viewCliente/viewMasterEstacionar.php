@@ -45,6 +45,7 @@
                                             <select class="form-control" name="dominio_vehiculo">
 
                                                 <option disabled selected=inicial>Vehiculos bajo dominio:</option>
+                                                <?php if(!empty($dominio)):?>
                                                 <?php foreach ($dominio as $d) : ?>
 
                                                     <option value=<?= $d['id']; ?>>
@@ -54,6 +55,9 @@
                                                     </option>
 
                                                 <?php endforeach; ?>
+                                                <?php else: ?>
+                                                Todos sus vehiculos estan estacionados
+                                                <?php endif ?>
                                             </select>
                                             <p style="color: rgb(232,74,103)"> <?= session('dominio_vehiculo') ? 'Debe Completar este campo' : '' ?></p>
                                         </div>
