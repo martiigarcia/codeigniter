@@ -8,14 +8,14 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="<?= base_url('asserts/css/login.css'); ?>">
 </head>
-<body>
+<body style="background-image: url(<?= base_url('asserts/img/fondo_login.jpg');?>); background-size: cover">
 <section class="ftco-section">
 
     <div class="container">
 
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-5">
-                <div class="login-wrap p-4 p-md-5">
+                <div class="login-wrap p-4 p-md-5" style="background-color: rgb(249 231 227);">
                     <div class="icon d-flex align-items-center justify-content-center">
                         <span class="fa fa-user-o"></span>
                     </div>
@@ -42,9 +42,7 @@
                                     <span class="checkmark"></span>
                                 </label>
                             </div>
-                            <div class="w-50 text-md-right">
-                                <a href="#" hidden="">¿Olvidaste tu contraseña?</a>
-                            </div>
+
                             
                         </div>
                         
