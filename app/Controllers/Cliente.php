@@ -117,7 +117,7 @@ class Cliente extends BaseController
 
         $dominioVehiculoModel = new DominioVehiculoModel();
         $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
-        $fechaAcual = (new DateTime())->format('Y-m-d H:i:s');
+        $fechaAcual = (new DateTime())->format('Y-m-d H:i');
 
 
         $i = 0;
@@ -129,7 +129,7 @@ class Cliente extends BaseController
                 if (!empty($estadias)) {
                     foreach ($estadias as $estadia) {
                         if ($estadia['fecha_fin'] >= $fechaAcual) {
-                            var_dump($estadia['fecha_fin']);
+
                             unset($data['dominio'][$i]);
                         }
                     }
@@ -191,7 +191,7 @@ class Cliente extends BaseController
             if (empty($_POST['cantidad_horas'])) {
 
                 $estadoDefinido = false;
-                $_POST['cantidad_horas'] = null;
+
                 //seleccionar el turno correspondiente para la hora de fin de estadia
                 $fechaFin = $this->verificarTurno($fechaInicio, $infoZonas[0]['comienzo'], $infoZonas[0]['final']);
                 if ($fechaFin === null) {
@@ -215,11 +215,13 @@ class Cliente extends BaseController
                 }
 
             }
-
+            if ($fechaInicio>=$fechaFin){
+                return redirect()->back()->with('errorDeCantidadDeHoras','(La hora seleccionada debe ser mayor a la actual)')
+                    ->withInput();
+            }
             $estadiaData = [
                 'estado' => true,
                 'duracion_definida' => $estadoDefinido,
-                'cantidad_horas' => $_POST['cantidad_horas'],
                 'fecha_inicio' => $fechaInicio,
                 'fecha_fin' => $fechaFin,
                 'pago_pendiente' => true, //esto cambiaria cuando se haga la parte de pagar en el estacionar
@@ -357,7 +359,7 @@ class Cliente extends BaseController
         $fechaFin = (new DateTime())->setTime($horaFin[0], $horaFin[1])->format('Y-m-d H:i:s');
         $fechaActual = (new DateTime())->format('Y-m-d H:i');
 
-        if (($fecha >= $fechaActual) && ($fecha <= $fechaFin) && ($fecha >= $fechaInicio) && ($fechaActual >= $fechaInicio)
+        if (($fecha > $fechaActual) && ($fecha <= $fechaFin) && ($fecha >= $fechaInicio) && ($fechaActual >= $fechaInicio)
             && (strftime('%A') != 'Saturday') && (strftime('%A') != 'Sunday')) {
 
             return true;
