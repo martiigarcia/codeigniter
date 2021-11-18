@@ -90,7 +90,7 @@ class Cliente extends BaseController
                     'id_vehiculo' => $data->id
                 ];
                 $dominiVehiculoModel->save($dominioData);
-                session()->setFlashdata('mensaje', 'Los datos se guardaron con exito');
+                session()->setFlashdata('mensaje', 'El vehiculo se registro correctamente');
                 return redirect()->to(base_url('/home'));
             }
         } else {
@@ -117,7 +117,7 @@ class Cliente extends BaseController
 
         $dominioVehiculoModel = new DominioVehiculoModel();
         $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
-        $fechaAcual = (new DateTime())->format('Y-m-d H:i');
+        $fechaAcual = (new DateTime())->format('Y-m-d H:i:s');
 
 
         $i = 0;
@@ -128,7 +128,7 @@ class Cliente extends BaseController
                 $estadias = $estadiaModel->buscarPorDominioId($dominio['id']);
                 if (!empty($estadias)) {
                     foreach ($estadias as $estadia) {
-                        if ($estadia['fecha_fin'] >= $fechaAcual) {
+                        if ($estadia['fecha_fin'] > $fechaAcual) {
 
                             unset($data['dominio'][$i]);
                         }
@@ -232,7 +232,7 @@ class Cliente extends BaseController
             ];
 
             $estadiaModel->save($estadiaData);
-            session()->setFlashdata('mensaje', 'Los datos se guardaron con exito');
+            session()->setFlashdata('mensaje', 'El vehiculo se estaciono correctamente');
             return redirect()->to(base_url('/home'));
 
         } else {
@@ -298,7 +298,7 @@ class Cliente extends BaseController
 
 
         $estadiaModel->update($_POST['id_estadia'], $data['estadia']);
-        session()->setFlashdata('mensaje', 'Los datos se guardaron con exito');
+        session()->setFlashdata('mensaje', 'El vehiculo se desEstaciono correctamente');
         return redirect()->to(base_url('/home'));
 
 

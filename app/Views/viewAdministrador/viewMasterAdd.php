@@ -157,7 +157,7 @@
                                 <div class="col text-center">
                                     <button type="submit" class="btn btn-flat mb-1 btn-primary">Confirmar</button>
 
-                                    <a href="<?= base_url("administrador/listadoUsuarios") ?>"
+                                    <a href="<?= base_url() ?>"
                                        class="btn btn-flat mb-1 btn-secondary"> Cancelar</a>
                                 </div>
                             </div>

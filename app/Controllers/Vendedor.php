@@ -88,13 +88,7 @@ class Vendedor extends BaseController
         return view('viewVendedor/viewMasterListadoVentas', $data);
     }
 
-    private function esVendedor()
-    {
-        if (session('rol') === '2') {
-            return true;
-        }
-        return false;
-    }
+
 
     public function estacionar()
     {
@@ -178,7 +172,7 @@ class Vendedor extends BaseController
             $ventaModel = new VentaModel();
             $ventaModel->save($infoVenta);
 
-            session()->setFlashdata('mensaje', 'Los datos se guardaron con exito');
+            session()->setFlashdata('mensaje', 'El vehiculo se estaciono correctamente');
             return redirect()->to(base_url('/home'));
 
         } else {
@@ -189,7 +183,13 @@ class Vendedor extends BaseController
                 ->withInput();
         }
     }
-
+    private function esVendedor()
+    {
+        if (session('rol') === '2') {
+            return true;
+        }
+        return false;
+    }
     private function esFechaValidaParaEstacionar($fecha, $inicio, $fin): bool
     {
         $horaInicio = explode(':', $inicio);
