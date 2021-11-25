@@ -1,4 +1,4 @@
-<?= $this->extend("templates/master")?>
+<?= $this->extend("templates/master") ?>
 
 <?= $this->section('titulo') ?>
     Estacionar
@@ -45,18 +45,18 @@
                                             <select class="form-control" name="dominio_vehiculo">
 
                                                 <option disabled selected=inicial>Vehiculos bajo dominio:</option>
-                                                <?php if(!empty($dominio)):?>
-                                                <?php foreach ($dominio as $d) : ?>
+                                                <?php if (!empty($dominio)): ?>
+                                                    <?php foreach ($dominio as $d) : ?>
 
-                                                    <option value=<?= $d['id']; ?>>
-                                                        <?= $d['vehiculo_patente']; ?>
-                                                        --> <?= $d['vehiculo_marca_nombre']; ?>
-                                                        , <?= $d['vehiculo_modelo_nombre']; ?>
-                                                    </option>
+                                                        <option value=<?= $d['id']; ?>>
+                                                            <?= $d['vehiculo_patente']; ?>
+                                                            --> <?= $d['vehiculo_marca_nombre']; ?>
+                                                            , <?= $d['vehiculo_modelo_nombre']; ?>
+                                                        </option>
 
-                                                <?php endforeach; ?>
+                                                    <?php endforeach; ?>
                                                 <?php else: ?>
-                                                Todos sus vehiculos estan estacionados
+                                                    Todos sus vehiculos estan estacionados
                                                 <?php endif ?>
                                             </select>
                                             <p style="color: rgb(232,74,103)"> <?= session('dominio_vehiculo') ? 'Debe Completar este campo' : '' ?></p>
@@ -80,7 +80,8 @@
                                         </div>
                                         <div class="form-group">
                                             <a type="button" class="btn btn-primary"
-                                                    href="<?=base_url('cliente/verRegistroVehiculo')?>">Registrar nuevo vehiculo
+                                               href="<?= base_url('cliente/verRegistroVehiculo') ?>">Registrar nuevo
+                                                vehiculo
                                             </a>
 
                                         </div>
@@ -111,6 +112,8 @@
 
                             </li>
 
+
+
                         </ul>
 
                         <div class="card-footer" id="div1">
@@ -120,10 +123,53 @@
                             <div class="row">
 
                                 <div class="col text-center">
+
+
+                                    <div class="form-group">
+                                        <button type="button" data-color="dark" class="btn btn-dark exampleColorModal"
+                                                data-toggle="modal"
+                                                data-target="#exampleModalToolPop">
+                                            Comenzar estadia
+                                        </button>
+
+
+                                        <div class="modal fade modal-dark show" id="exampleModalToolPop" tabindex="-1" role="dialog"
+                                             aria-labelledby="exampleModalToolPopTitle" style="display: none;"
+                                             aria-hidden="true"
+                                             aria-labelledby="exampleModalLabel" aria-modal="true" style="display: block;">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalToolPopTitle">
+                                                            ¿Desea pagar su estacionamiento en este momento?
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">×</span>
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="modal-body">
+                                                        <label class="col col-form-label">Su estadia esta por comenzar!</label>
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-outline-secondary"
+                                                                data-dismiss="modal">Dejar pendiente
+                                                        </button>
+                                                        <a type="submit" class="btn btn-outline-primary">Pagar ahora
+                                                        </a>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <button type="submit" class="btn btn-flat mb-1 btn-primary">Comenzar estadia
                                     </button>
 
-                                    <a href="<?=base_url()?>" class="btn btn-flat mb-1 btn-secondary">Cancelar</a>
+                                    <a href="<?= base_url() ?>" class="btn btn-flat mb-1 btn-secondary">Cancelar</a>
                                 </div>
                             </div>
                         </div>

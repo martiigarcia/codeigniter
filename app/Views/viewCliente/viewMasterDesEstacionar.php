@@ -43,6 +43,48 @@
                                 <div class="col text-center">
                                     <input type="text" name="id_estadia" value="<?= $estadia->id; ?>" hidden=""
                                            class="form-control">
+
+                                    <div class="form-group">
+                                        <button type="button" data-color="dark" class="btn btn-dark exampleColorModal"
+                                                data-toggle="modal"
+                                                data-target="#exampleModalToolPop">
+                                            Finalizar estadia
+                                        </button>
+
+
+                                        <div class="modal fade modal-dark show" id="exampleModalToolPop" tabindex="-1" role="dialog"
+                                             aria-labelledby="exampleModalToolPopTitle" style="display: none;"
+                                             aria-hidden="true"
+                                             aria-labelledby="exampleModalLabel" aria-modal="true" style="display: block;">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalToolPopTitle">
+                                                            ¿Desea pagar su estacionamiento en este momento?
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">×</span>
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="modal-body">
+                                                        <label class="col col-form-label">Su estadia esta por terminar!</label>
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-outline-secondary"
+                                                                data-dismiss="modal">Dejar pendiente
+                                                        </button>
+                                                        <a type="submit" class="btn btn-outline-primary">Pagar ahora
+                                                        </a>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <button type="submit" class="btn btn-flat mb-1 btn-primary">Finalizar estadia
                                     </button>
 
