@@ -135,7 +135,7 @@ class Cliente extends BaseController
                     }
                 }
             }
-                $i++;
+            $i++;
 
         }
 
@@ -215,8 +215,8 @@ class Cliente extends BaseController
                 }
 
             }
-            if ($fechaInicio>=$fechaFin){
-                return redirect()->back()->with('errorDeCantidadDeHoras','(La hora seleccionada debe ser mayor a la actual)')
+            if ($fechaInicio >= $fechaFin) {
+                return redirect()->back()->with('errorDeCantidadDeHoras', '(La hora seleccionada debe ser mayor a la actual)')
                     ->withInput();
             }
             $estadiaData = [
@@ -382,5 +382,9 @@ class Cliente extends BaseController
         return null;
     }
 
+    private function consultarVehiculo()
+    {
+        echo('consultar vehiculo');
+    }
 
 }

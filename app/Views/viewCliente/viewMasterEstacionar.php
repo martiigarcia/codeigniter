@@ -153,7 +153,7 @@
                                                         <label class="col col-form-label">Su estadia esta por comenzar!</label>
 
                                                     </div>
-                                                    <div class="modal-footer">
+                                                    <div class="modal-footer" style="display: initial">
                                                         <button type="button" class="btn btn-outline-secondary"
                                                                 data-dismiss="modal">Dejar pendiente
                                                         </button>
