@@ -6,7 +6,6 @@ use App\Models\EstadiaModel;
 use App\Models\RolModel;
 use App\Models\UserModel;
 use DateTime;
-use function Sodium\add;
 
 class Administrador extends BaseController
 {
@@ -171,7 +170,6 @@ class Administrador extends BaseController
         }
     }
 
-
     private function esAdministrador()
     {
         if (session('rol') === '1') {
@@ -180,7 +178,6 @@ class Administrador extends BaseController
         return false;
     }
 
-    //funcionalidad del adminsitrador
     public function verListadoVehiculosEstacionados()
     {
         if (!$this->esAdministrador()) {
@@ -193,14 +190,14 @@ class Administrador extends BaseController
         $estadiaModel = new EstadiaModel();
 
         $data['estadias_activas'] = $estadiaModel->estadiasActivas();
-        $cantidadDeHoras[]=null;
-        $i=0;
-        foreach ($data['estadias_activas'] as $infoEstadia){
-            $cantidadDeHoras[$i]=$this->calcularHoras($infoEstadia['fecha_inicio'],$infoEstadia['fecha_fin']);
+        $cantidadDeHoras[] = null;
+        $i = 0;
+        foreach ($data['estadias_activas'] as $infoEstadia) {
+            $cantidadDeHoras[$i] = $this->calcularHoras($infoEstadia['fecha_inicio'], $infoEstadia['fecha_fin']);
             $i++;
         }
 
-        $data['cantidad_horas']=$cantidadDeHoras;
+        $data['cantidad_horas'] = $cantidadDeHoras;
 
         return view('viewAdministrador/viewMasterListadoVehiculosEstacionados', $data);
     }
@@ -251,13 +248,28 @@ class Administrador extends BaseController
             return redirect()->back()->withInput();
         }
     }
-    private function calcularHoras($fecha_inicio,$fecha_fin):String{
-       $fechaDeInicio=new DateTime($fecha_inicio);
-        $fechaDeFin=new DateTime($fecha_fin);
 
-        $diferenciaDeHoras=$fechaDeInicio->diff($fechaDeFin);
-        $hora=$diferenciaDeHoras->h.':'.$diferenciaDeHoras->i.':'.$diferenciaDeHoras->s;
+    private function calcularHoras($fecha_inicio, $fecha_fin): string
+    {
+        $fechaDeInicio = new DateTime($fecha_inicio);
+        $fechaDeFin = new DateTime($fecha_fin);
+
+        $diferenciaDeHoras = $fechaDeInicio->diff($fechaDeFin);
+        $hora = $diferenciaDeHoras->h . ':' . $diferenciaDeHoras->i . ':' . $diferenciaDeHoras->s;
 
         return $hora;
+    }
+
+    public function verListadoInfracciones()
+    {
+        if (!$this->esAdministrador()) {
+            return redirect()->to(base_url());
+        }
+
+        $userModel = new UserModel();
+        $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
+
+
+        return view('viewAdministrador/viewMasterListadoInfracciones', $data);
     }
 }
