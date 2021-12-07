@@ -92,7 +92,7 @@
 <script>
     function mensajeEliminado(usuarioId, usuarioActual) {
 
-        console.log(usuarioId);
+
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-success',

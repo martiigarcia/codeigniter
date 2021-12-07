@@ -15,7 +15,7 @@ class EstadiaModel extends Model
     protected $useSoftDeletes = false;
 
     protected $allowedFields = ['id', 'estado', 'duracion_definida', 'cantidad_horas', 
-    'fecha_inicio', 'fecha_fin', 'pago_pendiente', 'monto', 'id_dominio_vehiculo', 'id_zona'];
+    'fecha_inicio', 'fecha_fin', 'pago_pendiente', 'monto', 'id_dominio_vehiculo', 'id_historial_zona'];
 
     protected $useTimestamps = false;
     protected $createdField  = 'created_at';
@@ -23,16 +23,16 @@ class EstadiaModel extends Model
     protected $deletedField  = 'deleted_at';
     protected $skipValidation     = false;
 
-
-    public function buscarPorDominio($id_dominio,$id_zona,$fecha_inicio){
-        return $this
-            ->select('estadias.*,')
-            ->where('id_dominio_vehiculo',$id_dominio )
-            ->where('id_zona',$id_zona)
-            ->where('fecha_inicio',$fecha_inicio)
-            ->get()
-            ->getFirstRow();
-    }
+//  ver si esta funcion se usa en alguna parte
+//    public function buscarPorDominio($id_dominio,$id_zona,$fecha_inicio){
+//        return $this
+//            ->select('estadias.*,')
+//            ->where('id_dominio_vehiculo',$id_dominio )
+//            ->where('id_zona',$id_zona)
+//            ->where('fecha_inicio',$fecha_inicio)
+//            ->get()
+//            ->getFirstRow();
+//    }
 
     public function buscarPorDominioId($id_dominio){
         return $this
@@ -53,7 +53,7 @@ class EstadiaModel extends Model
                 ->join('dominio_vehiculo', 'dominio_vehiculo.id = estadias.id_dominio_vehiculo')
                 ->join('usuarios', 'usuarios.id = dominio_vehiculo.id_usuario')
                 ->where('id_usuario', $id_usuario)
-                ->where('estado',true) 
+                ->where('estadias.estado',true)
                 ->where('duracion_definida', false)
                ->get()->getFirstRow();
     }
@@ -71,7 +71,12 @@ class EstadiaModel extends Model
                 modelos.nombre vehiculo_modelo_nombre,
                 
                 usuarios.id id_usuario,
-
+                
+                historial_zonas.comienzo historia_comienzo,
+                historial_zonas.final historia_final,
+                historial_zonas.precio historia_precio,
+                historial_zonas.estado historia_estado,
+                
                 zonas.id zona_id,
                 zonas.nombre zona_nombre,
                 zonas.descripcion zona_descripcion')
@@ -81,10 +86,11 @@ class EstadiaModel extends Model
                 ->join('vehiculos', 'vehiculos.id = dominio_vehiculo.id_vehiculo')
                 ->join('marcas', 'marcas.id = vehiculos.marca')
                 ->join('modelos', 'modelos.id = vehiculos.modelo')
-                ->join('zonas', 'zonas.id = estadias.id_zona')
+                ->join('historial_zonas', 'historial_zonas.id = estadias.id_historial_zona')
+                ->join('zonas', 'zonas.id = historial_zonas.id_zona')
                 
                 ->where('id_usuario', $id_usuario)
-                ->where('estado',false) 
+                ->where('estadias.estado',false)
                 ->where('pago_pendiente', true)
                 
                ->get()->getResultArray();
@@ -102,6 +108,11 @@ class EstadiaModel extends Model
                 modelos.nombre vehiculo_modelo_nombre,
 
                 usuarios.id id_usuario,
+                
+                  historial_zonas.comienzo historia_comienzo,
+                historial_zonas.final historia_final,
+                historial_zonas.precio historia_precio,
+                historial_zonas.estado historia_estado,
 
                 zonas.id zona_id,
                 zonas.nombre zona_nombre,
@@ -112,8 +123,8 @@ class EstadiaModel extends Model
                 ->join('vehiculos', 'vehiculos.id = dominio_vehiculo.id_vehiculo')
                 ->join('marcas', 'marcas.id = vehiculos.marca')
                 ->join('modelos', 'modelos.id = vehiculos.modelo')
-                ->join('zonas', 'zonas.id = estadias.id_zona')
-                
+                ->join('historial_zonas', 'historial_zonas.id = estadias.id_historial_zona')
+                ->join('zonas', 'zonas.id = historial_zonas.id_zona')
 
                 
                ->get()->getResultArray();
@@ -132,6 +143,12 @@ class EstadiaModel extends Model
 
                 usuarios.id id_usuario,
                 usuarios.nombre nombre_usuario,
+                
+                historial_zonas.comienzo historia_comienzo,
+                historial_zonas.final historia_final,
+                historial_zonas.precio historia_precio,
+                historial_zonas.estado historia_estado,
+
 
                 zonas.id zona_id,
                 zonas.nombre zona_nombre,
@@ -142,7 +159,8 @@ class EstadiaModel extends Model
                 ->join('vehiculos', 'vehiculos.id = dominio_vehiculo.id_vehiculo')
                 ->join('marcas', 'marcas.id = vehiculos.marca')
                 ->join('modelos', 'modelos.id = vehiculos.modelo')
-                ->join('zonas', 'zonas.id = estadias.id_zona')
+                ->join('historial_zonas', 'historial_zonas.id = estadias.id_historial_zona')
+                ->join('zonas', 'zonas.id = historial_zonas.id_zona')
                 
                ->get()->getResultArray();
     }
@@ -163,6 +181,11 @@ class EstadiaModel extends Model
                 usuarios.apellido apellido_usuario,
                 usuarios.dni dni_usuario,
 
+                historial_zonas.comienzo historia_comienzo,
+                historial_zonas.final historia_final,
+                historial_zonas.precio historia_precio,
+                historial_zonas.estado historia_estado,
+
                 zonas.id zona_id,
                 zonas.nombre zona_nombre,
                 zonas.descripcion zona_descripcion')
@@ -172,7 +195,8 @@ class EstadiaModel extends Model
                 ->join('vehiculos', 'vehiculos.id = dominio_vehiculo.id_vehiculo')
                 ->join('marcas', 'marcas.id = vehiculos.marca')
                 ->join('modelos', 'modelos.id = vehiculos.modelo')
-                ->join('zonas', 'zonas.id = estadias.id_zona')
+                ->join('historial_zonas', 'historial_zonas.id = estadias.id_historial_zona')
+                ->join('zonas', 'zonas.id = historial_zonas.id_zona')
                 
                 ->find($id);
     }

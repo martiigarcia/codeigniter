@@ -13,7 +13,7 @@ use App\Models\ZonaModel;
 use DateTime;
 
 class Cliente extends BaseController
-{
+{ private $idHistorialZona;
 
     public function verRegistroVehiculo()
     {
@@ -150,6 +150,7 @@ class Cliente extends BaseController
 
     public function estacionar()
     {
+        $this->idHistorialZona=0;
         if (!$this->esCliente()) {
             return redirect()->to(base_url());
         }
@@ -174,19 +175,20 @@ class Cliente extends BaseController
             $infoZonas = $historialZonasModel->obtenerZonas($_POST['id_zona']);
 
             if (sizeof($infoZonas) === 1) {
-                if (!($this->esFechaValidaParaEstacionar($fechaInicio, $infoZonas[0]['comienzo'], $infoZonas[0]['final']))) {
+                if (!($this->esFechaValidaParaEstacionar($fechaInicio, $infoZonas[0]['comienzo'], $infoZonas[0]['final'],$infoZonas[0]['id']))) {
                     return redirect()->back()->with('errorHoraDeInicio', 'Se encuentra fuera del horario de estacionamiento el Horario es de Lunes a Viernes de: '
                         . $infoZonas[0]['comienzo'] . 'hs a ' . $infoZonas[0]['final'] . 'hs')
                         ->withInput();
                 }
             }
 
-            if (!(($this->esFechaValidaParaEstacionar($fechaInicio, $infoZonas[0]['comienzo'], $infoZonas[0]['final'])) ||
-                ($this->esFechaValidaParaEstacionar($fechaInicio, $infoZonas[1]['comienzo'], $infoZonas[1]['final'])))) {
+            if (!(($this->esFechaValidaParaEstacionar($fechaInicio, $infoZonas[0]['comienzo'], $infoZonas[0]['final'],$infoZonas[0]['id'])) ||
+                ($this->esFechaValidaParaEstacionar($fechaInicio, $infoZonas[1]['comienzo'], $infoZonas[1]['final'],$infoZonas[1]['id'])))) {
                 return redirect()->back()->with('errorHoraDeInicio', 'Se encuentra fuera del horario de estacionamiento el Horario es de Lunes a Viernes de: '
                     . $infoZonas[0]['comienzo'] . 'hs a ' . $infoZonas[0]['final'] . 'hs y de ' . $infoZonas[1]['comienzo'] . 'hs a ' . $infoZonas[1]['final'] . 'hs')
                     ->withInput();
             }
+
 
             if (empty($_POST['cantidad_horas'])) {
 
@@ -227,7 +229,7 @@ class Cliente extends BaseController
                 'pago_pendiente' => true, //esto cambiaria cuando se haga la parte de pagar en el estacionar
                 'monto' => 0,
                 'id_dominio_vehiculo' => $_POST['dominio_vehiculo'],
-                'id_zona' => $_POST['id_zona'] //por defecto, cambiar cuando se recuperen las zonas
+                'id_historial_zona' => $this->idHistorialZona
 
             ];
 
@@ -290,7 +292,7 @@ class Cliente extends BaseController
         $data['estadia']['estado'] = false; //cambio el estado a inactiva
         $data['estadia']['duracion_definida'] = true; //cambio la duracion definida a true como definida
 
-        $fechaAcual = (new DateTime())->format('Y-m-d H:i');
+        $fechaAcual = (new DateTime())->format('Y-m-d H:i:s');
         if ($data['estadia']['fecha_fin'] >= $fechaAcual) {
 
             $data['estadia']['fecha_fin'] = $fechaAcual;
@@ -351,7 +353,7 @@ class Cliente extends BaseController
         return false;
     }
 
-    private function esFechaValidaParaEstacionar($fecha, $inicio, $fin): bool
+    private function esFechaValidaParaEstacionar($fecha, $inicio, $fin,$idHistorialZona): bool
     {
         $horaInicio = explode(':', $inicio);
         $horaFin = explode(':', $fin);
@@ -359,13 +361,14 @@ class Cliente extends BaseController
         $fechaFin = (new DateTime())->setTime($horaFin[0], $horaFin[1])->format('Y-m-d H:i:s');
         $fechaActual = (new DateTime())->format('Y-m-d H:i');
 
-        if (($fecha > $fechaActual) && ($fecha <= $fechaFin) && ($fecha >= $fechaInicio) && ($fechaActual >= $fechaInicio)
+        if (($fecha >= $fechaActual) && ($fecha <= $fechaFin) && ($fecha >= $fechaInicio) && ($fechaActual >= $fechaInicio)
             && (strftime('%A') != 'Saturday') && (strftime('%A') != 'Sunday')) {
-
+            $this->idHistorialZona=$idHistorialZona;
             return true;
         }
         return false;
     }
+
 
     private function verificarTurno($fecha, $inicio, $fin): ?string
     {
@@ -384,7 +387,7 @@ class Cliente extends BaseController
 
     private function consultarVehiculo()
     {
-        echo('consultar vehiculo');
+       dd('a');
     }
 
 }

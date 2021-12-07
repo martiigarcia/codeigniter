@@ -35,7 +35,7 @@
 
                                         <?php if (!empty($dominio)): ?>
 
-                                            <form method="POST" action="<?= base_url('cliente/consultaarVehiculo'); ?>">
+                                            <form method="POST" action="<?= base_url('cliente/consultarVehiculo'); ?>">
                                             <a type="button"
                                                data-toggle="modal"
                                                data-target="#consultarModalToolPop">Consultar Vehiculo</a>

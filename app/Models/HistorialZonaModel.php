@@ -14,7 +14,7 @@ class HistorialZonaModel extends Model
     protected $returnType     = 'array';
     protected $useSoftDeletes = false;
 
-    protected $allowedFields = ['id','comienzo', 'final', 'precio', 'id_zona'];
+    protected $allowedFields = ['id','comienzo', 'final', 'precio', 'estado','id_zona'];
 
     protected $useTimestamps = false;
     protected $createdField  = 'created_at';
@@ -26,6 +26,7 @@ class HistorialZonaModel extends Model
         return $this
             ->select('historial_zonas.*')
             ->where('id_zona',$id_zona )
+            ->where('estado',true)
             ->get()->getResultArray();
     }
 
