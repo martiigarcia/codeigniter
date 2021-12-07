@@ -45,6 +45,14 @@ class Home extends BaseController
         }
     }
 
+    public function verPerfil(){
+
+        $userModel = new UserModel();
+        $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
+
+        return view('administrarPerfil', $data);
+    }
+
     public function index()
     {
         $userModel = new UserModel();
@@ -108,4 +116,6 @@ class Home extends BaseController
         }
         return false;
     }
+
+
 }

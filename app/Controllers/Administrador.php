@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\EstadiaModel;
+use App\Models\InfraccionModel;
 use App\Models\RolModel;
 use App\Models\UserModel;
 use DateTime;
@@ -269,7 +270,35 @@ class Administrador extends BaseController
         $userModel = new UserModel();
         $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
 
+        $infraccionesModel = new InfraccionModel();
+        $data['infracciones'] = $infraccionesModel->obtenerTodos();
 
         return view('viewAdministrador/viewMasterListadoInfracciones', $data);
+    }
+
+    public function verModificarCostoZona()
+    {
+        if (!$this->esAdministrador()) {
+            return redirect()->to(base_url());
+        }
+
+        $userModel = new UserModel();
+        $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
+
+
+
+        return view('viewAdministrador/viewMasterModificarCostoZona', $data);
+    }
+
+    public function verModificarHorarioZona()
+    {
+        if (!$this->esAdministrador()) {
+            return redirect()->to(base_url());
+        }
+
+        $userModel = new UserModel();
+        $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
+
+        return view('viewAdministrador/viewMasterModificarHorarioZona', $data);
     }
 }
