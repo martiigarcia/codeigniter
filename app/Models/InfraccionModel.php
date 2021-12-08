@@ -14,7 +14,7 @@ class InfraccionModel extends Model
     protected $returnType = 'array';
     protected $useSoftDeletes = false;
 
-    protected $allowedFields = ['id', 'dia_hora', 'calle', 'id_dominio_vehiculo', 'id_estadia'];
+    protected $allowedFields = ['id', 'dia_hora', 'calle', 'id_estadia'];
 
     protected $useTimestamps = false;
     protected $createdField = 'created_at';

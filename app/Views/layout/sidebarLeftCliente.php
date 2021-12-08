@@ -35,74 +35,73 @@
 
                                         <?php if (!empty($dominio)): ?>
 
-                                            <form method="POST" action="<?= base_url('cliente/consultarVehiculo'); ?>">
+
                                             <a type="button"
                                                data-toggle="modal"
                                                data-target="#consultarModalToolPop">Consultar Vehiculo</a>
 
+                                            <form method="POST" action="<?= base_url('cliente/consultarVehiculo'); ?>">
+                                                <div class="modal fade modal-dark show" id="consultarModalToolPop"
+                                                     tabindex="-1" role="dialog"
+                                                     aria-labelledby="exampleModalToolPopTitle" style="display: none;"
+                                                     aria-hidden="true"
+                                                     aria-labelledby="exampleModalLabel" aria-modal="true"
+                                                     style="display: block;">
 
-                                            <div class="modal fade modal-dark show" id="consultarModalToolPop"
-                                                 tabindex="-1" role="dialog"
-                                                 aria-labelledby="exampleModalToolPopTitle" style="display: none;"
-                                                 aria-hidden="true"
-                                                 aria-labelledby="exampleModalLabel" aria-modal="true"
-                                                 style="display: block;">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
 
-                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
 
-                                                    <div class="modal-content">
-
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalToolPopTitle">
-                                                                Ingrese la patente del vehiculo a consultar
-                                                            </h5>
-                                                            <button type="button" class="close" data-dismiss="modal"
-                                                                    aria-label="Close">
-                                                                <span aria-hidden="true">×</span>
-                                                            </button>
-                                                        </div>
-
-                                                        <div class="modal-body">
-
-                                                            <div class="input-group-prepend">
-
-                                                                <input type="text" name="patente"
-                                                                       class="form-control"
-                                                                       placeholder="Patente">
-
-
-                                                                <button type="submit"
-                                                                        class="btn btn-outline-lemon"
-                                                                        data-dismiss="modal"
-                                                                        data-bs-toggle="tooltip"
-                                                                        data-bs-placement="top"
-                                                                        title="Buscar vehiculo">
-
-                                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                                         width="16"
-                                                                         height="16" fill="currentColor"
-                                                                         class="bi bi-search" viewBox="0 0 16 16">
-                                                                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                                                                    </svg>
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalToolPopTitle">
+                                                                    Ingrese la patente del vehiculo a consultar
+                                                                </h5>
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                    <span aria-hidden="true">×</span>
                                                                 </button>
+                                                            </div>
 
+                                                            <div class="modal-body">
+
+                                                                <div class="input-group-prepend">
+
+                                                                    <input type="text" name="patente"
+                                                                           class="form-control"
+                                                                           placeholder="Patente">
+
+
+                                                                    <button type="submit"
+                                                                            class="btn btn-outline-lemon"
+                                                                            data-bs-toggle="tooltip"
+                                                                            data-bs-placement="top"
+                                                                            title="Buscar vehiculo">
+
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                             width="16"
+                                                                             height="16" fill="currentColor"
+                                                                             class="bi bi-search" viewBox="0 0 16 16">
+                                                                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                                                                        </svg>
+                                                                    </button>
+
+
+                                                                </div>
+
+                                                            </div>
+
+
+                                                            <div class="modal-footer" style="display: initial">
+                                                                <h6>Ingrese la patente en los siguientes formatos
+                                                                    posibles:<br>→ AAA-000<br>→ AA-000-AA<br>→ A-000-AAA<br>(Sin
+                                                                    espacios ni guiones)</h6>
+                                                                <p style="color: rgb(232,74,103)"> <?= session('patente'); ?></p>
 
                                                             </div>
 
                                                         </div>
-
-
-                                                        <div class="modal-footer" style="display: initial">
-                                                            <h6>Ingrese la patente en los siguientes formatos
-                                                                posibles:<br>→ AAA-000<br>→ AA-000-AA<br>→ A-000-AAA<br>(Sin
-                                                                espacios ni guiones)</h6>
-                                                            <p style="color: rgb(232,74,103)"> <?= session('patente'); ?></p>
-
-                                                        </div>
-
                                                     </div>
                                                 </div>
-                                            </div>
 
                                             </form>
 

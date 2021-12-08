@@ -385,9 +385,9 @@ class Cliente extends BaseController
         return null;
     }
 
-    private function consultarVehiculo()
+    public function consultarVehiculo()
     {
-       dd('a');
+        dd($_POST['patente']);
     }
 
 }
