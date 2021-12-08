@@ -35,12 +35,12 @@
 
                                         <?php if (!empty($dominio)): ?>
 
-                                            <form method="POST" action="<?= base_url('cliente/consultarVehiculo'); ?>">
+
                                             <a type="button"
                                                data-toggle="modal"
                                                data-target="#consultarModalToolPop">Consultar Vehiculo</a>
 
-
+                                            <form method="POST" action="<?= base_url('cliente/consultarVehiculo'); ?>">
                                             <div class="modal fade modal-dark show" id="consultarModalToolPop"
                                                  tabindex="-1" role="dialog"
                                                  aria-labelledby="exampleModalToolPopTitle" style="display: none;"
@@ -73,7 +73,6 @@
 
                                                                 <button type="submit"
                                                                         class="btn btn-outline-lemon"
-                                                                        data-dismiss="modal"
                                                                         data-bs-toggle="tooltip"
                                                                         data-bs-placement="top"
                                                                         title="Buscar vehiculo">
