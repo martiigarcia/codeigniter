@@ -14,7 +14,7 @@ class InfraccionModel extends Model
     protected $returnType = 'array';
     protected $useSoftDeletes = false;
 
-    protected $allowedFields = ['id', 'dia_hora', 'calle','altura', 'id_dominio_vehiculo', 'id_zona'];
+    protected $allowedFields = ['id', 'dia_hora', 'calle','altura', 'id_dominio_vehiculo', 'id_historial_zona'];
 
     protected $useTimestamps = false;
     protected $createdField = 'created_at';
@@ -49,7 +49,7 @@ class InfraccionModel extends Model
             ->join('marcas', 'marcas.id = vehiculos.marca')
             ->join('modelos', 'modelos.id = vehiculos.modelo')
             ->join('usuarios', 'usuarios.id = dominio_vehiculo.id_usuario')
-            ->join('historial_zonas', 'historial_zonas.id = infracciones.id_zona')
+            ->join('historial_zonas', 'historial_zonas.id = infracciones.id_historial_zona')
             ->join('zonas', 'zonas.id = historial_zonas.id_zona')
 
             ->get()->getResultArray();
@@ -84,7 +84,7 @@ class InfraccionModel extends Model
             ->join('marcas', 'marcas.id = vehiculos.marca')
             ->join('modelos', 'modelos.id = vehiculos.modelo')
             ->join('usuarios', 'usuarios.id = dominio_vehiculo.id_usuario')
-            ->join('historial_zonas', 'historial_zonas.id = infracciones.id_zona')
+            ->join('historial_zonas', 'historial_zonas.id = infracciones.id_historial_zona')
             ->join('zonas', 'zonas.id = historial_zonas.id_zona')
 
             ->where('infracciones.id_dominio_vehiculo', $dominio)

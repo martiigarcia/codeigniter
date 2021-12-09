@@ -76,6 +76,7 @@
 <script src="<?= base_url("asserts/js/registroVehiculos.js") ?>"></script>
 <script src="<?= base_url("asserts/js/modificacionDeZonas.js") ?>"></script>
 <script src="<?= base_url("asserts/js/emergente.js") ?>"></script>
+<script src="<?= base_url("asserts/js/estadoEstadiaVehiculo.js") ?>"></script>
 
 
 <script>
@@ -179,7 +180,6 @@
         return new bootstrap.Tooltip(tooltipTriggerEl)
     })
 </script>
-
 
 </body>
 

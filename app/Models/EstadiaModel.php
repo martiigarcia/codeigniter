@@ -58,7 +58,6 @@ class EstadiaModel extends Model
                 zonas.id zona_id,
                 zonas.nombre zona_nombre,
                 zonas.descripcion zona_descripcion')
-
             ->join('dominio_vehiculo', 'dominio_vehiculo.id = estadias.id_dominio_vehiculo')
             ->join('usuarios', 'usuarios.id = dominio_vehiculo.id_usuario')
             ->join('vehiculos', 'vehiculos.id = dominio_vehiculo.id_vehiculo')
@@ -66,7 +65,6 @@ class EstadiaModel extends Model
             ->join('modelos', 'modelos.id = vehiculos.modelo')
             ->join('historial_zonas', 'historial_zonas.id = estadias.id_historial_zona')
             ->join('zonas', 'zonas.id = historial_zonas.id_zona')
-
             ->where('id_dominio_vehiculo', $id_dominio)
             ->get()->getResultArray();
     }
@@ -150,6 +148,7 @@ class EstadiaModel extends Model
             ->join('modelos', 'modelos.id = vehiculos.modelo')
             ->join('historial_zonas', 'historial_zonas.id = estadias.id_historial_zona')
             ->join('zonas', 'zonas.id = historial_zonas.id_zona')
+            ->where('estadias.estado', true)
             ->get()->getResultArray();
     }
 
@@ -218,6 +217,40 @@ class EstadiaModel extends Model
             ->join('historial_zonas', 'historial_zonas.id = estadias.id_historial_zona')
             ->join('zonas', 'zonas.id = historial_zonas.id_zona')
             ->find($id);
+    }
+
+
+    public function estadiasActivasPorDominioId($id_dominio)
+    {
+        return $this
+            ->select('estadias.*,
+                dominio_vehiculo.id dominio_vehiculo_id,
+
+                vehiculos.id vehiculo_id, 
+                vehiculos.patente vehiculo_patente, 
+                marcas.nombre vehiculo_marca_nombre,
+                modelos.nombre vehiculo_modelo_nombre,
+
+                usuarios.id id_usuario,
+                
+                historial_zonas.comienzo historia_comienzo,
+                historial_zonas.final historia_final,
+                historial_zonas.precio historia_precio,
+                historial_zonas.estado historia_estado,
+
+                zonas.id zona_id,
+                zonas.nombre zona_nombre,
+                zonas.descripcion zona_descripcion')
+            ->join('dominio_vehiculo', 'dominio_vehiculo.id = estadias.id_dominio_vehiculo')
+            ->join('usuarios', 'usuarios.id = dominio_vehiculo.id_usuario')
+            ->join('vehiculos', 'vehiculos.id = dominio_vehiculo.id_vehiculo')
+            ->join('marcas', 'marcas.id = vehiculos.marca')
+            ->join('modelos', 'modelos.id = vehiculos.modelo')
+            ->join('historial_zonas', 'historial_zonas.id = estadias.id_historial_zona')
+            ->join('zonas', 'zonas.id = historial_zonas.id_zona')
+            ->where('dominio_vehiculo.id', $id_dominio)
+            ->where('estadias.estado', true)
+            ->get()->getResultArray();
     }
 
 }

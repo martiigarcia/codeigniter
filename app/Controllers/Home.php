@@ -66,6 +66,10 @@ class Home extends BaseController
             return view('viewVendedor/viewMaster', $data);
         }
         if ($this->esInspector()) {
+
+            $dominioVehiculoModel = new DominioVehiculoModel();
+            $data['dominiosTotales'] = $dominioVehiculoModel->obtenerTodos();
+
             return view('viewInspector/viewMaster', $data);
         }
         if ($this->esCliente()) {

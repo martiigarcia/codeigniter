@@ -13,7 +13,7 @@
             <div class="col-lg-9">
 
                 <div class="card mb-3">
-                    <form method="POST" action="<?= base_url('inspector/registrarInfraccion'); ?>">
+                    <form method="POST" action="<?= base_url('inspector/registrarInfraccion/'); ?>">
                         <div class="card-header uppercase">
                             <div class="caption">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"
@@ -40,6 +40,8 @@
                                         vehiculo en infraccion</label>
                                     <div class="col-md-10">
                                         <div class="input-group">
+                                            <input type="text" name="dominio" value="<?= $dominio; ?>" hidden=""
+                                                   class="form-control">
 
                                             <input type="text" name="calle" class="form-control"
                                                    placeholder="Nombre de la calle"
@@ -61,12 +63,12 @@
                                 <li class="list-group-item">
                                     <div class="form-group row">
 
-                                        <div class="col">
+                                        <div class="col-md-10">
                                             <div class="form-group">
                                                 <label class="col-md-3 col-form-label">Zona</label>
 
                                                 <select class="form-control" id="idZona" name="id_zona"
-                                                        onchange="cargarZonasParaMultas()">
+                                                        onchange="cargarHorasZonasParaMultas()">
 
                                                     <option disabled selected=inicial>Zonas:</option>
                                                     <?php foreach ($zonas as $zona) : ?>
