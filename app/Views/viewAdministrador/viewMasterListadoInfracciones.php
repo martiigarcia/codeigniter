@@ -19,10 +19,9 @@
                         <th>Patente del vehiculo</th>
                         <th>Propietario en infraccion</th>
                         <th>Calle</th>
-                        <th>Zona</th>
+                        <th>Altura</th>
                         <th>Fecha</th>
-                        <th>Monto</th>
-                        <th>Estado de pago</th>
+                        <th>Zona</th>
 
                     </tr>
                     </thead>
@@ -33,10 +32,10 @@
                             <td><?= $infraccion['vehiculo_patente']; ?></td>
                             <td><?= $infraccion['usuario_nombre']; ?> <?= $infraccion['usuario_apellido']; ?></td>
                             <td><?= $infraccion['calle']; ?></td>
-                            <td><?= $infraccion['zona_nombre']; ?></td>
+                            <td><?= $infraccion['altura']; ?></td>
                             <td><?= $infraccion['dia_hora']; ?></td>
-                            <td><?= $infraccion['estadia_monto']; ?> </td>
-                            <td><?= $infraccion['estadia_pago_pendiente'] == 0 ? "PAGO" : "PAGO PENDIENTE"; ?> </td>
+                            <td><?= $infraccion['zona_nombre']; ?></td>
+
 
                         </tr>
 

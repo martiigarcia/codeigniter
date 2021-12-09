@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\EstadiaModel;
 use App\Models\InfraccionModel;
 use App\Models\UserModel;
+use App\Models\ZonaModel;
 use DateTime;
 
 class Inspector extends BaseController
@@ -55,11 +56,10 @@ class Inspector extends BaseController
         $userModel = new UserModel();
         $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
 
-        $estadiaModel = new EstadiaModel();
+        $zonaModel = new ZonaModel();
 
-        //dd($data);
 
-        $data['estadias'] = $estadiaModel->obtenerTodas();
+        $data['zonas'] = $zonaModel->findAll();
 
         return view('viewInspector/viewMasterRegistrarInfraccion', $data);
     }
@@ -71,7 +71,8 @@ class Inspector extends BaseController
         }
 
         $validacion = $this->validate([
-            'calle' => 'required'
+            'calle' => 'required',
+            'altura' => 'required'
         ]);
 
         if ($validacion) {
@@ -82,6 +83,7 @@ class Inspector extends BaseController
             $data = [
                 'dia_hora' => $fechaInicio,
                 'calle' => $_POST['calle'],
+                'altura' => $_POST['altura'],
                 'id_estadia' => 106
             ];
             $infraccionModel->save($data);
@@ -98,6 +100,17 @@ class Inspector extends BaseController
 
         }
 
+
+    }
+
+    public function obtenerHistoralZona($idZona)
+    {
+        if (!$this->esInspector()) {
+            return redirect()->to(base_url());
+        }
+
+        $historalZonaModel = new HistorialZonaModel();
+        return json_encode($historalZonaModel->obtenerZonas($idZona));
 
     }
 

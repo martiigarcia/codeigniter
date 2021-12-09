@@ -180,12 +180,7 @@
     })
 </script>
 
-<script>
-    function buscarVehiculo(patente) {
-        patenteee = $("#patente").val();
-        window.location.href = "<?= base_url('cliente/consultarVehiculo') ?>/"+patenteee;
-    }
-</script>
+
 </body>
 
 </html>
