@@ -1,4 +1,4 @@
-<?= $this->extend("templates/master")?>
+<?= $this->extend("templates/master") ?>
 
 <?= $this->section('titulo') ?>
     Modificar costo de zona
@@ -9,7 +9,7 @@
         <h3>Modificar costo de zona</h3>
 
         <div class="card mb-3">
-            <form method="POST" action="<?= base_url('administrador/modificarHorarioZona'); ?>">
+            <form method="POST" action="<?= base_url('administrador/modificarPrecioZona'); ?>">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                         <div class="form-group row">
@@ -18,7 +18,8 @@
                                 <div class="form-group">
                                     <label class="col-md-3 col-form-label">Zona</label>
 
-                                    <select class="form-control" id="idZona" name="id_zona" onchange="cargarHoraYPrecioZonas()">
+                                    <select class="form-control" id="idZona" name="id_zona"
+                                            onchange="cargarHoraYPrecioZonas()">
 
                                         <option disabled selected=inicial>Zonas:</option>
                                         <?php foreach ($zonas as $zona) : ?>
@@ -49,24 +50,17 @@
                         <p style="color: rgb(232,74,103)"> <?= session('errorDeCantidadDeHoras'); ?></p>
                         <button class="btn btn-flat mb-1 btn-primary" type="button" data-toggle="collapse"
                                 data-target="#desplegable" aria-expanded="false" aria-controls="desplegable">
-                            Modificar Horario
+                            Modificar Precio
                         </button>
 
-                        <div class="collapse" id="desplegable">
+                        <div <?= session('precio')? '':'class="collapse"';?> id="desplegable">
 
 
                             <div class="form-group row">
-                                <label class="col-md-3 col-form-label">Inicio del Horario</label>
+                                <label class="col-md-3 col-form-label">Nuevo precio</label>
                                 <div class="col">
-                                    <input type="time" name="hora_inicio" class="form-control">
-                                    <p style="color: rgb(232,74,103)"> <?= session('hora_inicio') ? 'Debe Completar este campo' : ''; ?></p>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 col-form-label">Finalizacion del horas</label>
-                                <div class="col">
-                                    <input type="time" name="hora_fin" class="form-control">
-                                    <p style="color: rgb(232,74,103)"> <?= session('hora_fin') ? 'Debe Completar este campo' : ''; ?></p>
+                                    <input type="number" step="0.01" name="precio" class="form-control">
+                                    <p style="color: rgb(232,74,103)"> <?= session('precio') ? 'Debe Completar este campo' : ''; ?></p>
                                 </div>
                             </div>
                         </div>
@@ -80,14 +74,12 @@
 
                         <div class="col text-center">
                             <p style="color: rgb(232,74,103)"> <?= session('mensaje'); ?></p>
-                            <p style="color: rgb(232,74,103)"> <?= session('errorDeHora') ; ?></p>
+                            <p style="color: rgb(232,74,103)"> <?= session('errorDeHora'); ?></p>
                             <button type="submit" class="btn btn-flat mb-1 btn-primary">Confirmar</button>
-
                         </div>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-    <p style="color: rgb(0,155,125)"> <?= session('mensaje'); ?></p>
 <?= $this->endSection() ?>
