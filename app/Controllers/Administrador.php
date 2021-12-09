@@ -9,7 +9,6 @@ use App\Models\RolModel;
 use App\Models\UserModel;
 use App\Models\ZonaModel;
 use DateTime;
-use PhpParser\Node\Scalar\String_;
 
 class Administrador extends BaseController
 {
@@ -338,13 +337,14 @@ class Administrador extends BaseController
             $zonaModel = new ZonaModel();
             $historialZonaModel = new HistorialZonaModel();
             $zonaModel = $zonaModel->find($_POST['id_zona']);
+            $historialZonaSigTurno = $historialZonaModel->obtenerSiguienteTurno($_POST['id_zona'], $_POST['historial_zona']);
+            $hZonaActual = $historialZonaModel->find($_POST['historial_zona']);
 
-            $nuevoHistorialZona = $historialZonaModel->find($_POST['historial_zona']);
-            //validar horarios
-            //cambiar estado viejo
-            //crear nuevo hz
-            //act descrip zona
-
+            if (!$this->verificarTurno($hZonaActual, $historialZonaSigTurno, $_POST['hora_inicio'], $_POST['hora_fin'])) {
+                return redirect()->back()->with('errorDeHora',
+                    'La hora de inicio tiene que ser mayor a la hora de finalizacion y la hora actual. Los horarios de los turnos no se pueden superponer')
+                    ->withInput();
+            }
 
             $estado = [
                 'estado' => false
@@ -353,11 +353,12 @@ class Administrador extends BaseController
             $data = [
                 'comienzo' => $_POST['hora_inicio'],
                 'final' => $_POST['hora_fin'],
-                'precio' => $nuevoHistorialZona['precio'],
+                'precio' => $hZonaActual['precio'],
                 'estado' => true,
-                'id_zona' => $nuevoHistorialZona['id_zona']
+                'id_zona' => $hZonaActual['id_zona']
             ];
             $historialZonaModel->insert($data);
+            return redirect()->to(base_url());
         } else {
 
             $error = $this->validator->getErrors();
@@ -367,49 +368,50 @@ class Administrador extends BaseController
 
     }
 
-    private function validarHoraActuatPrimerTurno($inicio,$fin,$finTurnoSiguiente):bool
+
+
+    private function verificarTurno($hZonaActual, $hZonaSiguiente, $inicio, $fin)
     {
-        $horaInicio = explode(':', $inicio);
-        $horaFin = explode(':', $fin);
-        $horaFinSigTurno=explode(':', $finTurnoSiguiente);
-        $fechaInicio = (new DateTime())->setTime($horaInicio[0], $horaInicio[1])->format('Y-m-d H:i:s');
-        $fechaFin = (new DateTime())->setTime($horaFin[0], $horaFin[1])->format('Y-m-d H:i:s');
-        $fechaFinSigTurno = (new DateTime())->setTime($horaFinSigTurno[0], $horaFinSigTurno[1])->format('Y-m-d H:i:s');
+        $horaFinHZActual = explode(':', $hZonaActual['final']);
 
-        $fechaActual = (new DateTime())->format('Y-m-d H:i');
+        $comienzo = explode(':', $inicio);
+        $final = explode(':', $fin);
 
-        if (($fechaInicio >= $fechaActual) && ($fechaInicio < $fechaFin) && ($fechaFin <= $fechaFinSigTurno)
-            && (strftime('%A') != 'Saturday') && (strftime('%A') != 'Sunday')) {
+        $fechaInicio = (new DateTime())->setTime($comienzo[0], $comienzo[1])->format('Y-m-d H:i:s');
+        $fechaFin = (new DateTime())->setTime($final[0], $final[1])->format('Y-m-d H:i:s');
 
-            return true;
+        if (!empty($hZonaSiguiente)) {
+            $horaInicioHZSiguiente = explode(':', $hZonaSiguiente['comienzo']);
+
+            if ($horaFinHZActual < $horaInicioHZSiguiente) {
+                $fechaInicioSigTurno = (new DateTime())->setTime($horaInicioHZSiguiente[0], $horaInicioHZSiguiente[1])->format('Y-m-d H:i:s');
+
+                if ( ($fechaInicio < $fechaFin) &&
+                    ($fechaFin < $fechaInicioSigTurno) &&
+                    (strftime('%A') != 'Saturday') &&
+                    (strftime('%A') != 'Sunday')) {
+
+                    return true;
+                }
+
+                return false;
+            } else {
+                $fechaFinTurnoAnterior = (new DateTime())->setTime($horaFinHZActual[0], $horaFinHZActual[1])->format('Y-m-d H:i:s');
+                if (($fechaInicio < $fechaFin) &&
+                    ($fechaInicio > $fechaFinTurnoAnterior) &&
+                    (strftime('%A') != 'Saturday') &&
+                    (strftime('%A') != 'Sunday')) {
+                    return true;
+                }
+            }
+            return false;
+        } else {
+            if (($fechaInicio < $fechaFin) &&
+                (strftime('%A') != 'Saturday') &&
+                (strftime('%A') != 'Sunday')) {
+                return true;
+            }
+            return false;
         }
-        return false;
-    }
-    private function validarHoraActuatSegundoTurno($inicio,$fin,$finTurnoAnterior):bool
-    {
-        $horaInicio = explode(':', $inicio);
-        $horaFin = explode(':', $fin);
-        $horaFinTurnoAnterior=explode(':', $finTurnoAnterior);
-        $fechaInicio = (new DateTime())->setTime($horaInicio[0], $horaInicio[1])->format('Y-m-d H:i:s');
-        $fechaFin = (new DateTime())->setTime($horaFin[0], $horaFin[1])->format('Y-m-d H:i:s');
-        $fechaFinTurnoAnterior = (new DateTime())->setTime($horaFinTurnoAnterior[0], $horaFinTurnoAnterior[1])->format('Y-m-d H:i:s');
-
-        $fechaActual = (new DateTime())->format('Y-m-d H:i');
-
-        if (($fechaInicio >= $fechaActual) && ($fechaInicio < $fechaFin) && ($fechaFin <= $fechaFinTurnoAnterior)
-            && (strftime('%A') != 'Saturday') && (strftime('%A') != 'Sunday')) {
-
-            return true;
-        }
-        return false;
-    }
-    //saber si es el primer o segundo turno, si da verdadero es el primer turno
-    private function verificarTurno($finTurnoA,$inicioTurnoB){
-        $horaInicioB = explode(':', $inicioTurnoB);
-        $horaFinA = explode(':', $finTurnoA);
-        if($horaFinA<$horaInicioB){
-            return true;
-        }
-        return false;
     }
 }

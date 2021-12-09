@@ -82,6 +82,7 @@
 
                         <div class="col text-center">
                             <p style="color: rgb(232,74,103)"> <?= session('mensaje'); ?></p>
+                            <p style="color: rgb(232,74,103)"> <?= session('errorDeHora') ; ?></p>
                             <button type="submit" class="btn btn-flat mb-1 btn-primary">Confirmar</button>
 
                         </div>
