@@ -335,8 +335,6 @@ class Administrador extends BaseController
 
         ]);
         if ($validacion) {
-
-
             $historialZonaModel = new HistorialZonaModel();
 
             $historialZonaSigTurno = $historialZonaModel->obtenerSiguienteTurno($_POST['id_zona'], $_POST['historial_zona']);
@@ -361,7 +359,8 @@ class Administrador extends BaseController
             ];
             $historialZonaModel->insert($data);
             session()->setFlashdata('mensaje', 'Los datos se guardaron con exito');
-            return redirect()->to(base_url());
+
+            return redirect()->to(base_url('/home'));
         } else {
 
             $error = $this->validator->getErrors();
@@ -371,11 +370,10 @@ class Administrador extends BaseController
 
     }
 
-
-
     private function verificarTurno($hZonaActual, $hZonaSiguiente, $inicio, $fin)
     {
         $horaFinHZActual = explode(':', $hZonaActual['final']);
+
 
         $comienzo = explode(':', $inicio);
         $final = explode(':', $fin);
@@ -385,6 +383,7 @@ class Administrador extends BaseController
 
         if (!empty($hZonaSiguiente)) {
             $horaInicioHZSiguiente = explode(':', $hZonaSiguiente['comienzo']);
+            $horaFinHZSiguiente = explode(':', $hZonaSiguiente['final']);
 
             if ($horaFinHZActual < $horaInicioHZSiguiente) {
                 $fechaInicioSigTurno = (new DateTime())->setTime($horaInicioHZSiguiente[0], $horaInicioHZSiguiente[1])->format('Y-m-d H:i:s');
@@ -399,7 +398,7 @@ class Administrador extends BaseController
 
                 return false;
             } else {
-                $fechaFinTurnoAnterior = (new DateTime())->setTime($horaFinHZActual[0], $horaFinHZActual[1])->format('Y-m-d H:i:s');
+                $fechaFinTurnoAnterior = (new DateTime())->setTime($horaFinHZSiguiente[0], $horaFinHZSiguiente[1])->format('Y-m-d H:i:s');
                 if (($fechaInicio < $fechaFin) &&
                     ($fechaInicio > $fechaFinTurnoAnterior) &&
                     (strftime('%A') != 'Saturday') &&
@@ -417,4 +416,41 @@ class Administrador extends BaseController
             return false;
         }
     }
+
+    public function modificarPrecioZona(){
+        if (!$this->esAdministrador()) {
+            return redirect()->to(base_url());
+        }
+
+        $validacion = $this->validate([
+            'id_zona' => 'required',
+            'historial_zona' => 'required',
+            'precio' => 'required',
+
+        ]);
+        if($validacion){
+            $historialZonaModel = new HistorialZonaModel();
+
+            $hZonaActual = $historialZonaModel->find($_POST['historial_zona']);
+            $estado = [
+                'estado' => false
+            ];
+            $historialZonaModel->update($_POST['historial_zona'], $estado);
+            $data = [
+                'comienzo' => $hZonaActual['comienzo'],
+                'final' => $hZonaActual['final'],
+                'precio' => $_POST['precio'],
+                'estado' => true,
+                'id_zona' => $hZonaActual['id_zona']
+            ];
+            $historialZonaModel->insert($data);
+            session()->setFlashdata('mensaje', 'Los datos se guardaron con exito');
+
+            return redirect()->to(base_url('/home'));
+    }else
+            $error = $this->validator->getErrors();
+
+        session()->setFlashdata($error);
+        return redirect()->back();
+        }
 }

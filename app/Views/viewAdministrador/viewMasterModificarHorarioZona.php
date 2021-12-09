@@ -54,7 +54,7 @@
                             Modificar Horario
                         </button>
 
-                        <div class="collapse" id="desplegable">
+                        <div <?= (session('hora_inicio')||session('hora_fin'))? '':'class="collapse"';?> id="desplegable">
 
 
                             <div class="form-group row">
