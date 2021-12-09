@@ -28,12 +28,12 @@
                             <div class="card-body">
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">
-                                        Estado: <?= $estadia['estado'] == 1 ? "ACTIVA" : "FINALIZADA"; ?></li>
+                                        Estado: <?= $estadiaSeleccionada['estado'] == 1 ? "ACTIVA" : "FINALIZADA"; ?></li>
                                     <li class="list-group-item">Cantidad de
-                                        horas: <?= $estadia['cantidad_horas'] == null ? "INDEFINIDO" : $estadia['cantidad_horas'] ?></li>
-                                    <li class="list-group-item">Fecha inicio: <?= $estadia['fecha_inicio'] ?></li>
-                                    <li class="list-group-item">Fecha fin: <?= $estadia['fecha_fin'] ?></li>
-                                    <li class="list-group-item">Zona: <?= $estadia['zona_nombre'] ?></li>
+                                        horas: <?= $estadiaSeleccionada['cantidad_horas'] == null ? "INDEFINIDO" : $estadiaSeleccionada['cantidad_horas'] ?></li>
+                                    <li class="list-group-item">Fecha inicio: <?= $estadiaSeleccionada['fecha_inicio'] ?></li>
+                                    <li class="list-group-item">Fecha fin: <?= $estadiaSeleccionada['fecha_fin'] ?></li>
+                                    <li class="list-group-item">Zona: <?= $estadiaSeleccionada['zona_nombre'] ?></li>
                                 </ul>
                             </div>
                         </div>
@@ -46,9 +46,9 @@
 
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">Patente del
-                                        vehiculo: <?= $estadia['vehiculo_patente'] ?></li>
+                                        vehiculo: <?= $estadiaSeleccionada['vehiculo_patente'] ?></li>
                                     <li class="list-group-item">Marca y modelo del
-                                        vehiculo: <?= $estadia['vehiculo_marca_nombre'] ?> <?= $estadia['vehiculo_modelo_nombre'] ?></li>
+                                        vehiculo: <?= $estadiaSeleccionada['vehiculo_marca_nombre'] ?> <?= $estadiaSeleccionada['vehiculo_modelo_nombre'] ?></li>
 
                                 </ul>
                             </div>
@@ -61,9 +61,9 @@
                             <div class="card-body">
 
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">Nombre y apellido: <?= $estadia['nombre_usuario'] ?>
-                                        , <?= $estadia['apellido_usuario'] ?></li>
-                                    <li class="list-group-item">DNI: <?= $estadia['dni_usuario'] ?></li>
+                                    <li class="list-group-item">Nombre y apellido: <?= $estadiaSeleccionada['nombre_usuario'] ?>
+                                        , <?= $estadiaSeleccionada['apellido_usuario'] ?></li>
+                                    <li class="list-group-item">DNI: <?= $estadiaSeleccionada['dni_usuario'] ?></li>
 
                                 </ul>
                             </div>

@@ -41,7 +41,11 @@
                         <ul class="list-group list-group-flush">
 
                             <li class="list-group-item">
-                                <span class="float-right"><a href="<?= base_url('home/verPerfil'); ?>" class="text-carolina">Ver perfil</a></span>
+                                <?php if ($usuarioActual['rol_id'] == 4): ?>
+                                    <span class="float-right"><a href="<?= base_url('home/verPerfil'); ?>"
+                                                                 class="text-carolina">Ver perfil</a></span>
+                                <?php else: ?><?php endif ?>
+
                                 <h5 class="mb-3">Mi informacion</h5>
                                 <form class="form-update-profile" method="POST"
                                       action="<?= base_url('home/actualizarPerfil'); ?>">

@@ -72,11 +72,11 @@ class Home extends BaseController
 
             $estadiaModel = new EstadiaModel();
             $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
+            $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendiente(session('id'));
 
             $dominioVehiculoModel = new DominioVehiculoModel();
             $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
 
-            //dd($data);
             return view('viewCliente/viewMaster', $data);
         }
         else{

@@ -30,10 +30,12 @@ class Cliente extends BaseController
 
         $estadiaModel = new EstadiaModel();
         $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
-        //dd($data);
+        $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendiente(session('id'));
 
         $dominioVehiculoModel = new DominioVehiculoModel();
         $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
+
+
 
         return view('viewCliente/viewMasterRegistrarVehiculo', $data);
     }
@@ -115,7 +117,7 @@ class Cliente extends BaseController
 
         $estadiaModel = new EstadiaModel();
         $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
-
+        $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendiente(session('id'));
 
         $dominioVehiculoModel = new DominioVehiculoModel();
         $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
@@ -147,6 +149,9 @@ class Cliente extends BaseController
         $zonaModel = new ZonaModel();
         $data['zonas'] = $zonaModel->findAll();
 
+
+
+
         return view('viewCliente/viewMasterEstacionar', $data);
     }
 
@@ -170,6 +175,7 @@ class Cliente extends BaseController
             'dominio_vehiculo' => 'required',
             'id_zona' => 'required'
         ]);
+
         if ($validacion) {
             date_default_timezone_set('America/Argentina/Buenos_Aires');
             $fechaInicio = (new DateTime())->format('Y-m-d H:i:s');
@@ -371,7 +377,6 @@ class Cliente extends BaseController
         return false;
     }
 
-
     private function verificarTurno($fecha, $inicio, $fin): ?string
     {
         $horaInicio = explode(':', $inicio);
@@ -399,7 +404,6 @@ class Cliente extends BaseController
 
         if ($validacion) {
 
-
             $userModel = new UserModel();
             $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
 
@@ -422,8 +426,9 @@ class Cliente extends BaseController
                 $i++;
             }
 
+            $data['estadiasNoPagas'] = $estadiasModel->verificarEstadiasPagoPendiente(session('id'));
             $monto = 0;
-            foreach ($data['estadiasTotales'] as $infoEstadia) {
+            foreach ($data['estadiasNoPagas'] as $infoEstadia) {
                 $monto = $monto + $infoEstadia['monto'];
 
             }
@@ -454,6 +459,46 @@ class Cliente extends BaseController
         $hora = $diferenciaDeHoras->h . ':' . $diferenciaDeHoras->i . ':' . $diferenciaDeHoras->s;
 
         return $hora;
+    }
+
+    public function verDetalleEstacionamiento($id)
+    {
+        if ((!$this->esCliente())) {
+            return redirect()->to(base_url());
+        }
+
+        $userModel = new UserModel();
+        $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
+
+        $dominioVehiculoModel = new DominioVehiculoModel();
+        $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
+
+        $estadiaModel = new EstadiaModel();
+        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
+        $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendiente(session('id'));
+
+        $data['estadiaSeleccionada'] = $estadiaModel->obtenerEstadiaById($id);
+
+        return view('detalleEstacionamiento', $data);
+    }
+
+    public function verAgregarTarjetaDeCredito(){
+
+        if ((!$this->esCliente())) {
+            return redirect()->to(base_url());
+        }
+
+        $userModel = new UserModel();
+        $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
+
+        $dominioVehiculoModel = new DominioVehiculoModel();
+        $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
+
+        $estadiaModel = new EstadiaModel();
+        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
+        $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendiente(session('id'));
+
+        return view('viewCliente/viewMasterAgregarTarjetaDeCredito', $data);
     }
 
 }

@@ -48,6 +48,11 @@
                                     </svg>
                                 </a>
 
+                                <a href="<?= base_url('cliente/verDetalleEstacionamiento/' . $e['id']); ?>"
+                                   class="btn btn-outline-taffy bt-sm" data-bs-toggle="tooltip" data-bs-placement="top"
+                                   title="Ver detalle">
+                                    <i class="bi bi-search"></i></a>
+
                             </td>
                         </tr>
 

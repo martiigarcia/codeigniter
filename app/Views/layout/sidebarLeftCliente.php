@@ -71,19 +71,22 @@
                                                                            class="form-control"
                                                                            placeholder="Patente" required>
 -->
-                                                                    <select class="form-control" name="dominio_vehiculo" required>
+                                                                    <select class="form-control" name="dominio_vehiculo"
+                                                                            required>
 
-                                                                        <option disabled selected=inicial>Vehiculos bajo dominio:</option>
+                                                                        <option disabled selected=inicial>Vehiculos bajo
+                                                                            dominio:
+                                                                        </option>
 
-                                                                            <?php foreach ($dominio as $d) : ?>
+                                                                        <?php foreach ($dominio as $d) : ?>
 
-                                                                                <option value=<?= $d['id']; ?>>
-                                                                                    <?= $d['vehiculo_patente']; ?>
-                                                                                    --> <?= $d['vehiculo_marca_nombre']; ?>
-                                                                                    , <?= $d['vehiculo_modelo_nombre']; ?>
-                                                                                </option>
+                                                                            <option value=<?= $d['id']; ?>>
+                                                                                <?= $d['vehiculo_patente']; ?>
+                                                                                --> <?= $d['vehiculo_marca_nombre']; ?>
+                                                                                , <?= $d['vehiculo_modelo_nombre']; ?>
+                                                                            </option>
 
-                                                                            <?php endforeach; ?>
+                                                                        <?php endforeach; ?>
 
                                                                     </select>
 
@@ -127,25 +130,39 @@
 
                                                 <a href="<?= base_url('cliente/verEstacionar'); ?>">Estacionar</a>
 
-
                                             <?php endif ?>
                                         <?php else: ?>
                                         <?php endif ?>
 
                                     </li>
 
-                                    <li>
-                                        <a href="<?= base_url('cliente/verPagarEstadiasPendientes'); ?>">
-                                            <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24"
-                                                 height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor">
-                                                <g>
-                                                    <rect fill="none" height="24" width="24"/>
-                                                    <path d="M14,2H6C4.9,2,4,2.9,4,4v16c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V8L14,2z M6,20V4h7v4h5v12H6z M11,19h2v-1h1 c0.55,0,1-0.45,1-1v-3c0-0.55-0.45-1-1-1h-3v-1h4v-2h-2V9h-2v1h-1c-0.55,0-1,0.45-1,1v3c0,0.55,0.45,1,1,1h3v1H9v2h2V19z"/>
-                                                </g>
-                                            </svg>
-                                            Pagar mis estadias<br>pendientes</a>
-                                    </li>
                                 </ul>
+
+                            <li>
+                                <?php if (!empty($estadiasPendientes)): ?>
+                                    <a href="<?= base_url('cliente/verPagarEstadiasPendientes'); ?>">
+                                        <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24"
+                                             height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor">
+                                            <g>
+                                                <rect fill="none" height="24" width="24"/>
+                                                <path d="M14,2H6C4.9,2,4,2.9,4,4v16c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V8L14,2z M6,20V4h7v4h5v12H6z M11,19h2v-1h1 c0.55,0,1-0.45,1-1v-3c0-0.55-0.45-1-1-1h-3v-1h4v-2h-2V9h-2v1h-1c-0.55,0-1,0.45-1,1v3c0,0.55,0.45,1,1,1h3v1H9v2h2V19z"/>
+                                            </g>
+                                        </svg>
+                                        Mis estadias pendientes</a>
+                                <?php else: ?>
+                                <?php endif ?>
+                            </li>
+
+                            <li>
+                                <a href="<?= base_url('cliente/verAgregarTarjetaDeCredito'); ?>">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                         fill="currentColor" class="bi bi-credit-card-2-back"
+                                         viewBox="0 0 24 24">
+                                        <path d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1z"/>
+                                        <path d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2zm13 2v5H1V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zm-1 9H2a1 1 0 0 1-1-1v-1h14v1a1 1 0 0 1-1 1z"/>
+                                    </svg>
+                                    Agregar tarjeta de credito</a>
+                            </li>
                             </li>
 
                         </ul>
