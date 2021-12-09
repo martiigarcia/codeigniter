@@ -288,7 +288,9 @@ class Administrador extends BaseController
         }
 
         $userModel = new UserModel();
+        $zonaModel = new ZonaModel();
         $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
+        $data['zonas'] = $zonaModel->findAll();
 
 
         return view('viewAdministrador/viewMasterModificarCostoZona', $data);
@@ -334,9 +336,9 @@ class Administrador extends BaseController
         ]);
         if ($validacion) {
 
-            $zonaModel = new ZonaModel();
+
             $historialZonaModel = new HistorialZonaModel();
-            $zonaModel = $zonaModel->find($_POST['id_zona']);
+
             $historialZonaSigTurno = $historialZonaModel->obtenerSiguienteTurno($_POST['id_zona'], $_POST['historial_zona']);
             $hZonaActual = $historialZonaModel->find($_POST['historial_zona']);
 
@@ -358,6 +360,7 @@ class Administrador extends BaseController
                 'id_zona' => $hZonaActual['id_zona']
             ];
             $historialZonaModel->insert($data);
+            session()->setFlashdata('mensaje', 'Los datos se guardaron con exito');
             return redirect()->to(base_url());
         } else {
 

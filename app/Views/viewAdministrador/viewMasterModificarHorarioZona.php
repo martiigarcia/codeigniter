@@ -6,9 +6,9 @@
 
 <?= $this->section('content') ?>
 
-    <h2>Seleccione la zona</h2>
 
     <div class="col-lg-9">
+    <h3>Modificar horario de zona</h3>
 
         <div class="card mb-3">
             <form method="POST" action="<?= base_url('administrador/modificarHorarioZona'); ?>">
@@ -20,7 +20,7 @@
                                 <div class="form-group">
                                     <label class="col-md-3 col-form-label">Zona</label>
 
-                                    <select class="form-control" id="idZona" name="id_zona" onchange="cargarZonas()">
+                                    <select class="form-control" id="idZona" name="id_zona" onchange="cargarHorasZonas()">
 
                                         <option disabled selected=inicial>Zonas:</option>
                                         <?php foreach ($zonas as $zona) : ?>
