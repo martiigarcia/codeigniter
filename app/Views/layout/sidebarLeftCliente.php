@@ -54,7 +54,7 @@
 
                                                             <div class="modal-header">
                                                                 <h5 class="modal-title" id="exampleModalToolPopTitle">
-                                                                    Ingrese la patente del vehiculo a consultar
+                                                                    Seleccione la patente del vehiculo a detallar
                                                                 </h5>
                                                                 <button type="button" class="close" data-dismiss="modal"
                                                                         aria-label="Close">
@@ -66,9 +66,26 @@
 
                                                                 <div class="input-group-prepend">
 
+                                                                    <!--
                                                                     <input type="text" name="patente"
                                                                            class="form-control"
-                                                                           placeholder="Patente">
+                                                                           placeholder="Patente" required>
+-->
+                                                                    <select class="form-control" name="dominio_vehiculo" required>
+
+                                                                        <option disabled selected=inicial>Vehiculos bajo dominio:</option>
+
+                                                                            <?php foreach ($dominio as $d) : ?>
+
+                                                                                <option value=<?= $d['id']; ?>>
+                                                                                    <?= $d['vehiculo_patente']; ?>
+                                                                                    --> <?= $d['vehiculo_marca_nombre']; ?>
+                                                                                    , <?= $d['vehiculo_modelo_nombre']; ?>
+                                                                                </option>
+
+                                                                            <?php endforeach; ?>
+
+                                                                    </select>
 
 
                                                                     <button type="submit"
@@ -92,10 +109,7 @@
 
 
                                                             <div class="modal-footer" style="display: initial">
-                                                                <h6>Ingrese la patente en los siguientes formatos
-                                                                    posibles:<br>→ AAA-000<br>→ AA-000-AA<br>→ A-000-AAA<br>(Sin
-                                                                    espacios ni guiones)</h6>
-                                                                <p style="color: rgb(232,74,103)"> <?= session('patente'); ?></p>
+                                                                <p style="color: rgb(255,0,0)"> <?= session('errorVehiculo'); ?></p>
 
                                                             </div>
 

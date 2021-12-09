@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\DominioVehiculoModel;
 use App\Models\EstadiaModel;
 use App\Models\HistorialZonaModel;
+use App\Models\InfraccionModel;
 use App\Models\MarcaModel;
 use App\Models\ModeloModel;
 use App\Models\UserModel;
@@ -13,7 +14,8 @@ use App\Models\ZonaModel;
 use DateTime;
 
 class Cliente extends BaseController
-{ private $idHistorialZona;
+{
+    private $idHistorialZona;
 
     public function verRegistroVehiculo()
     {
@@ -150,7 +152,7 @@ class Cliente extends BaseController
 
     public function estacionar()
     {
-        $this->idHistorialZona=0;
+        $this->idHistorialZona = 0;
         if (!$this->esCliente()) {
             return redirect()->to(base_url());
         }
@@ -175,15 +177,15 @@ class Cliente extends BaseController
             $infoZonas = $historialZonasModel->obtenerZonas($_POST['id_zona']);
 
             if (sizeof($infoZonas) === 1) {
-                if (!($this->esFechaValidaParaEstacionar($fechaInicio, $infoZonas[0]['comienzo'], $infoZonas[0]['final'],$infoZonas[0]['id']))) {
+                if (!($this->esFechaValidaParaEstacionar($fechaInicio, $infoZonas[0]['comienzo'], $infoZonas[0]['final'], $infoZonas[0]['id']))) {
                     return redirect()->back()->with('errorHoraDeInicio', 'Se encuentra fuera del horario de estacionamiento el Horario es de Lunes a Viernes de: '
                         . $infoZonas[0]['comienzo'] . 'hs a ' . $infoZonas[0]['final'] . 'hs')
                         ->withInput();
                 }
             }
 
-            if (!(($this->esFechaValidaParaEstacionar($fechaInicio, $infoZonas[0]['comienzo'], $infoZonas[0]['final'],$infoZonas[0]['id'])) ||
-                ($this->esFechaValidaParaEstacionar($fechaInicio, $infoZonas[1]['comienzo'], $infoZonas[1]['final'],$infoZonas[1]['id'])))) {
+            if (!(($this->esFechaValidaParaEstacionar($fechaInicio, $infoZonas[0]['comienzo'], $infoZonas[0]['final'], $infoZonas[0]['id'])) ||
+                ($this->esFechaValidaParaEstacionar($fechaInicio, $infoZonas[1]['comienzo'], $infoZonas[1]['final'], $infoZonas[1]['id'])))) {
                 return redirect()->back()->with('errorHoraDeInicio', 'Se encuentra fuera del horario de estacionamiento el Horario es de Lunes a Viernes de: '
                     . $infoZonas[0]['comienzo'] . 'hs a ' . $infoZonas[0]['final'] . 'hs y de ' . $infoZonas[1]['comienzo'] . 'hs a ' . $infoZonas[1]['final'] . 'hs')
                     ->withInput();
@@ -353,7 +355,7 @@ class Cliente extends BaseController
         return false;
     }
 
-    private function esFechaValidaParaEstacionar($fecha, $inicio, $fin,$idHistorialZona): bool
+    private function esFechaValidaParaEstacionar($fecha, $inicio, $fin, $idHistorialZona): bool
     {
         $horaInicio = explode(':', $inicio);
         $horaFin = explode(':', $fin);
@@ -363,7 +365,7 @@ class Cliente extends BaseController
 
         if (($fecha >= $fechaActual) && ($fecha <= $fechaFin) && ($fecha >= $fechaInicio) && ($fechaActual >= $fechaInicio)
             && (strftime('%A') != 'Saturday') && (strftime('%A') != 'Sunday')) {
-            $this->idHistorialZona=$idHistorialZona;
+            $this->idHistorialZona = $idHistorialZona;
             return true;
         }
         return false;
@@ -387,7 +389,71 @@ class Cliente extends BaseController
 
     public function consultarVehiculo()
     {
-        dd($_POST['patente']);
+        if (!$this->esCliente()) {
+            return redirect()->to(base_url());
+        }
+
+        $validacion = $this->validate([
+            'dominio_vehiculo' => 'required',
+        ]);
+
+        if ($validacion) {
+
+
+            $userModel = new UserModel();
+            $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
+
+            $dominioVehiculoModel = new DominioVehiculoModel();
+            $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
+
+            $estadiaModel = new EstadiaModel();
+            $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
+            $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendiente(session('id'));
+
+            $data['dominioSeleccionado'] = $dominioVehiculoModel->obtenerPorId($_POST['dominio_vehiculo']);
+
+            $estadiasModel = new EstadiaModel();
+            $data['estadiasTotales'] = $estadiasModel->buscarPorDominioId($_POST['dominio_vehiculo']);
+
+            $cantidadDeHoras[] = null;
+            $i = 0;
+            foreach ($data['estadiasTotales'] as $infoEstadia) {
+                $cantidadDeHoras[$i] = $this->calcularHoras($infoEstadia['fecha_inicio'], $infoEstadia['fecha_fin']);
+                $i++;
+            }
+
+            $monto = 0;
+            foreach ($data['estadiasTotales'] as $infoEstadia) {
+                $monto = $monto + $infoEstadia['monto'];
+
+            }
+            $data['monto'] = $monto;
+
+            $data['cantidad_horas'] = $cantidadDeHoras;
+
+            $infraccionesModel = new InfraccionModel();
+            $data['infracciones'] = $infraccionesModel->obtenerInfraccionesPorDominioId($_POST['dominio_vehiculo']);
+
+
+            return view('viewCliente/viewMasterConsultarVehiculo', $data, $_POST);
+
+        } else {
+
+            session()->setFlashdata('errorVehiculo', "No se selecciono ninguna patente, por favor seleccione una");
+            return redirect()->back();
+
+        }
+    }
+
+    private function calcularHoras($fecha_inicio, $fecha_fin): string
+    {
+        $fechaDeInicio = new DateTime($fecha_inicio);
+        $fechaDeFin = new DateTime($fecha_fin);
+
+        $diferenciaDeHoras = $fechaDeInicio->diff($fechaDeFin);
+        $hora = $diferenciaDeHoras->h . ':' . $diferenciaDeHoras->i . ':' . $diferenciaDeHoras->s;
+
+        return $hora;
     }
 
 }

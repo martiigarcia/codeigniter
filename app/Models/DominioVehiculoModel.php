@@ -44,14 +44,15 @@ class DominioVehiculoModel extends Model
                 modelos.nombre vehiculo_modelo_nombre,
                 usuarios.nombre vehiculo_usuario_nombre,
                 usuarios.apellido vehiculo_usuario_apellido,
-                usuarios.dni vehiculo_usuario_dni')
+                usuarios.dni vehiculo_usuario_dni,
+                usuarios.email vehiculo_usuario_email,')
                 ->join('vehiculos', 'vehiculos.id = dominio_vehiculo.id_vehiculo')
                 ->join('marcas', 'marcas.id = vehiculos.marca')
                 ->join('modelos', 'modelos.id = vehiculos.modelo')
                 ->join('usuarios', 'usuarios.id = dominio_vehiculo.id_usuario')
        
-                ->where('dominio_vehiculo.id', $id )
-                ->get()->getFirstRow();
+
+                ->find($id);
 
     }
     public function obtenerDominioPorIdVehiculo($id_vehiculo)
