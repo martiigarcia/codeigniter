@@ -29,7 +29,13 @@ class HistorialZonaModel extends Model
             ->where('estado',true)
             ->get()->getResultArray();
     }
-
+    public function obtenerZonasParaComboBox($id_zona){
+        return $this
+            ->select('historial_zonas.*')
+            ->where('id_zona',$id_zona )
+            ->where('estado',true)
+            ->get()->getResult();
+    }
 
 
 }

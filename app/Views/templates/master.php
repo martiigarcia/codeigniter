@@ -74,6 +74,7 @@
 <script src="<?= base_url("js/siqtheme.js") ?>"></script>
 
 <script src="<?= base_url("asserts/js/registroVehiculos.js") ?>"></script>
+<script src="<?= base_url("asserts/js/modificacionDeZonas.js") ?>"></script>
 <script src="<?= base_url("asserts/js/emergente.js") ?>"></script>
 
 
