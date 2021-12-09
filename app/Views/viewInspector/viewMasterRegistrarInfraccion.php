@@ -36,22 +36,64 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
                                 <div class="form-group row">
-
+                                    <label class="col-md-10 col-form-label">Calle donde se encontraba estacionado el
+                                        vehiculo en infraccion</label>
                                     <div class="col-md-10">
+                                        <div class="input-group">
 
-                                        <label class="col-md-10 col-form-label">Calle donde se encontraba estacionado el
-                                            vehiculo en infraccion</label>
+                                            <input type="text" name="calle" class="form-control"
+                                                   placeholder="Nombre de la calle"
+                                                   value="<?= old("calle") ?>">
+                                            <input type="number" name="altura" class="form-control"
+                                                   placeholder="Altura"
+                                                   value="<?= old("altura") ?>">
 
+                                        </div>
+                                        <p style="color: rgb(232,74,103)"> <?= session('calle'); ?></p>
+                                        <p style="color: rgb(232,74,103)"> <?= session('altura'); ?></p>
 
-                                    </div>
-                                    <div class="col-md-10">
-                                        <input type="text" name="calle" class="form-control" placeholder="Calle"
-                                               class="col-md-10 "
-                                               value="<?= old("calle") ?>">
                                     </div>
                                 </div>
-                                <p style="color: rgb(232,74,103)"> <?= session('calle'); ?></p>
+
+
                             </li>
+
+                                <li class="list-group-item">
+                                    <div class="form-group row">
+
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label class="col-md-3 col-form-label">Zona</label>
+
+                                                <select class="form-control" id="idZona" name="id_zona"
+                                                        onchange="cargarZonasParaMultas()">
+
+                                                    <option disabled selected=inicial>Zonas:</option>
+                                                    <?php foreach ($zonas as $zona) : ?>
+
+                                                        <option value=<?= $zona['id']; ?>><?= $zona['nombre']; ?>
+                                                        </option>
+
+                                                    <?php endforeach; ?>
+                                                </select>
+                                                <p style="color: rgb(232,74,103)"> <?= session('id_zona') ? 'Debe Completar este campo' : ''; ?></p>
+                                            </div>
+
+                                            <label class="col-md-3 col-form-label">Horarios</label>
+                                            <div class="form-group row">
+                                                <div class="col">
+                                                    <select class="form-control" name="historial_zona" id="hZona">
+                                                        <option disabled selected=inicial>Primero seleccione una Zona
+                                                        </option>
+                                                    </select>
+                                                    <p style="color: rgb(232,74,103)"> <?= session('historial_zona') ? 'Debe Completar este campo' : ''; ?></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </li>
+
 
                         </ul>
 

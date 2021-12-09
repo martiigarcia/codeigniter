@@ -218,7 +218,8 @@ Mi vehiculo
                                             <tr>
 
                                                 <th>Fecha de la infraccion</th>
-                                                <th>Calle</th>
+                                                <th>Calle y altura</th>
+                                                <th>Zona</th>
 
                                             </tr>
                                             </thead>
@@ -229,8 +230,8 @@ Mi vehiculo
                                                 <tr>
 
                                                     <td><?= $infraccion['dia_hora']; ?></td>
-                                                    <td><?= $infraccion['calle']; ?></td>
-
+                                                    <td>"<?= $infraccion['calle']; ?>" al <?= $infraccion['altura']; ?></td>
+                                                    <td><?= $infraccion['zona_nombre']; ?></td>
                                                 </tr>
 
                                             <?php endforeach; ?>
