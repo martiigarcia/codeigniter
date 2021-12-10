@@ -27,13 +27,15 @@
                     </thead>
                     <tbody>
 
-                    <?php foreach ($estadiasPendientes as $e) : ?>
+                    <?php
+                    $i = 0;
+                    foreach ($estadiasPendientes as $e) : ?>
 
                         <tr>
                             <td><?= $e['vehiculo_patente']; ?></td>
                             <td><?= $e['fecha_inicio'];; ?></td>
                             <td><?= $e['fecha_fin'];; ?></td>
-                            <td><?= $e['cantidad_horas']; ?></td>
+                            <td><?= $e['duracion_definida'] ? $cantidad_horas[$i] : "INDEFINIDO" ?></td>
                             <td><?= $e['zona_nombre']; ?></td>
                             <td><?= '$ '.$e['monto']; ?></td>
 
@@ -56,7 +58,9 @@
                             </td>
                         </tr>
 
-                    <?php endforeach; ?>
+                    <?php
+                        $i++;
+                    endforeach; ?>
 
                     </tbody>
 

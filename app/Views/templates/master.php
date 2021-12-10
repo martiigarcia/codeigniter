@@ -198,10 +198,51 @@
         return new bootstrap.Tooltip(tooltipTriggerEl)
     })
 </script>
-<script>
 
-    function dejarPendienteOPagar(valor, id_estadia) {
-        window.location.href = "<?= base_url('cliente/desEstacionar'); ?>/" + id_estadia + "/" + valor;
+<script>
+    function verificarPago(valor, id_estadia) {
+        console.log('entra');
+        if (valor == 0) { //dejar pendiente
+            window.location.href = "<?= base_url('cliente/desEstacionar'); ?>/" + id_estadia + "/" + valor;
+
+        }
+        if (valor == 1) {//pagar ahora
+            console.log('entra');
+
+            $.post(baseurl + "/cliente/desEstacionar/" + id_estadia + "/" + valor,
+
+                function (data) {
+                    console.log(data);
+                    var existePaga = JSON.parse(data);
+
+                    if (existePaga) {
+
+                        swal.fire({
+                            title: "¡Felicitaciones!",
+                            text: "Los datos se guardaron con exito",
+                            icon: "success",
+                        }).then(result => {
+                            if (result.isConfirmed)
+                                window.location.href = baseurl;
+                        });
+
+
+                    } else {
+
+                        swal.fire({
+                            title: "Error",
+                            text: "Su cuenta no dispone del saldo necesario para realizar el pago en este momento",
+                            icon: "error",
+                        }).then(result => {
+                            if (result.isConfirmed)
+                                window.location.href = baseurl;
+                        });
+
+
+                    }
+
+                })
+        }
     }
 
 </script>

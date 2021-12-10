@@ -99,10 +99,10 @@ class EstadiaModel extends Model
                 
                 usuarios.id id_usuario,
                 
-                historial_zonas.comienzo historia_comienzo,
-                historial_zonas.final historia_final,
-                historial_zonas.precio historia_precio,
-                historial_zonas.estado historia_estado,
+                historial_zonas.comienzo historial_comienzo,
+                historial_zonas.final historial_final,
+                historial_zonas.precio historial_precio,
+                historial_zonas.estado historial_estado,
                 
                 zonas.id zona_id,
                 zonas.nombre zona_nombre,

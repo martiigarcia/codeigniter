@@ -76,10 +76,10 @@
                                                     </div>
                                                     <div class="modal-footer" style="display: initial">
                                                         <button type="submit" class="btn btn-outline-secondary"
-                                                                onclick="return dejarPendienteOPagar(0, <?= $estadia->id; ?>)">
+                                                                onclick="return verificarPago(0, <?= $estadia->id; ?>)">
                                                             Dejar pendiente
                                                         </button>
-                                                        <button type="submit" class="btn btn-outline-primary" onclick="return dejarPendienteOPagar(1, <?= $estadia->id; ?>)">Pagar
+                                                        <button type="submit" class="btn btn-outline-primary" onclick="return verificarPago(1, <?= $estadia->id; ?>)">Pagar
                                                             ahora
 
                                                         </button>

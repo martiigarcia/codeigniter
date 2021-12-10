@@ -1,14 +1,12 @@
 function verEstadoEstadia() {
-    console.log('entra1');
+
     var dominioSeleccionado = document.getElementById("dominio_vehiculo").value;
 
     $.post(baseurl + "/inspector/consultarEstadiaVehiculo/" + dominioSeleccionado,
 
         function (data) {
-            console.log('data:' + data);
-            var existeEstadia = JSON.parse(data);
 
-            console.log('existe:' + existeEstadia);
+            var existeEstadia = JSON.parse(data);
 
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
@@ -28,7 +26,6 @@ function verEstadoEstadia() {
                     cancelButtonText: 'No',
                     reverseButtons: true
                 }).then(result => {
-                    console.log('d: '+dominioSeleccionado);
                     if (result.isConfirmed)
                         window.location.href = baseurl + "/inspector/verRegistrarInfraccion/" + dominioSeleccionado;
 
