@@ -8,6 +8,7 @@ use App\Models\HistorialZonaModel;
 use App\Models\InfraccionModel;
 use App\Models\MarcaModel;
 use App\Models\ModeloModel;
+use App\Models\TarjetaDeCreditoModel;
 use App\Models\UserModel;
 use App\Models\VehiculoModel;
 use App\Models\ZonaModel;
@@ -35,7 +36,6 @@ class Cliente extends BaseController
 
         $dominioVehiculoModel = new DominioVehiculoModel();
         $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
-
 
 
         return view('viewCliente/viewMasterRegistrarVehiculo', $data);
@@ -149,8 +149,6 @@ class Cliente extends BaseController
 
         $zonaModel = new ZonaModel();
         $data['zonas'] = $zonaModel->findAll();
-
-
 
 
         return view('viewCliente/viewMasterEstacionar', $data);
@@ -269,8 +267,8 @@ class Cliente extends BaseController
 
         $estadiaModel = new EstadiaModel();
         $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
+        $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendiente(session('id'));
 
-        //dd($data);
 
         $dominioVehiculoModel = new DominioVehiculoModel();
         $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
@@ -278,8 +276,10 @@ class Cliente extends BaseController
         return view('viewCliente/viewMasterDesEstacionar', $data);
     }
 
-    public function desEstacionar()
+    public function desEstacionar($id_estadia, $valor)
     {
+        // var_dump($valor);
+        // dd($id_estadia);
         if (!$this->esCliente()) {
             return redirect()->to(base_url());
         }
@@ -294,26 +294,50 @@ class Cliente extends BaseController
 
         //actualizar si se paga o no en el momento de finalizacion(ver como se haria esto)
 
+        if ($valor == 0) {// si esta en cero se deja pendiente el pago
 
-        $estadiaModel = new EstadiaModel();
-        $data['estadia'] = $estadiaModel->find($_POST['id_estadia']);
+            echo('dejar pendiente');
+            dd($valor);
+            $estadiaModel = new EstadiaModel();
+            $data['estadia'] = $estadiaModel->find($id_estadia);
 
-        $data['estadia']['estado'] = false; //cambio el estado a inactiva
-        $data['estadia']['duracion_definida'] = true; //cambio la duracion definida a true como definida
+            $data['estadia']['estado'] = false; //cambio el estado a inactiva
+            $data['estadia']['duracion_definida'] = true; //cambio la duracion definida a true como definida
 
-        $fechaAcual = (new DateTime())->format('Y-m-d H:i:s');
-        if ($data['estadia']['fecha_fin'] >= $fechaAcual) {
+            $fechaAcual = (new DateTime())->format('Y-m-d H:i:s');
+            if ($data['estadia']['fecha_fin'] >= $fechaAcual) {
 
-            $data['estadia']['fecha_fin'] = $fechaAcual;
+                $data['estadia']['fecha_fin'] = $fechaAcual;
+            }
+
+
+            $estadiaModel->update($id_estadia, $data['estadia']);
+            session()->setFlashdata('mensaje', 'Finalizo la estadia correctamente correctamente');
+            return redirect()->to(base_url('/home'));
+
+        } elseif ($valor == 1) { //si esta en uno se paga en el momento (primero se desEstaciona y desp se calcuula el monto y se verifica el saldo de la tarjeta)
+
+            // var_dump('pagar ahora');
+            //  dd($valor);
+            $estadiaModel = new EstadiaModel();
+            $data['estadia'] = $estadiaModel->find($id_estadia);
+
+            $data['estadia']['estado'] = false; //cambio el estado a inactiva
+            $data['estadia']['duracion_definida'] = true; //cambio la duracion definida a true como definida
+
+            $fechaAcual = (new DateTime())->format('Y-m-d H:i:s');
+            if ($data['estadia']['fecha_fin'] >= $fechaAcual) {
+
+                $data['estadia']['fecha_fin'] = $fechaAcual;
+            }
+
+            $estadiaModel->update($id_estadia, $data['estadia']);
+
+            $this->pagarEstadiasPendientes($id_estadia);
+
         }
-
-
-        $estadiaModel->update($_POST['id_estadia'], $data['estadia']);
-        session()->setFlashdata('mensaje', 'El vehiculo se desEstaciono correctamente');
-        return redirect()->to(base_url('/home'));
-
-
     }
+
 
     public function verPagarEstadiasPendientes()
     {
@@ -342,7 +366,7 @@ class Cliente extends BaseController
         return view('viewCliente/viewMasterPagarEstadiasPendientes', $data);
     }
 
-    public function PagarEstadiasPendientes($id)
+    public function pagarEstadiasPendientes($id)
     {
 
         if (!$this->esCliente()) {
@@ -350,11 +374,19 @@ class Cliente extends BaseController
         }
 
 
+
         $estadiaModel = new EstadiaModel();
         $data['estadia'] = $estadiaModel->find($id);
         $data['estadia']['pago_pendiente'] = false;
 
         $estadiaModel->update($id, $data['estadia']);
+
+        $tarjetaModel = new TarjetaDeCreditoModel();
+        $tarjetaCredito = $tarjetaModel->buscarPorUsuario(session('id'));
+
+        //if()
+
+
         session()->setFlashdata('mensaje', 'Los datos se guardaron con exito');
         return redirect()->to(base_url('/home'));
 
@@ -490,7 +522,8 @@ class Cliente extends BaseController
         return view('detalleEstacionamiento', $data);
     }
 
-    public function verAgregarTarjetaDeCredito(){
+    public function verAgregarTarjetaDeCredito()
+    {
 
         if ((!$this->esCliente())) {
             return redirect()->to(base_url());

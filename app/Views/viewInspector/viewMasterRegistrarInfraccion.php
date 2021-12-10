@@ -65,7 +65,7 @@
 
                                         <div class="col-md-10">
                                             <div class="form-group">
-                                                <label class="col-md-3 col-form-label">Zona</label>
+                                                <label class="col-md-12 col-form-label">Seleccione la zona en la que se encontraba el vehiculo en infraccion</label>
 
                                                 <select class="form-control" id="idZona" name="id_zona"
                                                         onchange="cargarHorasZonasParaMultas()">
@@ -81,7 +81,7 @@
                                                 <p style="color: rgb(232,74,103)"> <?= session('id_zona') ? 'Debe Completar este campo' : ''; ?></p>
                                             </div>
 
-                                            <label class="col-md-3 col-form-label">Horarios</label>
+                                            <label class="col-md-12 col-form-label">Seleccione el horario de la zona en el que se encontraba estacionado el vehiculo en infraccion</label>
                                             <div class="form-group row">
                                                 <div class="col">
                                                     <select class="form-control" name="historial_zona" id="hZona">

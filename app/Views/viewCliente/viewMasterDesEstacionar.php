@@ -1,4 +1,4 @@
-<?= $this->extend("templates/master")?>
+<?= $this->extend("templates/master") ?>
 
 <?= $this->section('titulo') ?>
     Finalizar estacionamiento
@@ -13,7 +13,7 @@
             <div class="col-lg-9">
 
                 <div class="card mb-3">
-                    <form method="POST" action="<?= base_url('cliente/desEstacionar'); ?>">
+
 
                         <div class="card-header uppercase">
                             <div class="caption">
@@ -35,7 +35,6 @@
                         </div>
 
 
-
                         <div class="card-footer" id="div1">
 
                             <div class="row">
@@ -47,15 +46,17 @@
                                     <div class="form-group">
                                         <button type="button" data-color="dark" class="btn btn-dark exampleColorModal"
                                                 data-toggle="modal"
-                                                data-target="#exampleModalToolPop">
+                                                data-target="#finalizarEstadiaModalToolPop">
                                             Finalizar estadia
                                         </button>
 
 
-                                        <div class="modal fade modal-dark show" id="exampleModalToolPop" tabindex="-1" role="dialog"
+                                        <div class="modal fade modal-dark show" id="finalizarEstadiaModalToolPop"
+                                             tabindex="-1" role="dialog"
                                              aria-labelledby="exampleModalToolPopTitle" style="display: none;"
                                              aria-hidden="true"
-                                             aria-labelledby="exampleModalLabel" aria-modal="true" style="display: block;">
+                                             aria-labelledby="exampleModalLabel" aria-modal="true"
+                                             style="display: block;">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -69,15 +70,19 @@
                                                     </div>
 
                                                     <div class="modal-body">
-                                                        <label class="col col-form-label">Su estadia esta por terminar!</label>
+                                                        <label class="col col-form-label">Su estadia esta por
+                                                            terminar!</label>
 
                                                     </div>
                                                     <div class="modal-footer" style="display: initial">
-                                                        <button type="button" class="btn btn-outline-secondary"
-                                                                data-dismiss="modal">Dejar pendiente
+                                                        <button type="submit" class="btn btn-outline-secondary"
+                                                                onclick="return dejarPendienteOPagar(0, <?= $estadia->id; ?>)">
+                                                            Dejar pendiente
                                                         </button>
-                                                        <a type="submit" class="btn btn-outline-primary">Pagar ahora
-                                                        </a>
+                                                        <button type="submit" class="btn btn-outline-primary" onclick="return dejarPendienteOPagar(1, <?= $estadia->id; ?>)">Pagar
+                                                            ahora
+
+                                                        </button>
                                                     </div>
 
                                                 </div>
@@ -93,7 +98,7 @@
                                 </div>
                             </div>
                         </div>
-                    </form>
+
                 </div>
             </div>
 
