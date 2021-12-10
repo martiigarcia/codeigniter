@@ -35,7 +35,7 @@
                             <td><?= $e['fecha_fin'];; ?></td>
                             <td><?= $e['cantidad_horas']; ?></td>
                             <td><?= $e['zona_nombre']; ?></td>
-                            <td><?= $e['monto']; ?></td>
+                            <td><?= '$ '.$e['monto']; ?></td>
 
                             <td>
 

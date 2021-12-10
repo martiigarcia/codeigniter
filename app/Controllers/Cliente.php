@@ -17,6 +17,7 @@ class Cliente extends BaseController
 {
     private $idHistorialZona;
 
+
     public function verRegistroVehiculo()
     {
         if (!$this->esCliente()) {
@@ -334,7 +335,6 @@ class Cliente extends BaseController
                $data['estadiasPendientes'][$i]['historia_precio']);
 
         }
-        dd($data['estadiasPendientes']);
 
         $dominioVehiculoModel = new DominioVehiculoModel();
         $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
@@ -509,21 +509,21 @@ class Cliente extends BaseController
         return view('viewCliente/viewMasterAgregarTarjetaDeCredito', $data);
     }
 
-    private function calcularMontoDeEstadia($fecha_inicio, $fecha_fin,$precioEstadia): string
+    private function calcularMontoDeEstadia($fecha_inicio, $fecha_fin,$precio): string
     {
 
 
         $fechaDeInicio = new DateTime($fecha_inicio);
         $fechaDeFin = new DateTime($fecha_fin);
-        $precio=$precioEstadia/3600;
+
         $diferenciaDeHoras = $fechaDeInicio->diff($fechaDeFin);
-        $hora = $diferenciaDeHoras->h /3600;
-        $min=$diferenciaDeHoras->i /60;
+        $hora = $diferenciaDeHoras->h*3600 ;
+        $min=$diferenciaDeHoras->i *60;
         $seg= $diferenciaDeHoras->s;
+        $monto= (($hora+$min+$seg)*$precio)/3600;
 
-        $monto= ($hora+$min+$seg)*$precio;
+        return number_format($monto, 2, '.', '');
 
-        return $monto;
     }
 
 
