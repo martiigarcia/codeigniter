@@ -2,13 +2,13 @@
 
 namespace App\Controllers;
 
+use App\Models\CuentaModel;
 use App\Models\DominioVehiculoModel;
 use App\Models\EstadiaModel;
 use App\Models\HistorialZonaModel;
 use App\Models\InfraccionModel;
 use App\Models\MarcaModel;
 use App\Models\ModeloModel;
-use App\Models\TarjetaDeCreditoModel;
 use App\Models\UserModel;
 use App\Models\VehiculoModel;
 use App\Models\ZonaModel;
@@ -351,14 +351,13 @@ class Cliente extends BaseController
 
         $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendiente(session('id'));
 
-        for($i = 0 ; $i < sizeof($data['estadiasPendientes']); $i++)
-       {
-           $data['estadiasPendientes'][$i]['monto']=$this->calcularMontoDeEstadia( $data['estadiasPendientes'][$i]['fecha_inicio'],
-               $data['estadiasPendientes'][$i]['fecha_fin'],
-               $data['estadiasPendientes'][$i]['historia_precio']);
+        for ($i = 0; $i < sizeof($data['estadiasPendientes']); $i++) {
+            $data['estadiasPendientes'][$i]['monto'] = $this->calcularMontoDeEstadia($data['estadiasPendientes'][$i]['fecha_inicio'],
+                $data['estadiasPendientes'][$i]['fecha_fin'],
+                $data['estadiasPendientes'][$i]['historia_precio']);
 
         }
-        dd($data['estadiasPendientes']);
+
 
         $dominioVehiculoModel = new DominioVehiculoModel();
         $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
@@ -376,20 +375,31 @@ class Cliente extends BaseController
 
 
         $estadiaModel = new EstadiaModel();
-        $data['estadia'] = $estadiaModel->find($id);
-        $data['estadia']['pago_pendiente'] = false;
-
-        $estadiaModel->update($id, $data['estadia']);
-
-        $tarjetaModel = new TarjetaDeCreditoModel();
-        $tarjetaCredito = $tarjetaModel->buscarPorUsuario(session('id'));
-
-        //if()
+        $data['estadia'] = $estadiaModel->obtenerEstadiaById($id);
 
 
-        session()->setFlashdata('mensaje', 'Los datos se guardaron con exito');
-        return redirect()->to(base_url('/home'));
+        $cuentaModel = new CuentaModel();
+        $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
 
+      // dd($data);
+        if ($cuenta->monto_total >= $this->calcularMontoDeEstadia(
+                $data['estadia']['fecha_inicio'],
+                $data['estadia']['fecha_fin'],
+                $data['estadia']['historial_precio'])
+        ) {
+
+
+            $data['estadia']['pago_pendiente'] = false;
+            dd($data);
+            $estadiaModel->update($id, $data['estadia']);
+            session()->setFlashdata('mensaje', 'Los datos se guardaron con exito');
+            return redirect()->to(base_url('/home'));
+
+        }else{
+            //dd('a');
+            session()->setFlashdata('mensaje', 'Su cuenta no dispone del saldo necesario para realizar el pago en este momento');
+            return redirect()->to(base_url('/home'));
+        }
 
     }
 
@@ -542,19 +552,19 @@ class Cliente extends BaseController
         return view('viewCliente/viewMasterAgregarTarjetaDeCredito', $data);
     }
 
-    private function calcularMontoDeEstadia($fecha_inicio, $fecha_fin,$precioEstadia): string
+    private function calcularMontoDeEstadia($fecha_inicio, $fecha_fin, $precioEstadia): string
     {
 
 
         $fechaDeInicio = new DateTime($fecha_inicio);
         $fechaDeFin = new DateTime($fecha_fin);
-        $precio=$precioEstadia/3600;
+        $precio = $precioEstadia / 3600;
         $diferenciaDeHoras = $fechaDeInicio->diff($fechaDeFin);
-        $hora = $diferenciaDeHoras->h /3600;
-        $min=$diferenciaDeHoras->i /60;
-        $seg= $diferenciaDeHoras->s;
+        $hora = $diferenciaDeHoras->h / 3600;
+        $min = $diferenciaDeHoras->i / 60;
+        $seg = $diferenciaDeHoras->s;
 
-        $monto= ($hora+$min+$seg)*$precio;
+        $monto = ($hora + $min + $seg) * $precio;
 
         return $monto;
     }
