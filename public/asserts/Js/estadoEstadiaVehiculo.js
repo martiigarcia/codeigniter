@@ -20,8 +20,8 @@ function verEstadoEstadia() {
             if (existeEstadia) {
 
                 swalWithBootstrapButtons.fire({
-                    text: 'No existe ninguna estadia activa registrada para el vehiculo seleccionado',
                     title: '¿Desea registrar una infraccion?',
+                    text: 'No existe ninguna estadia activa registrada para el vehiculo seleccionado',
                     'icon': 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',
@@ -35,7 +35,8 @@ function verEstadoEstadia() {
                 });
             }else
                 swalWithBootstrapButtons.fire({
-                    text: 'Ya existe una estadia activa registrada para el vehiculo seleccionado',
+                    text: 'El vehiculo seleccionado se encuentra estacionado con una estadia activa',
+                    'icon': 'info',
                     showCancelButton: true,
                     cancelButtonText: 'Salir',
                     showConfirmButton: false,

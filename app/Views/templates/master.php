@@ -83,7 +83,7 @@
     var baseurl = '<?= base_url()?>'
 </script>
 <script>
-var mensaje= '<?= session('mensaje'); ?>'
+    var mensaje = '<?= session('mensaje'); ?>'
 </script>
 
 
@@ -156,13 +156,13 @@ var mensaje= '<?= session('mensaje'); ?>'
 </script>
 
 <script>
-    $(document).ready(function(){
-        if(mensaje!==''){
-        swal.fire({
-            title: "¡Felicitaciones!",
-            text: mensaje,
-            icon: "success",
-        });
+    $(document).ready(function () {
+        if (mensaje !== '') {
+            swal.fire({
+                title: "¡Felicitaciones!",
+                text: mensaje,
+                icon: "success",
+            });
         }
     })
 
@@ -197,6 +197,13 @@ var mensaje= '<?= session('mensaje'); ?>'
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl)
     })
+</script>
+<script>
+
+    function dejarPendienteOPagar(valor, id_estadia) {
+        window.location.href = "<?= base_url('cliente/desEstacionar'); ?>/" + id_estadia + "/" + valor;
+    }
+
 </script>
 
 </body>
