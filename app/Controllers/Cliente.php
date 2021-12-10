@@ -324,9 +324,17 @@ class Cliente extends BaseController
 
         $estadiaModel = new EstadiaModel();
         $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
+
         $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendiente(session('id'));
 
-        //dd($data);
+        for($i = 0 ; $i < sizeof($data['estadiasPendientes']); $i++)
+       {
+           $data['estadiasPendientes'][$i]['monto']=$this->calcularMontoDeEstadia( $data['estadiasPendientes'][$i]['fecha_inicio'],
+               $data['estadiasPendientes'][$i]['fecha_fin'],
+               $data['estadiasPendientes'][$i]['historia_precio']);
+
+        }
+        dd($data['estadiasPendientes']);
 
         $dominioVehiculoModel = new DominioVehiculoModel();
         $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
@@ -500,5 +508,23 @@ class Cliente extends BaseController
 
         return view('viewCliente/viewMasterAgregarTarjetaDeCredito', $data);
     }
+
+    private function calcularMontoDeEstadia($fecha_inicio, $fecha_fin,$precioEstadia): string
+    {
+
+
+        $fechaDeInicio = new DateTime($fecha_inicio);
+        $fechaDeFin = new DateTime($fecha_fin);
+        $precio=$precioEstadia/3600;
+        $diferenciaDeHoras = $fechaDeInicio->diff($fechaDeFin);
+        $hora = $diferenciaDeHoras->h /3600;
+        $min=$diferenciaDeHoras->i /60;
+        $seg= $diferenciaDeHoras->s;
+
+        $monto= ($hora+$min+$seg)*$precio;
+
+        return $monto;
+    }
+
 
 }
