@@ -48,6 +48,13 @@ class Inspector extends BaseController
 
         $data['estadiaSeleccionada'] = $estadiaModel->obtenerEstadiaById($id);
 
+        $data['estadiaSeleccionada']['monto'] = $this->calcularMontoDeEstadia($data['estadiaSeleccionada']['fecha_inicio'],
+            $data['estadiaSeleccionada']['fecha_fin'],
+            $data['estadiaSeleccionada']['historial_precio']);
+
+        $cantidadDeHoras = $this->calcularHoras($data['estadiaSeleccionada']['fecha_inicio'], $data['estadiaSeleccionada']['fecha_fin']);
+        $data['cantidad_horas'] = $cantidadDeHoras;
+
         return view('detalleEstacionamiento', $data);
     }
 
@@ -154,4 +161,31 @@ class Inspector extends BaseController
 
     }
 
+    private function calcularHoras($fecha_inicio, $fecha_fin): string
+    {
+        $fechaDeInicio = new DateTime($fecha_inicio);
+        $fechaDeFin = new DateTime($fecha_fin);
+
+        $diferenciaDeHoras = $fechaDeInicio->diff($fechaDeFin);
+        $hora = $diferenciaDeHoras->h . ':' . $diferenciaDeHoras->i . ':' . $diferenciaDeHoras->s;
+
+        return $hora;
+    }
+
+    private function calcularMontoDeEstadia($fecha_inicio, $fecha_fin, $precio): string
+    {
+
+
+        $fechaDeInicio = new DateTime($fecha_inicio);
+        $fechaDeFin = new DateTime($fecha_fin);
+
+        $diferenciaDeHoras = $fechaDeInicio->diff($fechaDeFin);
+        $hora = $diferenciaDeHoras->h * 3600;
+        $min = $diferenciaDeHoras->i * 60;
+        $seg = $diferenciaDeHoras->s;
+        $monto = (($hora + $min + $seg) * $precio) / 3600;
+
+        return number_format($monto, 2, '.', '');
+
+    }
 }

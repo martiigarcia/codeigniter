@@ -1,4 +1,4 @@
-<?= $this->extend("templates/master")?>
+<?= $this->extend("templates/master") ?>
 
 <?= $this->section('titulo') ?>
     Modificar usuario
@@ -32,16 +32,20 @@
                                     <label class="col-md-3 col-form-label">Nombre completo</label>
                                     <div class="col">
                                         <div class="input-group">
-                                            <input type="text" name="id" value="<?= $usuario['id']; ?>" hidden=""
-                                                   class="form-control">
-
-                                            <input type="text" name="nombre" class="form-control" placeholder="Nombre"
-                                                   value="<?= $usuario['nombre']; ?> ">
-                                            <input type="text" name="apellido" class="form-control"
-                                                   placeholder="Apellido" value="<?= $usuario['apellido']; ?>">
+                                            <div class="col-6">
+                                                <input type="text" name="id" value="<?= $usuario['id']; ?>" hidden=""
+                                                       class="form-control">
+                                                <input type="text" name="nombre" class="form-control"
+                                                       placeholder="Nombre"
+                                                       value="<?= $usuario['nombre']; ?> ">
+                                                <p style="color: rgb(232,74,103) "> <?= session('nombre'); ?></p>
+                                            </div>
+                                            <div class="col-6">
+                                                <input type="text" name="apellido" class="form-control"
+                                                       placeholder="Apellido" value="<?= $usuario['apellido']; ?>">
+                                                <p style="color: rgb(232,74,103) "> <?= session('apellido'); ?></p>
+                                            </div>
                                         </div>
-                                        <p style="color: rgb(232,74,103)"> <?= session('nombre'); ?></p>
-                                        <p style="color: rgb(232,74,103)"> <?= session('apellido'); ?></p>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -85,25 +89,26 @@
                                     <label class="col-md-3 col-form-label">Fecha de nacimiento</label>
                                     <div class="col">
                                         <div class="input-group date">
+                                            <div class="input-group col">
 
-
-                                            <div class="input-group input-group-sm mb-3">
-                                                <div class="input-group-append">
+                                                <div class="input-group input-group-sm mb-3">
+                                                    <div class="input-group-append">
                                                 <span class="input-group-text bg-orchid border-orchid text-white">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                                      fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
                                                     <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
                                                 </svg> 
                                                 </span>
+                                                    </div>
+
+                                                    <input type="text" name="fecha_de_nacimiento" class="datepicker"
+                                                           class="form-control calender-black" placeholder="dd/mm/aaaa"
+                                                           style="width:90%;"
+                                                           value="<?= $usuario['fecha_de_nacimiento']; ?>">
                                                 </div>
+                                                <span class="form-text text-muted">Fecha de nacimiento establecida: <?= $usuario['fecha_de_nacimiento']; ?></span>
 
-                                                <input type="text" name="fecha_de_nacimiento" class="datepicker"
-                                                       class="form-control calender-black" placeholder="dd/mm/aaaa"
-                                                       style="width:90%;"
-                                                       value="<?= $usuario['fecha_de_nacimiento']; ?>">
                                             </div>
-                                            <span class="form-text text-muted">Fecha de nacimiento establecida: <?= $usuario['fecha_de_nacimiento']; ?></span>
-
                                         </div>
                                         <p style="color: rgb(232,74,103)"> <?= session('fecha_de_nacimiento') ? "El campo fecha de nacimiento es obligatorio" : "" ?></p>
                                     </div>
@@ -117,25 +122,25 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Rol</label>
                                     <div class="col">
-                                        <div class="form-group">
+                                        <div class="form-group col">
 
-                                            <label>Seleccione un rol de la lista</label>
+                                                <label>Seleccione un rol de la lista</label>
 
-                                            <select class="form-control" name="id_rol"
-                                                    value="<?= $usuario['rol_id']; ?>">
+                                                <select class="form-control" name="id_rol"
+                                                        value="<?= $usuario['rol_id']; ?>">
 
-                                                <option disabled selected=inicial>Roles:</option>
-                                                <?php foreach ($roles as $rol) : ?>
+                                                    <option disabled selected=inicial>Roles:</option>
+                                                    <?php foreach ($roles as $rol) : ?>
 
-                                                    <option value=<?= $rol['id']; ?>> <?= $rol['nombre']; ?>
-                                                        : <?= $rol['descripcion']; ?></option>
-                                                <?php endforeach; ?>
+                                                        <option value=<?= $rol['id']; ?>> <?= $rol['nombre']; ?>
+                                                            : <?= $rol['descripcion']; ?></option>
+                                                    <?php endforeach; ?>
 
-                                            </select>
+                                                </select>
 
-                                            <p>Nombre del rol actual del usuario: <?= $usuario['rol_nombre'] ?></p>
-                                            <p>Descripcion del rol actual del
-                                                usuario: <?= $usuario['rol_descripcion'] ?></p>
+                                                <p>Nombre del rol actual del usuario: <?= $usuario['rol_nombre'] ?></p>
+                                                <p>Descripcion del rol actual del
+                                                    usuario: <?= $usuario['rol_descripcion'] ?></p>
 
                                         </div>
                                         <p style="color: rgb(232,74,103)"> <?= session('id_rol') ? "El campo rol es obligatorio" : "" ?></p>

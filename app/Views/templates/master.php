@@ -85,6 +85,9 @@
 <script>
     var mensaje = '<?= session('mensaje'); ?>'
 </script>
+<script>
+    var error = '<?= session('error'); ?>'
+</script>
 
 
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -163,6 +166,12 @@
                 text: mensaje,
                 icon: "success",
             });
+        }else if(error !== ''){
+            swal.fire({
+                title: "Algo salio mal",
+                text: error,
+                icon: "error",
+            });
         }
     })
 
@@ -201,7 +210,6 @@
 
 <script>
     function verificarPago(valor, id_estadia) {
-        console.log('entra');
         if (valor == 0) { //dejar pendiente
             window.location.href = "<?= base_url('cliente/desEstacionar'); ?>/" + id_estadia + "/" + valor;
 
@@ -247,14 +255,10 @@
 
 </script>
 <script>
+
     function definirTarjeta(valor) {
-
         window.location.href = "<?= base_url('cliente/verCargarSaldo'); ?>/" + valor;
-
     }
-
-
-
 
 </script>
 

@@ -63,6 +63,14 @@
                                     <p style="color: rgb(232,74,103)"> <?= session('precio') ? 'Debe Completar este campo' : ''; ?></p>
                                 </div>
                             </div>
+
+                            <div class="row">
+
+                                <div class="col text-center">
+                                    <p style="color: rgb(232,74,103)"> <?= session('mensaje'); ?></p>
+                                    <p style="color: rgb(232,74,103)"> <?= session('errorDeHora'); ?></p>
+                                    <button type="submit" class="btn btn-flat mb-1 btn-primary">Confirmar</button>
+                                </div>
                         </div>
 
                     </li>
@@ -70,13 +78,7 @@
 
                 </ul>
                 <div class="card-footer" style="color: rgb(232,74,103)">
-                    <div class="row">
 
-                        <div class="col text-center">
-                            <p style="color: rgb(232,74,103)"> <?= session('mensaje'); ?></p>
-                            <p style="color: rgb(232,74,103)"> <?= session('errorDeHora'); ?></p>
-                            <button type="submit" class="btn btn-flat mb-1 btn-primary">Confirmar</button>
-                        </div>
                     </div>
                 </div>
             </form>

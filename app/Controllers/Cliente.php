@@ -115,6 +115,14 @@ class Cliente extends BaseController
         if (!$this->esCliente()) {
             return redirect()->to(base_url());
         }
+        $estadiaModel = new EstadiaModel();
+        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
+        $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendiente(session('id'));
+
+        if(!empty($data['estadia'])){
+            return redirect()->to(base_url());
+        }
+
         $userModel = new UserModel();
         $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
 
@@ -266,13 +274,17 @@ class Cliente extends BaseController
         if (!$this->esCliente()) {
             return redirect()->to(base_url());
         }
-        $userModel = new UserModel();
-        $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
 
         $estadiaModel = new EstadiaModel();
         $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
         $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendiente(session('id'));
 
+        if(empty($data['estadia'])){
+            return redirect()->to(base_url());
+        }
+
+        $userModel = new UserModel();
+        $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
 
         $dominioVehiculoModel = new DominioVehiculoModel();
         $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
@@ -445,10 +457,10 @@ class Cliente extends BaseController
             $cuenta->monto_total = $cuenta->monto_total - $montoAPagar;
             $cuentaModel->update($cuenta->id, $cuenta);
 
-            session()->setFlashdata('mensaje', 'Los datos se guardaron con exito');
+            session()->setFlashdata('mensaje', 'El pago se realizo exitosamente');
             return redirect()->to(base_url('/home'));
         } else {
-            session()->setFlashdata('mensaje', 'Su cuenta no dispone del saldo necesario para realizar el pago en este momento');
+            session()->setFlashdata('error', 'Su cuenta no dispone del saldo necesario para realizar el pago en este momento');
             return redirect()->to(base_url('/home'));
         }
     }
@@ -519,6 +531,7 @@ class Cliente extends BaseController
             $estadiasModel = new EstadiaModel();
             $data['estadiasTotales'] = $estadiasModel->buscarPorDominioId($_POST['dominio_vehiculo']);
 
+
             $cantidadDeHoras[] = null;
             $i = 0;
             foreach ($data['estadiasTotales'] as $infoEstadia) {
@@ -527,7 +540,7 @@ class Cliente extends BaseController
             }
             $data['cantidad_horas'] = $cantidadDeHoras;
 
-            $data['estadiasNoPagas'] = $estadiasModel->verificarEstadiasPagoPendiente(session('id'));
+            $data['estadiasNoPagas'] = $estadiasModel->verificarEstadiasPagoPendientePorDominio($_POST['dominio_vehiculo']);
             $monto = 0;
             foreach ($data['estadiasNoPagas'] as $infoEstadia) {
                 $monto = $monto + $this->calcularMontoDeEstadia($infoEstadia['fecha_inicio'],

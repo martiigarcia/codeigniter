@@ -23,17 +23,17 @@
                     </thead>
                     <tbody>
 
-                    <?php foreach ($dominio_vehiculos as $vehiculo) : ?>
+                    <?php foreach ($dominio_vehiculos as $dominio) : ?>
 
                         <tr>
-                            <td><?= $vehiculo['vehiculo_patente']; ?></td>
-                            <td><?= $vehiculo['vehiculo_marca_nombre']; ?>
-                                , <?= $vehiculo['vehiculo_modelo_nombre']; ?></td>
-                            <td><?= $vehiculo['vehiculo_usuario_nombre']; ?> <?= $vehiculo['vehiculo_usuario_apellido']; ?>
-                                . <?= $vehiculo['vehiculo_usuario_dni']; ?></td>
+                            <td><?= $dominio['vehiculo_patente']; ?></td>
+                            <td><?= $dominio['vehiculo_marca_nombre']; ?>
+                                , <?= $dominio['vehiculo_modelo_nombre']; ?></td>
+                            <td><?= $dominio['vehiculo_usuario_nombre']; ?> <?= $dominio['vehiculo_usuario_apellido']; ?>
+                                . <?= $dominio['vehiculo_usuario_dni']; ?></td>
 
                             <td>
-                                <a href="<?= base_url('vendedor/verVenderEstadia/' . $vehiculo['id']); ?>"
+                                <a href="<?= base_url('vendedor/verVenderEstadia/' . $dominio['id']); ?>"
                                    class="btn btn-outline-taffy bt-sm" data-bs-toggle="tooltip" data-bs-placement="top"
                                    title="Seleccionar">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24"

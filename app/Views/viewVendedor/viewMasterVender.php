@@ -39,7 +39,7 @@
                                     <label class="col-md-3 col-form-label">Vehiculo</label>
                                     <div class="col">
                                         <div class="form-group">
-                                            <input hidden="" name="dominio_vehiculo" value="<?= $dominio->id ?>">
+                                            <input hidden="" name="dominio_vehiculo" value="<?= $dominio['id'] ?>">
 
                                         </div>
                                         <label>Seleccione una zona</label>
@@ -78,21 +78,22 @@
 
                                         </div>
                                     </div>
+                                    <div class="row">
+
+                                        <div class="col text-center">
+                                            <button type="submit" class="btn btn-flat mb-1 btn-primary">Comenzar estadia
+                                            </button>
+
+                                            <a href="<?= base_url('/home'); ?>" class="btn btn-flat mb-1 btn-secondary">Cancelar</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </li>
                         </ul>
 
                         <div class="card-footer" id="div1">
                             <p style="color: rgb(232,74,103)"> <?= session('errorHoraDeInicio'); ?></p>
-                            <div class="row">
 
-                                <div class="col text-center">
-                                    <button type="submit" class="btn btn-flat mb-1 btn-primary">Comenzar estadia
-                                    </button>
-
-                                    <a href="#" class="btn btn-flat mb-1 btn-secondary">Cancelar</a>
-                                </div>
-                            </div>
                         </div>
                     </form>
                 </div>
