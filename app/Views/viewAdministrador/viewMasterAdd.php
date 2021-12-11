@@ -76,7 +76,7 @@
                                             <input type="text" name="dni" class="form-control" placeholder="DNI"
                                                    value="<?= old("dni") ?>">
                                             <div class="input-group-append">
-                                                <span class="input-group-text bg-danger"><span class="text-light">Obligatorio</span></span>
+                                                <span class="input-group-text bg-danger"><span class="text-light">Obligatorio</span>
                                             </div>
 
                                         </div>
@@ -90,7 +90,7 @@
                                             <input type="password" name="password" class="form-control"
                                                    placeholder="Contraseña" >
                                             <div class="input-group-append">
-                                                <span class="input-group-text bg-danger"><span class="text-light">Obligatorio</span></span>
+                                                <span class="input-group-text bg-danger"><span class="text-light">Obligatorio</span>
                                             </div>
 
                                         </div>
@@ -104,7 +104,7 @@
                                             <input type="password" name="confirm_password" class="form-control"
                                                    placeholder="Confirmar Contraseña">
                                             <div class="input-group-append">
-                                                <span class="input-group-text bg-danger"><span class="text-light">Obligatorio</span></span>
+                                                <span class="input-group-text bg-danger"><span class="text-light">Obligatorio</span>
                                             </div>
 
                                         </div>

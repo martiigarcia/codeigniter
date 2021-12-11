@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\CuentaModel;
 use App\Models\EstadiaModel;
 use App\Models\HistorialZonaModel;
 use App\Models\InfraccionModel;
@@ -162,6 +163,12 @@ class Administrador extends BaseController
 
             $userModel = new UserModel();
             $userModel->save($_POST);
+            $cuentaModel = new CuentaModel();
+            $cuentainfo=[
+                'monto'=>'0',
+                'id_usuario'=>$userModel->obtenerUsuarioEmail($_POST['email'])['id'],
+            ];
+            $cuentaModel->save($cuentainfo);
 
             session()->setFlashdata('mensaje', 'Los datos se guardaron con exito');
             return redirect()->to(base_url('home/index'));

@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 use App\Entities\User;
+use App\Models\CuentaModel;
 use App\Models\UserModel;
 use App\Models\RecuerdameModel;
 use CodeIgniter\Encryption\Encryption;
@@ -238,6 +239,12 @@ class Login extends BaseController
              $_POST['id_rol']='4';
             $userModel = new UserModel();
             $userModel->save($_POST);
+            $cuentaModel = new CuentaModel();
+            $cuentainfo=[
+                'monto'=>'0',
+                'id_usuario'=>$userModel->obtenerUsuarioEmail($_POST['email'])['id'],
+            ];
+            $cuentaModel->save($cuentainfo);
 
             session()->setFlashdata('usuarioNuevo', 'El usuario se creo correctamente, inicie sesion con su correo y contraseña');
             return redirect()->to(base_url());

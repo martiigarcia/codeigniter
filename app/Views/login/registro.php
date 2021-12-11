@@ -43,8 +43,10 @@
 
                                             <input type="text" name="nombre" class="form-control" placeholder="Nombre"
                                                    value="<?= old("nombre") ?>">
+
                                             <p style="color: rgb(232,74,103) "> <?= session('nombre'); ?></p>
                                         </div>
+
                                         <div class="col-6">
                                             <input type="text" name="apellido" class="form-control"
                                                    placeholder="Apellido" value="<?= old("apellido") ?>">
@@ -84,7 +86,7 @@
                                         <input type="text" name="dni" class="form-control" placeholder="DNI"
                                                value="<?= old("dni") ?>">
                                         <div class="input-group-append">
-                                            <span class="input-group-text bg-danger"><span class="text-light">Obligatorio</span></span>
+                                            <span class="input-group-text bg-danger"><span class="text-light">Obligatorio</span>
                                         </div>
 
                                     </div>
@@ -98,7 +100,7 @@
                                         <input type="password" name="password" class="form-control"
                                                placeholder="Contraseña" >
                                         <div class="input-group-append">
-                                            <span class="input-group-text bg-danger"><span class="text-light">Obligatorio</span></span>
+                                            <span class="input-group-text bg-danger"><span class="text-light">Obligatorio</span>
                                         </div>
 
                                     </div>
@@ -112,7 +114,7 @@
                                         <input type="password" name="confirm_password" class="form-control"
                                                placeholder="Confirmar Contraseña">
                                         <div class="input-group-append">
-                                            <span class="input-group-text bg-danger"><span class="text-light">Obligatorio</span></span>
+                                            <span class="input-group-text bg-danger"><span class="text-light">Obligatorio</span>
                                         </div>
 
                                     </div>
@@ -145,15 +147,6 @@
                                     </div>
                                     <p style="color: rgb(232,74,103)"> <?= session('fecha_de_nacimiento') ? "El campo fecha de nacimiento es obligatorio" : "" ?></p>
                                 </div>
-
-                            </div>
-
-                        </li>
-
-
-                        <li class="list-group-item">
-                            <div class="form-group row">
-                                <label class="col-md-3 col-form-label">Rol</label>
 
                             </div>
 
