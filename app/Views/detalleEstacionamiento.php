@@ -1,4 +1,4 @@
-<?= $this->extend("templates/master")?>
+<?= $this->extend("templates/master") ?>
 
 <?= $this->section('titulo') ?>
     Detalle de estacionamiento
@@ -30,8 +30,14 @@
                                     <li class="list-group-item">
                                         Estado: <?= $estadiaSeleccionada['estado'] == 1 ? "ACTIVA" : "FINALIZADA"; ?></li>
                                     <li class="list-group-item">Cantidad de
-                                        horas: <?= $estadiaSeleccionada['cantidad_horas'] == null ? "INDEFINIDO" : $estadiaSeleccionada['cantidad_horas'] ?></li>
-                                    <li class="list-group-item">Fecha inicio: <?= $estadiaSeleccionada['fecha_inicio'] ?></li>
+                                        horas:
+                                        <td>
+                                            <?= $estadiaSeleccionada['duracion_definida'] ?
+                                                 $cantidad_horas : "INDEFINIDO"?>
+                                        </td>
+                                    </li>
+                                    <li class="list-group-item">Fecha
+                                        inicio: <?= $estadiaSeleccionada['fecha_inicio'] ?></li>
                                     <li class="list-group-item">Fecha fin: <?= $estadiaSeleccionada['fecha_fin'] ?></li>
                                     <li class="list-group-item">Zona: <?= $estadiaSeleccionada['zona_nombre'] ?></li>
                                 </ul>
@@ -61,7 +67,8 @@
                             <div class="card-body">
 
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">Nombre y apellido: <?= $estadiaSeleccionada['nombre_usuario'] ?>
+                                    <li class="list-group-item">Nombre y
+                                        apellido: <?= $estadiaSeleccionada['nombre_usuario'] ?>
                                         , <?= $estadiaSeleccionada['apellido_usuario'] ?></li>
                                     <li class="list-group-item">DNI: <?= $estadiaSeleccionada['dni_usuario'] ?></li>
 

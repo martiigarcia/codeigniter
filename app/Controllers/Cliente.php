@@ -9,6 +9,7 @@ use App\Models\HistorialZonaModel;
 use App\Models\InfraccionModel;
 use App\Models\MarcaModel;
 use App\Models\ModeloModel;
+use App\Models\TarjetaDeCreditoModel;
 use App\Models\UserModel;
 use App\Models\VehiculoModel;
 use App\Models\ZonaModel;
@@ -36,6 +37,8 @@ class Cliente extends BaseController
         $dominioVehiculoModel = new DominioVehiculoModel();
         $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
 
+        $tarjetaModel = new TarjetaDeCreditoModel();
+        $data['tarjetas'] = $tarjetaModel->obtenerTarjetasPorUsuario(session('id'));
 
         return view('viewCliente/viewMasterRegistrarVehiculo', $data);
     }
@@ -149,6 +152,8 @@ class Cliente extends BaseController
         $zonaModel = new ZonaModel();
         $data['zonas'] = $zonaModel->findAll();
 
+        $tarjetaModel = new TarjetaDeCreditoModel();
+        $data['tarjetas'] = $tarjetaModel->obtenerTarjetasPorUsuario(session('id'));
 
         return view('viewCliente/viewMasterEstacionar', $data);
     }
@@ -272,6 +277,9 @@ class Cliente extends BaseController
         $dominioVehiculoModel = new DominioVehiculoModel();
         $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
 
+        $tarjetaModel = new TarjetaDeCreditoModel();
+        $data['tarjetas'] = $tarjetaModel->obtenerTarjetasPorUsuario(session('id'));
+
         return view('viewCliente/viewMasterDesEstacionar', $data);
     }
 
@@ -337,7 +345,6 @@ class Cliente extends BaseController
         }
     }
 
-
     public function verPagarEstadiasPendientes()
     {
         if (!$this->esCliente()) {
@@ -368,6 +375,9 @@ class Cliente extends BaseController
             $i++;
         }
         $data['cantidad_horas'] = $cantidadDeHoras;
+
+        $tarjetaModel = new TarjetaDeCreditoModel();
+        $data['tarjetas'] = $tarjetaModel->obtenerTarjetasPorUsuario(session('id'));
 
         return view('viewCliente/viewMasterPagarEstadiasPendientes', $data);
     }
@@ -531,6 +541,8 @@ class Cliente extends BaseController
             $infraccionesModel = new InfraccionModel();
             $data['infracciones'] = $infraccionesModel->obtenerInfraccionesPorDominioId($_POST['dominio_vehiculo']);
 
+            $tarjetaModel = new TarjetaDeCreditoModel();
+            $data['tarjetas'] = $tarjetaModel->obtenerTarjetasPorUsuario(session('id'));
 
             return view('viewCliente/viewMasterConsultarVehiculo', $data, $_POST);
 
@@ -571,11 +583,17 @@ class Cliente extends BaseController
 
         $data['estadiaSeleccionada'] = $estadiaModel->obtenerEstadiaById($id);
 
+        $cantidadDeHoras = $this->calcularHoras($data['estadiaSeleccionada']['fecha_inicio'], $data['estadiaSeleccionada']['fecha_fin']);
+
+        $data['cantidad_horas'] = $cantidadDeHoras;
+
         return view('detalleEstacionamiento', $data);
     }
 
-    public function verAgregarTarjetaDeCredito()
+    public function verCargarSaldo($valor)
     {
+        //0:  usar tarjeta existente
+        //1: crear tarjeta nueva
 
         if ((!$this->esCliente())) {
             return redirect()->to(base_url());
@@ -591,7 +609,73 @@ class Cliente extends BaseController
         $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
         $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendiente(session('id'));
 
-        return view('viewCliente/viewMasterAgregarTarjetaDeCredito', $data);
+        $data['valor'] = $valor;
+
+        $tarjetaModel = new TarjetaDeCreditoModel();
+        $data['tarjetas'] = $tarjetaModel->obtenerTarjetasPorUsuario(session('id'));
+        return view('viewCliente/viewMasterCargarSaldo', $data);
+
+
+    }
+
+    public function cargarSaldo()
+    {
+
+        if ((!$this->esCliente())) {
+            return redirect()->to(base_url());
+        }
+
+        if ($_POST['valor'] == 1) {
+
+            $validacion = $this->validate([
+                'tarjeta' => 'required|is_unique[tarjetas_de_credito.numero]',
+                'fecha_vencimiento' => 'required|valid_date',
+                'code' => 'required|max_length[3]|min_length[3]',
+                'monto' => 'required',
+            ]);
+
+        } elseif ($_POST['valor'] == 0) {
+
+            $validacion = $this->validate([
+                'tarjeta' => 'required',
+                'monto' => 'required',
+            ]);
+        }
+
+        if ($validacion) {
+
+            if ($_POST['valor'] == 1) {
+
+                $tarjetaModel = new TarjetaDeCreditoModel();
+
+                $data = [
+                    'numero' => $_POST['tarjeta'],
+                    'codigo_de_seguridad' => $_POST['code'],
+                    'fecha_vencimiento' => $_POST['fecha_vencimiento'],
+                    'id_usuario' => session('id')
+                ];
+
+                $data['codigo_de_seguridad'] = password_hash($_POST['code'], PASSWORD_BCRYPT);
+                $data['fecha_vencimiento'] = DateTime::createFromFormat("d-m-Y", $_POST['fecha_vencimiento'])->format('Y-m-d');
+                $tarjetaModel->save($data);
+            }
+
+            $cuentaModel = new CuentaModel();
+            $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
+            $cuenta->monto_total = $cuenta->monto_total + $_POST['monto'];
+            $cuentaModel->update($cuenta->id, $cuenta);
+
+            session()->setFlashdata('mensaje', 'La transaccion se realizo exitosamente');
+            return redirect()->to(base_url('/home'));
+
+        } else {
+
+            $error = $this->validator->getErrors();
+            session()->setFlashdata($error);
+            return redirect()
+                ->back()
+                ->withInput();
+        }
     }
 
     private function calcularMontoDeEstadia($fecha_inicio, $fecha_fin, $precio): string

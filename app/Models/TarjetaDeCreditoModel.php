@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class TarjetaDeCreditoModel extends Model
 {
-    protected $table      = 'tarjeta_de_credito';
+    protected $table      = 'tarjetas_de_credito';
     protected $primaryKey = 'id';
 
     protected $useAutoIncrement = true;
@@ -25,11 +25,11 @@ class TarjetaDeCreditoModel extends Model
     public function obtenerTarjetasPorUsuario($id_usuario)
     {
         return $this
-            ->select('tarjeta_de_credito.*, 
+            ->select('tarjetas_de_credito.*, 
                 usuarios.nombre usuario_nombre,
                 usuarios.apellido usuario_apellido,
                 usuarios.dni usuario_dni')
-            ->join('usuarios', 'usuarios.id = tarjeta_de_credito.id_usuario')
+            ->join('usuarios', 'usuarios.id = tarjetas_de_credito.id_usuario')
             ->where('id_usuario',$id_usuario )
             ->get()->getResultArray();
     }

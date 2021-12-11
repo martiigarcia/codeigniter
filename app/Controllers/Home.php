@@ -3,15 +3,16 @@
 namespace App\Controllers;
 
 use App\Models\DominioVehiculoModel;
-use App\Models\UserModel;
 use App\Models\EstadiaModel;
+use App\Models\TarjetaDeCreditoModel;
+use App\Models\UserModel;
 
 class Home extends BaseController
 {
 
     public function actualizarPerfil()
     {
-       
+
         $userModel = new UserModel();
         $datos['datos'] = $userModel->find($_POST['id']);
 
@@ -22,7 +23,7 @@ class Home extends BaseController
             'dni' => 'required|is_unique[usuarios.{id}]',
             'email' => 'required|is_unique[usuarios.{id}]',
             'fecha_de_nacimiento' => 'required|valid_date',
-            
+
         ]);
 
 
@@ -45,11 +46,23 @@ class Home extends BaseController
         }
     }
 
-    public function verPerfil(){
+    public function verPerfil()
+    {
 
         $userModel = new UserModel();
-        $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
+        $data['usuarioActual'] = $userModel->obtenerUsuario(session('id'));
 
+        $estadiaModel = new EstadiaModel();
+        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
+        $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendiente(session('id'));
+
+        $dominioVehiculoModel = new DominioVehiculoModel();
+        $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
+
+        $tarjetaModel = new TarjetaDeCreditoModel();
+        $data['tarjetas'] = $tarjetaModel->obtenerTarjetasPorUsuario(session('id'));
+
+        //dd($data['dominio']);
         return view('administrarPerfil', $data);
     }
 
@@ -81,9 +94,11 @@ class Home extends BaseController
             $dominioVehiculoModel = new DominioVehiculoModel();
             $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
 
+            $tarjetaModel = new TarjetaDeCreditoModel();
+            $data['tarjetas'] = $tarjetaModel->obtenerTarjetasPorUsuario(session('id'));
+
             return view('viewCliente/viewMaster', $data);
-        }
-        else{
+        } else {
             return redirect()->to(base_url());
         }
 

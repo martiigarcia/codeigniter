@@ -209,6 +209,7 @@ class EstadiaModel extends Model
                 zonas.id zona_id,
                 zonas.nombre zona_nombre,
                 zonas.descripcion zona_descripcion')
+
             ->join('dominio_vehiculo', 'dominio_vehiculo.id = estadias.id_dominio_vehiculo')
             ->join('usuarios', 'usuarios.id = dominio_vehiculo.id_usuario')
             ->join('vehiculos', 'vehiculos.id = dominio_vehiculo.id_vehiculo')
@@ -216,6 +217,7 @@ class EstadiaModel extends Model
             ->join('modelos', 'modelos.id = vehiculos.modelo')
             ->join('historial_zonas', 'historial_zonas.id = estadias.id_historial_zona')
             ->join('zonas', 'zonas.id = historial_zonas.id_zona')
+
             ->find($id);
     }
 

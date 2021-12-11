@@ -246,6 +246,17 @@
     }
 
 </script>
+<script>
+    function definirTarjeta(valor) {
+
+        window.location.href = "<?= base_url('cliente/verCargarSaldo'); ?>/" + valor;
+
+    }
+
+
+
+
+</script>
 
 </body>
 

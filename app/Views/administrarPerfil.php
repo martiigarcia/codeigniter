@@ -6,8 +6,6 @@
 
 <?= $this->section('content') ?>
 
-    VER PERFIL
-
     <div class="row">
         <div class="col-md-12">
             <div class="card mb-3">
@@ -30,12 +28,14 @@
                             <div class="card-body">
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">
-                                        Nombre: </li>
-                                    <li class="list-group-item">Apellido:</li>
-                                    <li class="list-group-item">DNI: </li>
-                                    <li class="list-group-item">Fecha de nacimiento: </li>
-                                    <li class="list-group-item">Rol en el sistema: </li>
-                                    <li class="list-group-item">Email: </li>
+                                        Nombre: <?= $usuarioActual['nombre']; ?></li>
+                                    <li class="list-group-item">Apellido:<?= $usuarioActual['apellido']; ?></li>
+                                    <li class="list-group-item">DNI: <?= $usuarioActual['dni']; ?></li>
+                                    <li class="list-group-item">Fecha de
+                                        nacimiento: <?= $usuarioActual['fecha_de_nacimiento']; ?></li>
+                                    <li class="list-group-item">Rol en el
+                                        sistema: <?= $usuarioActual['rol_nombre']; ?> </li>
+                                    <li class="list-group-item">Email: <?= $usuarioActual['email']; ?></li>
                                 </ul>
                             </div>
                         </div>
@@ -46,13 +46,24 @@
                             <div class="card-header">Mis vehiculos</div>
                             <div class="card-body">
 
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">Patente del
-                                        vehiculo: </li>
-                                    <li class="list-group-item">Marca y modelo del
-                                        vehiculo: </li>
 
+                                <ul class="list-group list-group-flush">
+                                    <?php
+                                    $i = 1;
+                                    foreach ($dominio as $d): ?>
+                                        <li>Patente del
+                                            vehiculo: <?= $d['vehiculo_patente']; ?></li>
+
+                                        <li>Marca y modelo del
+                                            vehiculo: <?= $d['vehiculo_marca_nombre']; ?> <?= $d['vehiculo_modelo_nombre']; ?></li>
+                                        <li class="list-group-item"></li>
+                                        <br>
+                                        <?php $i++;
+
+                                    endforeach; ?>
                                 </ul>
+
+
                             </div>
                         </div>
                     </div>
@@ -63,9 +74,16 @@
                             <div class="card-body">
 
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">Numero: </li>
-                                    <li class="list-group-item">Fecha de vencimiento: </li>
-                                    <li class="list-group-item">Codigo de seguridad: </li>
+                                    <?php
+                                    $i = 1;
+                                    foreach ($tarjetas as $tarjeta): ?>
+                                        <li>Numero: <?= $tarjeta['numero']; ?></li>
+                                        <li>Fecha de vencimiento: <?= $tarjeta['fecha_vencimiento']; ?></li>
+                                        <li class="list-group-item"></li>
+                                        <br>
+                                        <?php $i++;
+
+                                    endforeach; ?>
                                 </ul>
                             </div>
                         </div>

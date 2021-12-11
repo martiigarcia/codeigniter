@@ -1,11 +1,8 @@
-<!-- BOF ASIDE-LEFT -->
-
 <div id="sidebar" class="sidebar" style="width: fit-content;">
     <div class="sidebar-content">
-        <!-- sidebar-menu  -->
+
         <div class="sidebar-menu">
             <ul>
-
 
                 <li class="etiqueta">
 
@@ -154,14 +151,94 @@
                             </li>
 
                             <li>
-                                <a href="<?= base_url('cliente/verAgregarTarjetaDeCredito'); ?>">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                         fill="currentColor" class="bi bi-credit-card-2-back"
-                                         viewBox="0 0 24 24">
-                                        <path d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1z"/>
-                                        <path d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2zm13 2v5H1V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zm-1 9H2a1 1 0 0 1-1-1v-1h14v1a1 1 0 0 1-1 1z"/>
-                                    </svg>
-                                    Cargar saldo a la cuenta</a>
+
+                                <?php if (empty($tarjetas)): ?>
+                                    <a type="button"
+                                       onclick="return definirTarjeta(1)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                             fill="currentColor" class="bi bi-credit-card-2-back"
+                                             viewBox="0 0 24 24">
+                                            <path d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1z"/>
+                                            <path d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2zm13 2v5H1V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zm-1 9H2a1 1 0 0 1-1-1v-1h14v1a1 1 0 0 1-1 1z"/>
+                                        </svg>
+                                        Cargar saldo a la cuenta</a>
+
+                                <?php else: ?>
+
+                                    <a type="button"
+                                       data-toggle="modal"
+                                       data-target="#cargarSaldoModalToolPop">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                             fill="currentColor" class="bi bi-credit-card-2-back"
+                                             viewBox="0 0 24 24">
+                                            <path d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1z"/>
+                                            <path d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2zm13 2v5H1V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zm-1 9H2a1 1 0 0 1-1-1v-1h14v1a1 1 0 0 1-1 1z"/>
+                                        </svg>
+                                        Cargar saldo a la cuenta</a>
+
+                                    <div class="modal fade modal-dark show" id="cargarSaldoModalToolPop"
+                                         tabindex="-1" role="dialog"
+                                         aria-labelledby="exampleModalToolPopTitle" style="display: none;"
+                                         aria-hidden="true"
+                                         aria-labelledby="exampleModalLabel" aria-modal="true"
+                                         style="display: block;">
+
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+
+                                            <div class="modal-content">
+
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalToolPopTitle">
+                                                        ¿Desea cargar saldo desde una tarjeta suya ya registrada?
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">×</span>
+                                                    </button>
+                                                </div>
+
+                                                <div class="modal-body">
+
+                                                    <div class="form-group row">
+
+                                                        <div class="col">
+                                                            <div class="input-group col">
+
+                                                                <button type="submit"
+                                                                        class="btn btn-outline-info"
+                                                                        style="color: white;"
+                                                                        onclick="return definirTarjeta(0)"
+                                                                        data-bs-toggle="tooltip"
+                                                                        data-bs-placement="top"
+                                                                        title="Usar tarjeta">Usar tarjeta existente
+
+                                                                </button>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="input-group col">
+                                                            <button type="submit"
+                                                                    class="btn btn-outline-info"
+                                                                    style="color: white;"
+                                                                    onclick="return definirTarjeta(1)"
+                                                                    data-bs-toggle="tooltip"
+                                                                    data-bs-placement="top"
+                                                                    title="Registrar tarjeta">Cargar saldo con nueva
+                                                                tarjeta
+
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="modal-footer" style="display: initial">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                <?php endif ?>
                             </li>
                             </li>
 
@@ -173,7 +250,6 @@
             </ul>
             </li>
         </div>
-        <!-- sidebar-menu  -->
+
     </div>
 </div>
-<!-- EOF ASIDE-LEFT -->
