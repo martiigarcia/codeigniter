@@ -7,6 +7,8 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="<?= base_url('asserts/css/login.css'); ?>">
+
+
 </head>
 <body style="background-image: url(<?= base_url('asserts/img/fondo_login.jpg');?>); background-size: cover">
 <section class="ftco-section">
@@ -36,19 +38,23 @@
                           <p style="color: rgb(215,48,56)"> <?= session('mensajeLogin'); ?></p>
 
                         <div class="form-group d-md-flex">
-                            <div class="w-50">
+                            <div class="w-50" style="display: flex">
                                 <label class="checkbox-wrap checkbox-primary">Recordarme
                                     <input type="checkbox" name="recuerdame" value="true"checked>
                                     <span class="checkmark"></span>
                                 </label>
-                            </div>
 
-                            
+                            </div>
                         </div>
-                        
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary rounded submit p-3 px-5">Ingresar</button>
+                        <div class="botones-login" >
+                            <div  >
+                                <button type="submit" class="btn btn-primary rounded submit p-3 px-5">Ingresar</button>
+                            </div>
+                            <div class="boton-registrar" >
+                                <a  class="btn btn-primary rounded submit p-3 px-5" href="<?= base_url('login/registrarUsuario'); ?>">Registrar</a>
+                            </div>
                         </div>
+
                     </form>
                 </div>
             </div>
@@ -77,6 +83,7 @@
             })
     })()
 </script>
+
 <script src="js/jquery.min.js"></script>
 <script src="js/popper.js+bootstrap.min.js+main.js.pagespeed.jc.wRxug4_Avg.js"></script>
 <script>eval(mod_pagespeed_mGxpOPO3_V);</script>
@@ -87,4 +94,17 @@
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
         data-cf-beacon='{"rayId":"6a474f119a8ed2b8","token":"cd0b4b3a733644fc843ef0b185f98241","version":"2021.10.0","si":100}'></script>
 </body>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    var mensaje = '<?= session('usuarioNuevo'); ?>'
+    if (mensaje !== '') {
+        swal.fire({
+            title: "¡Felicitaciones!",
+            text: mensaje,
+            icon: "success",
+        });
+    }
+
+</script>
+
 </html>

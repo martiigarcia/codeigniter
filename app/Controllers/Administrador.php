@@ -151,9 +151,10 @@ class Administrador extends BaseController
             'id_rol' => 'required',
             'fecha_de_nacimiento' => 'required|valid_date',
             'password' => 'required',
+            'confirm_password'=>'required',
         ]);
 
-        if ($validacion) {
+        if ($validacion && ($_POST['password']===$_POST['confirm_password'])) {
 
             $_POST['fecha_de_nacimiento'] = DateTime::createFromFormat("d-m-Y", $_POST['fecha_de_nacimiento'])->format('Y-m-d');
 
@@ -168,6 +169,8 @@ class Administrador extends BaseController
 
 
             $error = $this->validator->getErrors();
+            if(($_POST['password']!==$_POST['confirm_password']))
+                $error['confirm_password1']='Las Contraseñas deben coincidir';
             session()->setFlashdata($error);
             return redirect()->back()->withInput();
         }

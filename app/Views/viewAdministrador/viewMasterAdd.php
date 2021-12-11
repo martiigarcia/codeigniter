@@ -33,14 +33,18 @@
                                     <label class="col-md-3 col-form-label">Nombre completo</label>
                                     <div class="col">
                                         <div class="input-group">
-                                            <input type="text" name="nombre" class="form-control" placeholder="Nombre"
-                                                   value="<?= old("nombre") ?>">
-                                            <input type="text" name="apellido" class="form-control"
-                                                   placeholder="Apellido" value="<?= old("apellido") ?>">
-                                        </div>
-                                        <p style="color: rgb(232,74,103)"> <?= session('nombre'); ?></p>
-                                        <p style="color: rgb(232,74,103)"> <?= session('apellido'); ?></p>
+                                            <div class="col-6">
 
+                                                <input type="text" name="nombre" class="form-control" placeholder="Nombre"
+                                                       value="<?= old("nombre") ?>">
+                                                <p style="color: rgb(232,74,103) "> <?= session('nombre'); ?></p>
+                                            </div>
+                                            <div class="col-6">
+                                                <input type="text" name="apellido" class="form-control"
+                                                       placeholder="Apellido" value="<?= old("apellido") ?>">
+                                                <p style="color: rgb(232,74,103) "> <?= session('apellido'); ?></p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -84,13 +88,28 @@
                                     <div class="col">
                                         <div class="input-group col">
                                             <input type="password" name="password" class="form-control"
-                                                   placeholder="Contraseña" value="<?= old("contraseña") ?>">
+                                                   placeholder="Contraseña" >
                                             <div class="input-group-append">
                                                 <span class="input-group-text bg-danger"><span class="text-light">Obligatorio</span></span>
                                             </div>
 
                                         </div>
-                                        <p style="color: rgb(232,74,103)"> <?= session('password') ? "el campo contraseña es obligatorio" : "" ?></p>
+                                        <p style="color: rgb(232,74,103)"> <?= session('password') ? "El campo contraseña es obligatorio" : "" ?></p>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">Confirmar Contraseña</label>
+                                    <div class="col">
+                                        <div class="input-group col">
+                                            <input type="password" name="confirm_password" class="form-control"
+                                                   placeholder="Confirmar Contraseña">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text bg-danger"><span class="text-light">Obligatorio</span></span>
+                                            </div>
+
+                                        </div>
+                                        <p style="color: rgb(232,74,103)"> <?= session('confirm_password') ? "El campo contraseña es obligatorio" : "" ?></p>
+                                        <p style="color: rgb(232,74,103)"> <?= session('confirm_password1')  ?></p>
                                     </div>
                                 </div>
 

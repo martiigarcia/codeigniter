@@ -213,6 +213,45 @@ class Login extends BaseController
     }
 
     
+    public function registrarUsuario(){
+        if (session('rol') === null) {
+    return view('login/registro');
+        }
+        return redirect()->to(base_url());
+    }
+    public function guardar(){
+        $validacion = $this->validate([
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'dni' => 'required|is_unique[usuarios.dni]',
+            'email' => 'required|is_unique[usuarios.email]',
+            'fecha_de_nacimiento' => 'required|valid_date',
+            'password' => 'required',
+            'confirm_password'=>'required',
+        ]);
+
+        if ($validacion && ($_POST['password']===$_POST['confirm_password'])) {
+
+            $_POST['fecha_de_nacimiento'] = DateTime::createFromFormat("d-m-Y", $_POST['fecha_de_nacimiento'])->format('Y-m-d');
+
+            $_POST['password'] = password_hash($_POST['password'], PASSWORD_BCRYPT);
+             $_POST['id_rol']='4';
+            $userModel = new UserModel();
+            $userModel->save($_POST);
+
+            session()->setFlashdata('usuarioNuevo', 'El usuario se creo correctamente, inicie sesion con su correo y contraseña');
+            return redirect()->to(base_url());
+        } else {
+
+
+            $error = $this->validator->getErrors();
+            if(($_POST['password']!==$_POST['confirm_password']))
+                $error['confirm_password1']='Las Contraseñas deben coincidir';
+            session()->setFlashdata($error);
+
+            return redirect()->back()->withInput();
+        }
+    }
 
 
 }

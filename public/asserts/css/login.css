@@ -49,6 +49,11 @@ html {
 article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
     display: block; }
 
+#registrar{
+    display: flex;
+    padding-left: 97%;
+    color: #8d448b;
+}
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -8333,3 +8338,20 @@ h1, h2, h3, h4, h5,
 @media (max-width: 767.98px) {
     .form-group .submit {
         top: 0; } }
+
+.botones-login{
+    display: flex;
+    position: absolute;
+}
+.boton-registrar{
+    padding-left: 2%;
+}
+@media only screen and (max-width: 1200px) {
+    .botones-login{
+        display: flex;
+        position: absolute;
+    }
+    .boton-registrar{
+        padding-left: 2%;
+    }
+}
