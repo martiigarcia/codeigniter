@@ -159,9 +159,9 @@ class Vendedor extends BaseController
 
             ];
             $estadiaModel->save($estadiaData);
-
+            $fechaActual = (new DateTime())->format('Y-m-d H:i:s');
             //$listadoDeEstadias = $estadiaModel->buscarPorDominio($_POST['dominio_vehiculo'], $_POST['id_zona'], $fechaInicio);
-            $listadoDeEstadias = $estadiaModel->obtenerUltimaEstadiaActivaPorDominioId($_POST['dominio_vehiculo'], $fechaInicio);
+            $listadoDeEstadias = $estadiaModel->obtenerUltimaEstadiaActivaPorDominioId($_POST['dominio_vehiculo'], $fechaActual);
             $idEstadia = $listadoDeEstadias->id;
 
             $infoVenta = [

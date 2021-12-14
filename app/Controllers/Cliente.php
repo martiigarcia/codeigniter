@@ -260,6 +260,7 @@ class Cliente extends BaseController
                 return redirect()->back()->with('id_estadia', $estadiaActiva->id);
 
             } else {
+
                 session()->setFlashdata('mensaje', 'El vehiculo se estaciono correctamente');
                 return redirect()->to(base_url('/home'));
             }

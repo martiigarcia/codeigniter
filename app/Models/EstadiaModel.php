@@ -239,7 +239,7 @@ class EstadiaModel extends Model
             ->join('historial_zonas', 'historial_zonas.id = estadias.id_historial_zona')
             ->join('zonas', 'zonas.id = historial_zonas.id_zona')
             ->where('dominio_vehiculo.id', $id_dominio)
-            ->where('estadias.fecha_fin <=', $fechaActual)
+            ->where('estadias.fecha_fin >=', $fechaActual)
             ->orderBy("estadias.fecha_fin", "DESC")
             ->get()->getFirstRow();
     }
