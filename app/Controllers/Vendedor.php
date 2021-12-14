@@ -25,25 +25,30 @@ class Vendedor extends BaseController
         $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
 
         $dominioModel = new DominioVehiculoModel();
-        $data['dominio_vehiculos'] = $dominioModel->obtenerTodos();
-
+        $data2['dominio_vehiculos'] = $dominioModel->obtenerTodos();
+        $data['dominio_vehiculos'] = $data2['dominio_vehiculos'];
         $estadiaModel = new EstadiaModel();
-        $fechaAcual = (new DateTime())->format('Y-m-d H:i');
+        $fechaAcual = (new DateTime())->format('Y-m-d H:i:s');
 
 
-        for ($j = 0; $j < sizeof($data['dominio_vehiculos']); $j++) {
-            $estadias = $estadiaModel->buscarPorDominioId($data['dominio_vehiculos'][$j]['id']);
+        for ($j = 0; $j < sizeof($data2['dominio_vehiculos']); $j++) {
+            $id=$data2['dominio_vehiculos'][$j]['id'];
+            $id_vehiculo=$data2['dominio_vehiculos'][$j]['id_vehiculo'];
+            $id_usuario=$data2['dominio_vehiculos'][$j]['id_usuario'];
+            $estadias = $estadiaModel->buscarPorDominioId($id);
 
             if (!empty($estadias)) {
                 for ($i = 0; $i < sizeof($estadias); $i++) {
-
                     if ($estadias[$i]['fecha_fin'] >= $fechaAcual) {
-                        unset($data['dominio_vehiculos'][$j]);
+                        $data['dominio_vehiculos'] =  array_filter($data['dominio_vehiculos'], function ($valor)use($id_vehiculo,$id_usuario) {
+
+                            return (($valor['id_vehiculo'] !== $id_vehiculo)&&($valor['id_usuario'] !== $id_usuario));
+                        });
+
                     }
                 }
             }
         }
-
 
         return view('viewVendedor/viewMasterListadoVehiculos', $data);
     }
