@@ -33,6 +33,10 @@ class CuentaModel extends Model
             ->where('id_usuario',$id_usuario )
             ->get()->getFirstRow();
     }
+    public function eliminarCuentaUsuario($id_usuario)
+    {$query="DELETE FROM `cuenta` WHERE `id_usuario`=".$id_usuario;
+        $this->db->query($query);
+    }
 
 
 

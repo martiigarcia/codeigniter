@@ -27,7 +27,8 @@ class Administrador extends BaseController
             return redirect()->back()->withInput(session());
 
         } else {
-
+            $cuentaModel= new CuentaModel();
+            $cuentaModel->eliminarCuentaUsuario($id);
             $userModel = new UserModel();
             $userModel->delete($id);
 
