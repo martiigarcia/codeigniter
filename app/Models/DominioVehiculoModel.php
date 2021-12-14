@@ -6,38 +6,37 @@ use CodeIgniter\Model;
 
 class DominioVehiculoModel extends Model
 {
-    protected $table      = 'dominio_vehiculo';
+    protected $table = 'dominio_vehiculo';
     protected $primaryKey = 'id';
 
     protected $useAutoIncrement = true;
 
-    protected $returnType     = 'array';
+    protected $returnType = 'array';
     protected $useSoftDeletes = false;
 
-    protected $allowedFields = ['id','id_usuario', 'id_vehiculo'];
+    protected $allowedFields = ['id', 'id_usuario', 'id_vehiculo'];
 
     protected $useTimestamps = false;
-    protected $createdField  = 'created_at';
-    protected $updatedField  = 'updated_at';
-    protected $deletedField  = 'deleted_at';
-    protected $skipValidation     = false;
-    
+    protected $createdField = 'created_at';
+    protected $updatedField = 'updated_at';
+    protected $deletedField = 'deleted_at';
+    protected $skipValidation = false;
 
 
     public function obtenerPorUsuario($id_usuario, $id_vehiculo)
     {
-           return $this
-                ->select('dominio_vehiculo.*')
-                ->where('id_usuario',$id_usuario )
-               ->where('id_vehiculo',$id_vehiculo)
-               ->get()->getFirstRow();
+        return $this
+            ->select('dominio_vehiculo.*')
+            ->where('id_usuario', $id_usuario)
+            ->where('id_vehiculo', $id_vehiculo)
+            ->get()->getFirstRow();
 
     }
 
     public function obtenerPorId($id)
     {
         return $this
-                ->select('dominio_vehiculo.*, 
+            ->select('dominio_vehiculo.*, 
                 vehiculos.id vehiculo_id, 
                 vehiculos.patente vehiculo_patente, 
                 marcas.nombre vehiculo_marca_nombre,
@@ -46,23 +45,14 @@ class DominioVehiculoModel extends Model
                 usuarios.apellido vehiculo_usuario_apellido,
                 usuarios.dni vehiculo_usuario_dni,
                 usuarios.email vehiculo_usuario_email,')
-                ->join('vehiculos', 'vehiculos.id = dominio_vehiculo.id_vehiculo')
-                ->join('marcas', 'marcas.id = vehiculos.marca')
-                ->join('modelos', 'modelos.id = vehiculos.modelo')
-                ->join('usuarios', 'usuarios.id = dominio_vehiculo.id_usuario')
-       
-
-                ->find($id);
+            ->join('vehiculos', 'vehiculos.id = dominio_vehiculo.id_vehiculo')
+            ->join('marcas', 'marcas.id = vehiculos.marca')
+            ->join('modelos', 'modelos.id = vehiculos.modelo')
+            ->join('usuarios', 'usuarios.id = dominio_vehiculo.id_usuario')
+            ->find($id);
 
     }
-    public function obtenerDominioPorIdVehiculo($id_vehiculo)
-    {
-        return $this
-            ->select('dominio_vehiculo.*')
-            ->where('id_vehiculo', $id_vehiculo )
-            ->get()->getResultArray();
 
-    }
     public function tieneVehiculos($id_usuario)
     {
         return $this
@@ -73,14 +63,24 @@ class DominioVehiculoModel extends Model
             ->join('vehiculos', 'vehiculos.id = dominio_vehiculo.id_vehiculo')
             ->join('marcas', 'marcas.id = vehiculos.marca')
             ->join('modelos', 'modelos.id = vehiculos.modelo')
-            ->where('id_usuario',$id_usuario )
-        ->get()->getResultArray();
+            ->where('id_usuario', $id_usuario)
+            ->get()->getResultArray();
     }
+
+    public function obtenerDominioPorIdVehiculo($id_vehiculo)
+    {
+        return $this
+            ->select('dominio_vehiculo.*')
+            ->where('id_vehiculo', $id_vehiculo)
+            ->get()->getResultArray();
+
+    }
+
 
     public function obtenerTodos()
     {
         return $this
-        ->select('dominio_vehiculo.*, 
+            ->select('dominio_vehiculo.*, 
         vehiculos.id vehiculo_id, 
         vehiculos.patente vehiculo_patente, 
         marcas.nombre vehiculo_marca_nombre,
@@ -88,14 +88,12 @@ class DominioVehiculoModel extends Model
         usuarios.nombre vehiculo_usuario_nombre,
         usuarios.apellido vehiculo_usuario_apellido,
         usuarios.dni vehiculo_usuario_dni')
-        ->join('vehiculos', 'vehiculos.id = dominio_vehiculo.id_vehiculo')
-        ->join('marcas', 'marcas.id = vehiculos.marca')
-        ->join('modelos', 'modelos.id = vehiculos.modelo')
-        ->join('usuarios', 'usuarios.id = dominio_vehiculo.id_usuario')
-       ->get()->getResultArray();
+            ->join('vehiculos', 'vehiculos.id = dominio_vehiculo.id_vehiculo')
+            ->join('marcas', 'marcas.id = vehiculos.marca')
+            ->join('modelos', 'modelos.id = vehiculos.modelo')
+            ->join('usuarios', 'usuarios.id = dominio_vehiculo.id_usuario')
+            ->get()->getResultArray();
     }
 
-    
 
-    
 }

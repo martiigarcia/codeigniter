@@ -19,7 +19,7 @@
                         <th>Patente del vehiculo</th>
                         <th>Fecha inicio</th>
                         <th>Fecha fin</th>
-                        <th>Horas estacionado</th>
+                        <th>Tiempo estacionado</th>
                         <th>Zona</th>
                         <th>Monto</th>
                         <th>Opciones</th>
@@ -35,7 +35,7 @@
                             <td><?= $e['vehiculo_patente']; ?></td>
                             <td><?= $e['fecha_inicio'];; ?></td>
                             <td><?= $e['fecha_fin'];; ?></td>
-                            <td><?= $e['duracion_definida'] ? $cantidad_horas[$i] : "INDEFINIDO" ?></td>
+                            <td><?= $cantidad_horas[$i] ?></td>
                             <td><?= $e['zona_nombre']; ?></td>
                             <td><?= '$ '.$e['monto']; ?></td>
 

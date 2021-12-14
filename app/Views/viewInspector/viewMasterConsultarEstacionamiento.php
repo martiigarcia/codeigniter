@@ -28,15 +28,17 @@
                     </thead>
                     <tbody>
 
-                    <?php foreach ($estadias as $estadia) : ?>
+                    <?php
+                    $i=0;
+                    foreach ($estadias as $estadia) : ?>
 
                         <tr>
-                            <td><?= $estadia['estado'] == 1 ? "ACTIVA" : "FINALIZADA"; ?></td>
+                            <td><?= $estados[$i] == true ? "ACTIVA" : "FINALIZADA"; ?></td>
                             <td><?= $estadia['vehiculo_patente']; ?></td>
                             <td><?= $estadia['nombre_usuario']; ?></td>
                             <td><?= $estadia['fecha_inicio']; ?></td>
                             <td><?= $estadia['fecha_fin']; ?></td>
-                            <td>insertar horas hasta el momento de listado</td>
+                            <td><?= $estadia['duracion_definida'] ? $cantidad_horas[$i] : "INDEFINIDO" ?></td>
                             <td><?= $estadia['zona_nombre']; ?></td>
                             <td>
                                 <a href="<?= base_url('inspector/verDetalleEstacionamiento/' . $estadia['id']); ?>"
@@ -47,7 +49,9 @@
                             </td>
 
                         </tr>
-                    <?php endforeach; ?>
+                    <?php
+                    $i++;
+                    endforeach; ?>
 
                     </tbody>
 

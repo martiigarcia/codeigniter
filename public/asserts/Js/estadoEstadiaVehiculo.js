@@ -26,11 +26,14 @@ function verEstadoEstadia() {
                     cancelButtonText: 'No',
                     reverseButtons: true
                 }).then(result => {
-                    if (result.isConfirmed)
+                    if (result.isConfirmed) {
                         window.location.href = baseurl + "/inspector/verRegistrarInfraccion/" + dominioSeleccionado;
+                    } else {
+                        window.location.href = baseurl;
+                    }
 
                 });
-            }else
+            } else
                 swalWithBootstrapButtons.fire({
                     text: 'El vehiculo seleccionado se encuentra estacionado con una estadia activa',
                     'icon': 'info',
@@ -39,10 +42,12 @@ function verEstadoEstadia() {
                     showConfirmButton: false,
 
                 }).then(result => {
-                    if (result.isConfirmed)
-                        window.location.href = baseurl ;
+                        if (result.isConfirmed)
+                            window.location.href = baseurl;
+                        window.location.href = baseurl;
 
-                });
+                    }
+                );
         })
 }
 

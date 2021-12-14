@@ -25,6 +25,7 @@
 
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <script>
         window.userData = {
@@ -78,6 +79,9 @@
 <script src="<?= base_url("asserts/js/emergente.js") ?>"></script>
 <script src="<?= base_url("asserts/js/estadoEstadiaVehiculo.js") ?>"></script>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
 
 <script>
     var baseurl = '<?= base_url()?>'
@@ -87,6 +91,10 @@
 </script>
 <script>
     var error = '<?= session('error'); ?>'
+</script>
+<script>
+    var mensajePagar = '<?= session('mensajePagar'); ?>'
+    var id_estadia = '<?= session('id_estadia'); ?>'
 </script>
 
 
@@ -160,21 +168,49 @@
 
 <script>
     $(document).ready(function () {
-        if (mensaje !== '') {
-            swal.fire({
-                title: "¡Felicitaciones!",
-                text: mensaje,
-                icon: "success",
-            });
-        }else if(error !== ''){
-            swal.fire({
-                title: "Algo salio mal",
-                text: error,
-                icon: "error",
-            });
+            if (mensaje !== '') {
+                swal.fire({
+                    title: "¡Felicitaciones!",
+                    text: mensaje,
+                    icon: "success",
+                });
+            } else if (error !== '') {
+                swal.fire({
+                    title: "Algo salio mal",
+                    text: error,
+                    icon: "error",
+                }).then(result => {
+                    if (result.isConfirmed) {
+                        window.location.href = baseurl;
+                    }
+                });
+            }
         }
-    })
+    )
 
+</script>
+
+<script>
+    $(document).ready(function () {
+
+            if (mensajePagar !== '') {
+                swal.fire({
+                    title: "Su estadia se registro correctamente",
+                    text: mensajePagar,
+                    icon: "info",
+                    showConfirmButton: true,
+                    confirmButtonText: "Pagar ahora",
+                    showCancelButton: true,
+                    cancelButtonText: "Dejar pendiente"
+                }).then(result => {
+                        if (result.isConfirmed) {
+                            window.location.href = "<?= base_url('cliente/pagarEstadiasPendientes'); ?>/" + id_estadia;
+                        }
+                    }
+                );
+            }
+        }
+    )
 
 </script>
 
@@ -261,6 +297,7 @@
     }
 
 </script>
+
 
 </body>
 

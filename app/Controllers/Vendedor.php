@@ -12,8 +12,9 @@ use App\Models\ZonaModel;
 use DateTime;
 
 class Vendedor extends BaseController
-{   private $idHistorialZona;
-    //funcionalidad del vendedor
+{
+    private $idHistorialZona;
+
     public function verVenderEstadiaListadoVehiculo()
     {
         if (!$this->esVendedor()) {
@@ -36,8 +37,8 @@ class Vendedor extends BaseController
                 foreach ($estadias as $estadia) {
 
                     if ($estadia['fecha_fin'] >= $fechaAcual) {
-                        $data['dominio_vehiculos']=array_filter($data['dominio_vehiculos'],function($valor){
-                            return $valor['vehiculo_patente']!==$valor['vehiculo_patente'];
+                        $data['dominio_vehiculos'] = array_filter($data['dominio_vehiculos'], function ($valor) {
+                            return $valor['vehiculo_patente'] !== $valor['vehiculo_patente'];
                         });
                     }
                 }
@@ -61,8 +62,10 @@ class Vendedor extends BaseController
         $marcaModel = new MarcaModel();
         $data['marcas'] = $marcaModel->findAll();
 
+        $fechaActual = (new DateTime())->format('Y-m-d H:i:s');
+
         $estadiaModel = new EstadiaModel();
-        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
+        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'), $fechaActual);
         $dominioModel = new DominioVehiculoModel();
         $data['dominio'] = $dominioModel->obtenerPorId($id_dominio);
 
@@ -88,10 +91,9 @@ class Vendedor extends BaseController
         return view('viewVendedor/viewMasterListadoVentas', $data);
     }
 
-
-
     public function estacionar()
-    {   $this->idHistorialZona=0;
+    {
+        $this->idHistorialZona = 0;
         if (!$this->esVendedor()) {
             return redirect()->to(base_url());
         }
@@ -109,15 +111,15 @@ class Vendedor extends BaseController
 
             //dependiendo de cuantas zonas traiga se usa 1 o 2 validaciones, porque pueden ser hasta 2 turnos
             if (sizeof($infoZonas) === 1) {
-                if (!($this->esFechaValidaParaEstacionar($fechaInicio, $infoZonas[0]['comienzo'], $infoZonas[0]['final'],$infoZonas[0]['id']))) {
+                if (!($this->esFechaValidaParaEstacionar($fechaInicio, $infoZonas[0]['comienzo'], $infoZonas[0]['final'], $infoZonas[0]['id']))) {
                     return redirect()->back()->with('errorHoraDeInicio', 'Se encuentra fuera del horario de estacionamiento el Horario es de Lunes a Viernes de: '
                         . $infoZonas[0]['comienzo'] . 'hs a ' . $infoZonas[0]['final'] . 'hs')
                         ->withInput();
                 }
             }
 
-            if (!(($this->esFechaValidaParaEstacionar($fechaInicio, $infoZonas[0]['comienzo'], $infoZonas[0]['final'],$infoZonas[0]['id'])) ||
-                ($this->esFechaValidaParaEstacionar($fechaInicio, $infoZonas[1]['comienzo'], $infoZonas[1]['final'],$infoZonas[1]['id'])))) {
+            if (!(($this->esFechaValidaParaEstacionar($fechaInicio, $infoZonas[0]['comienzo'], $infoZonas[0]['final'], $infoZonas[0]['id'])) ||
+                ($this->esFechaValidaParaEstacionar($fechaInicio, $infoZonas[1]['comienzo'], $infoZonas[1]['final'], $infoZonas[1]['id'])))) {
                 return redirect()->back()->with('errorHoraDeInicio', 'Se encuentra fuera del horario de estacionamiento el Horario es de Lunes a Viernes de: '
                     . $infoZonas[0]['comienzo'] . 'hs a ' . $infoZonas[0]['final'] . 'hs y de ' . $infoZonas[1]['comienzo'] . 'hs a ' . $infoZonas[1]['final'] . 'hs')
                     ->withInput();
@@ -125,7 +127,7 @@ class Vendedor extends BaseController
 
             if (empty($_POST['cantidad_horas'])) {
 
-                $estadoDefinido = false;
+                $duracionDefinida = false;
 
                 //seleccionar el turno correspondiente para la hora de fin de estadia
                 $fechaFin = $this->verificarTurno($fechaInicio, $infoZonas[0]['comienzo'], $infoZonas[0]['final']);
@@ -136,12 +138,12 @@ class Vendedor extends BaseController
 
 
             } else {
-                $estadoDefinido = false;
+                $duracionDefinida = false;
                 $horasFin = explode(':', $_POST['cantidad_horas']);
                 $fechaFin = (new DateTime())->setTime($horasFin[0], $horasFin[1])->format('Y-m-d H:i:s');
 
-                if (!(($this->esFechaValidaParaEstacionar($fechaFin, $infoZonas[0]['comienzo'], $infoZonas[0]['final'])) ||
-                    ($this->esFechaValidaParaEstacionar($fechaFin, $infoZonas[1]['comienzo'], $infoZonas[1]['final'])))) {
+                if (!(($this->esFechaValidaParaEstacionar($fechaFin, $infoZonas[0]['comienzo'], $infoZonas[0]['final'], $infoZonas[0]['id'])) ||
+                    ($this->esFechaValidaParaEstacionar($fechaFin, $infoZonas[1]['comienzo'], $infoZonas[1]['final'], $infoZonas[1]['id'])))) {
                     return redirect()->back()->with('errorDeCantidadDeHoras', 'El horario seleccionado se encuentra fuera del horario de estacionamiento. El Horario es de Lunes a Viernes de: '
                         . $infoZonas[0]['comienzo'] . 'hs a ' . $infoZonas[0]['final'] . 'hs y de ' . $infoZonas[1]['comienzo'] . 'hs a ' . $infoZonas[1]['final'] . 'hs' . "<br>" .
                         '(La hora seleccionada debe ser mayor a la actual)')
@@ -150,25 +152,26 @@ class Vendedor extends BaseController
             }
 
             $estadiaData = [
-                'estado' => true,
-                'duracion_definida' => $estadoDefinido,
-
+                'duracion_definida' => $duracionDefinida,
                 'fecha_inicio' => $fechaInicio,
                 'fecha_fin' => $fechaFin,
                 'pago_pendiente' => true, //esto cambiaria cuando se haga la parte de pagar en el estacionar
-                'monto' => 0,
                 'id_dominio_vehiculo' => $_POST['dominio_vehiculo'],
                 'id_historial_zona' => $this->idHistorialZona
 
             ];
             $estadiaModel->save($estadiaData);
-            $listadoDeEstadias = $estadiaModel->buscarPorDominio($_POST['dominio_vehiculo'], $_POST['id_zona'], $fechaInicio);
+
+            //$listadoDeEstadias = $estadiaModel->buscarPorDominio($_POST['dominio_vehiculo'], $_POST['id_zona'], $fechaInicio);
+            $listadoDeEstadias = $estadiaModel->obtenerUltimaEstadiaActivaPorDominioId($_POST['dominio_vehiculo'], $fechaInicio);
             $idEstadia = $listadoDeEstadias->id;
+
             $infoVenta = [
                 'esta_pago' => false,
                 'id_vendedor' => session('id'),
                 'id_estadia' => $idEstadia
             ];
+
             $ventaModel = new VentaModel();
             $ventaModel->save($infoVenta);
 
@@ -183,6 +186,7 @@ class Vendedor extends BaseController
                 ->withInput();
         }
     }
+
     private function esVendedor()
     {
         if (session('rol') === '2') {
@@ -190,7 +194,8 @@ class Vendedor extends BaseController
         }
         return false;
     }
-    private function esFechaValidaParaEstacionar($fecha, $inicio, $fin,$idHistorialZona): bool
+
+    private function esFechaValidaParaEstacionar($fecha, $inicio, $fin, $idHistorialZona): bool
     {
         $horaInicio = explode(':', $inicio);
         $horaFin = explode(':', $fin);
@@ -200,7 +205,7 @@ class Vendedor extends BaseController
 
         if (($fecha >= $fechaActual) && ($fecha <= $fechaFin) && ($fecha >= $fechaInicio) && ($fechaActual >= $fechaInicio)
             && (strftime('%A') != 'Saturday') && (strftime('%A') != 'Sunday')) {
-            $this->idHistorialZona=$idHistorialZona;
+            $this->idHistorialZona = $idHistorialZona;
             return true;
         }
         return false;

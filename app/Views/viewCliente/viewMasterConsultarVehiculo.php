@@ -123,7 +123,8 @@ Mi vehiculo
 
                                                 <td><?= $estadia['fecha_inicio']; ?></td>
                                                 <td><?= $estadia['fecha_fin']; ?></td>
-                                                <td><?= $estadia['duracion_definida'] ? $cantidad_horas[$i] : "INDEFINIDO" ?></td>
+                                                <td><?= $estadia['duracion_definida'] ?
+                                                        $cantidad_horas[$i] : "INDEFINIDO" ?></td>
                                                 <td><?= $estadia['zona_nombre']; ?></td>
 
                                             </tr>
@@ -168,7 +169,8 @@ Mi vehiculo
                                     </li>
                                     <li class="list-group-item"><a
                                                 href="<?= base_url('cliente/verPagarEstadiasPendientes'); ?>"
-                                                class="text-carolina">Ver detalle de estadias pendientes<br>(de todos los vehiculos)</a>
+                                                class="text-carolina">Ver detalle de estadias pendientes<br>(de todos
+                                            los vehiculos)</a>
                                     </li>
 
 

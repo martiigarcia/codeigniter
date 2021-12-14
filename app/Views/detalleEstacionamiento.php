@@ -28,7 +28,7 @@
                             <div class="card-body">
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">
-                                        Estado: <?= $estadiaSeleccionada['estado'] == 1 ? "ACTIVA" : "FINALIZADA"; ?></li>
+                                        Estado: <td><?= $estado == true ? "ACTIVA" : "FINALIZADA"; ?></td></li>
                                     <li class="list-group-item">Cantidad de
                                         horas:
                                         <td>

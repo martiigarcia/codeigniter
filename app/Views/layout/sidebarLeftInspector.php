@@ -66,11 +66,6 @@
 
                                                 <div class="input-group-prepend">
 
-                                                    <!--
-                                                    <input type="text" name="patente"
-                                                           class="form-control"
-                                                           placeholder="Patente" required>
--->
                                                     <select class="form-control" name="dominio_vehiculo"
                                                             id="dominio_vehiculo"
                                                             required>

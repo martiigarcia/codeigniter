@@ -201,8 +201,8 @@ class Administrador extends BaseController
         $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
 
         $estadiaModel = new EstadiaModel();
-
-        $data['estadias_activas'] = $estadiaModel->estadiasActivas();
+        $fechaActual = (new DateTime())->format('Y-m-d H:i:s');
+        $data['estadias_activas'] = $estadiaModel->estadiasActivas($fechaActual);
         $cantidadDeHoras[] = null;
         $i = 0;
         foreach ($data['estadias_activas'] as $infoEstadia) {

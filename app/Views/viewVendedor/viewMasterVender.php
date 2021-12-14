@@ -1,4 +1,4 @@
-<?= $this->extend("templates/master")?>
+<?= $this->extend("templates/master") ?>
 
 <?= $this->section('titulo') ?>
     Registrar venta
@@ -36,7 +36,7 @@
                             <li class="list-group-item">
                                 <div class="form-group row">
 
-                                    <label class="col-md-3 col-form-label">Vehiculo</label>
+
                                     <div class="col">
                                         <div class="form-group">
                                             <input hidden="" name="dominio_vehiculo" value="<?= $dominio['id'] ?>">
@@ -65,33 +65,35 @@
                                 <p style="color: rgb(232,74,103)"> <?= session('errorDeCantidadDeHoras'); ?></p>
                                 <button class="btn btn-flat mb-1 btn-primary" type="button" data-toggle="collapse"
                                         data-target="#desplegable" aria-expanded="false" aria-controls="desplegable">
-                                    Estadia definida
+                                    Definir horario de finalizacion
                                 </button>
 
                                 <div class="collapse" id="desplegable">
                                      
 
                                     <div class="form-group row">
-                                        <label class="col-md-3 col-form-label">Cantidad de horas</label>
+                                        <label class="col-md-3 col-form-label">Hora de fin</label>
                                         <div class="col">
                                             <input type="time" name="cantidad_horas" class="form-control">
 
                                         </div>
                                     </div>
-                                    <div class="row">
 
-                                        <div class="col text-center">
-                                            <button type="submit" class="btn btn-flat mb-1 btn-primary">Comenzar estadia
-                                            </button>
-
-                                            <a href="<?= base_url('/home'); ?>" class="btn btn-flat mb-1 btn-secondary">Cancelar</a>
-                                        </div>
-                                    </div>
                                 </div>
                             </li>
                         </ul>
 
                         <div class="card-footer" id="div1">
+                            <div class="row">
+
+                                <div class="col text-center">
+                                    <button type="submit" class="btn btn-flat mb-1 btn-primary">Comenzar estadia
+                                    </button>
+
+                                    <a href="<?= base_url('/home'); ?>"
+                                       class="btn btn-flat mb-1 btn-secondary">Cancelar</a>
+                                </div>
+                            </div>
                             <p style="color: rgb(232,74,103)"> <?= session('errorHoraDeInicio'); ?></p>
 
                         </div>

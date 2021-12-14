@@ -113,7 +113,6 @@
                             </li>
 
 
-
                         </ul>
 
                         <div class="card-footer" id="div1">
@@ -124,52 +123,58 @@
 
                                 <div class="col text-center">
 
+                                    <form method="POST"  action="<?= base_url('cliente/estacionar'); ?>">
+                                        <div class="form-group" id="definirPago">
+                                            <button type="button" data-color="dark"
+                                                    class="btn btn-dark exampleColorModal"
+                                                    data-toggle="modal"
+                                                    id="botonModal"
+                                                    data-target="#comenzarEstadiaModalToolPop">
+                                                Comenzar estadia
+                                            </button>
 
-                                    <div class="form-group">
-                                        <button type="button" data-color="dark" class="btn btn-dark exampleColorModal"
-                                                data-toggle="modal"
-                                                data-target="#exampleModalToolPop">
-                                            Comenzar estadia
-                                        </button>
 
+                                            <div class="modal fade modal-dark show" id="comenzarEstadiaModalToolPop"
+                                                 tabindex="-1" role="dialog"
+                                                 aria-labelledby="exampleModalToolPopTitle" style="display: none;"
+                                                 aria-hidden="true"
+                                                 aria-labelledby="exampleModalLabel" aria-modal="true"
+                                                 style="display: block;">
 
-                                        <div class="modal fade modal-dark show" id="exampleModalToolPop" tabindex="-1" role="dialog"
-                                             aria-labelledby="exampleModalToolPopTitle" style="display: none;"
-                                             aria-hidden="true"
-                                             aria-labelledby="exampleModalLabel" aria-modal="true" style="display: block;">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalToolPopTitle">
-                                                            ¿Desea pagar su estacionamiento en este momento?
-                                                        </h5>
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                                aria-label="Close">
-                                                            <span aria-hidden="true">×</span>
-                                                        </button>
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalToolPopTitle">
+                                                                ¿Desea pagar su estacionamiento en este momento?
+                                                            </h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                <span aria-hidden="true">×</span>
+                                                            </button>
+                                                        </div>
+
+                                                        <div class="modal-body">
+                                                            <label class="col col-form-label">Su estadia esta por
+                                                                comenzar!</label>
+
+                                                        </div>
+                                                        <div class="modal-footer" style="display: initial">
+                                                            <button type="button" class="btn btn-outline-secondary"
+                                                                    data-dismiss="modal">Dejar pendiente
+                                                            </button>
+                                                            <a type="submit" class="btn btn-outline-primary">Pagar ahora
+                                                            </a>
+                                                        </div>
+
                                                     </div>
-
-                                                    <div class="modal-body">
-                                                        <label class="col col-form-label">Su estadia esta por comenzar!</label>
-
-                                                    </div>
-                                                    <div class="modal-footer" style="display: initial">
-                                                        <button type="button" class="btn btn-outline-secondary"
-                                                                data-dismiss="modal">Dejar pendiente
-                                                        </button>
-                                                        <a type="submit" class="btn btn-outline-primary">Pagar ahora
-                                                        </a>
-                                                    </div>
-
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <button type="submit" class="btn btn-flat mb-1 btn-primary">Comenzar estadia
-                                    </button>
+                                        <button type="submit" class="btn btn-flat mb-1 btn-primary">Comenzar estadia
+                                        </button>
 
-                                    <a href="<?= base_url() ?>" class="btn btn-flat mb-1 btn-secondary">Cancelar</a>
+                                        <a href="<?= base_url() ?>" class="btn btn-flat mb-1 btn-secondary">Cancelar</a>
                                 </div>
                             </div>
                         </div>
@@ -178,7 +183,7 @@
             </div>
 
         </div>
-
     </div>
+
 
 <?= $this->endSection() ?>

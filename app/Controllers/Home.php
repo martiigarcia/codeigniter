@@ -6,6 +6,7 @@ use App\Models\DominioVehiculoModel;
 use App\Models\EstadiaModel;
 use App\Models\TarjetaDeCreditoModel;
 use App\Models\UserModel;
+use DateTime;
 
 class Home extends BaseController
 {
@@ -52,9 +53,11 @@ class Home extends BaseController
         $userModel = new UserModel();
         $data['usuarioActual'] = $userModel->obtenerUsuario(session('id'));
 
+        $fechaActual = (new DateTime())->format('Y-m-d H:i:s');
+
         $estadiaModel = new EstadiaModel();
-        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
-        $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendiente(session('id'));
+        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'), $fechaActual);
+        $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendiente(session('id'), $fechaActual);
 
         $dominioVehiculoModel = new DominioVehiculoModel();
         $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
@@ -71,6 +74,7 @@ class Home extends BaseController
         $userModel = new UserModel();
         $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
 
+        $fechaActual = (new DateTime())->format('Y-m-d H:i:s');
 
         if ($this->esAdministrador()) {
             return view('viewAdministrador/viewMaster', $data);
@@ -88,8 +92,8 @@ class Home extends BaseController
         if ($this->esCliente()) {
 
             $estadiaModel = new EstadiaModel();
-            $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
-            $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendiente(session('id'));
+            $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'), $fechaActual);
+            $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendiente(session('id'), $fechaActual);
 
             $dominioVehiculoModel = new DominioVehiculoModel();
             $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));

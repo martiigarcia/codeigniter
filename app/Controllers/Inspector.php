@@ -28,6 +28,21 @@ class Inspector extends BaseController
         $data['dominiosTotales'] = $dominioVehiculoModel->obtenerTodos();
 
         $data['estadias'] = $estadiaModel->obtenerTodas();
+        $estados[] = null;
+        $i = 0;
+        foreach ($data['estadias'] as $infoEstadia) {
+            $estados[$i] = $this->verificarEstados( $infoEstadia['fecha_fin']);
+            $i++;
+        }
+        $data['estados'] = $estados;
+
+        $cantidadDeHoras[] = null;
+        $i = 0;
+        foreach ($data['estadias'] as $infoEstadia) {
+            $cantidadDeHoras[$i] = $this->calcularHoras($infoEstadia['fecha_inicio'], $infoEstadia['fecha_fin']);
+            $i++;
+        }
+        $data['cantidad_horas'] = $cantidadDeHoras;
 
         return view('viewInspector/viewMasterConsultarEstacionamiento', $data);
     }
@@ -54,6 +69,9 @@ class Inspector extends BaseController
 
         $cantidadDeHoras = $this->calcularHoras($data['estadiaSeleccionada']['fecha_inicio'], $data['estadiaSeleccionada']['fecha_fin']);
         $data['cantidad_horas'] = $cantidadDeHoras;
+
+        $estado = $this->verificarEstados( $data['estadiaSeleccionada']['fecha_fin']);
+        $data['estado'] = $estado;
 
         return view('detalleEstacionamiento', $data);
     }
@@ -128,9 +146,10 @@ class Inspector extends BaseController
             return redirect()->to(base_url());
         }
 
+        $fechaAcual = (new DateTime())->format('Y-m-d H:i:s');
 
         $estadiasModel = new EstadiaModel();
-        $tieneEstadias = $estadiasModel->estadiasActivasPorDominioId($dominio);
+        $tieneEstadias = $estadiasModel->estadiasActivasPorDominioId($dominio, $fechaAcual);
 
         if ($tieneEstadias == NULL) {
             return json_encode(true);
@@ -140,7 +159,6 @@ class Inspector extends BaseController
 
 
     }
-
 
     private function esInspector()
     {
@@ -187,5 +205,15 @@ class Inspector extends BaseController
 
         return number_format($monto, 2, '.', '');
 
+    }
+
+    private function verificarEstados($fecha_fin){
+        $fechaActual = (new DateTime())->format('Y-m-d H:i:s');
+
+        if($fecha_fin>$fechaActual){
+            return true; //esta activa
+        }else{
+            return false; //termino
+        }
     }
 }
