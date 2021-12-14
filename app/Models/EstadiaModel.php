@@ -134,7 +134,7 @@ class EstadiaModel extends Model
             ->join('modelos', 'modelos.id = vehiculos.modelo')
             ->join('historial_zonas', 'historial_zonas.id = estadias.id_historial_zona')
             ->join('zonas', 'zonas.id = historial_zonas.id_zona')
-            ->where('estadias.fecha_fin <=', $fechaActual)
+            ->where('estadias.fecha_fin >=', $fechaActual)
             ->get()->getResultArray();
     }
 
@@ -274,7 +274,7 @@ class EstadiaModel extends Model
             ->join('historial_zonas', 'historial_zonas.id = estadias.id_historial_zona')
             ->join('zonas', 'zonas.id = historial_zonas.id_zona')
             ->where('dominio_vehiculo.id', $id_dominio)
-            ->where('estadias.fecha_fin <=', $fechaActual) //?
+            ->where('estadias.fecha_fin >=', $fechaActual) //?
             ->where('pago_pendiente', true)
             ->get()->getResultArray();
     }
@@ -289,7 +289,7 @@ class EstadiaModel extends Model
             ->join('dominio_vehiculo', 'dominio_vehiculo.id = estadias.id_dominio_vehiculo')
             ->join('usuarios', 'usuarios.id = dominio_vehiculo.id_usuario')
             ->where('id_usuario', $id_usuario)
-            ->where('estadias.fecha_fin <=', $fechaActual)
+            ->where('estadias.fecha_fin >=', $fechaActual)
             ->get()->getFirstRow();
     }
 
@@ -340,7 +340,7 @@ class EstadiaModel extends Model
             ->join('zonas', 'zonas.id = historial_zonas.id_zona')
             ->where('id_usuario', $id_usuario)
             ->where('pago_pendiente', true)
-            ->where('estadias.fecha_fin <=', $fechaActual)
+            ->where('estadias.fecha_fin >=', $fechaActual)
             ->get()->getResultArray();
     }
 
