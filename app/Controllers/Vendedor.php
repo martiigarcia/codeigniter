@@ -31,20 +31,17 @@ class Vendedor extends BaseController
         $fechaAcual = (new DateTime())->format('Y-m-d H:i');
 
 
-        foreach ($data['dominio_vehiculos'] as $dominio) {
-            $estadias = $estadiaModel->buscarPorDominioId($dominio['id']);
+        for ($j = 0; $j < sizeof($data['dominio_vehiculos']); $j++) {
+            $estadias = $estadiaModel->buscarPorDominioId($data['dominio_vehiculos'][$j]['id']);
 
             if (!empty($estadias)) {
-                foreach ($estadias as $estadia) {
+                for ($i = 0; $i < sizeof($estadias); $i++) {
 
-                    if ($estadia['fecha_fin'] >= $fechaAcual) {
-                        $data['dominio_vehiculos'] = array_filter($data['dominio_vehiculos'], function ($valor) {
-                            return $valor['vehiculo_patente'] !== $valor['vehiculo_patente'];
-                        });
+                    if ($estadias[$i]['fecha_fin'] >= $fechaAcual) {
+                        unset($data['dominio_vehiculos'][$j]);
                     }
                 }
             }
-
         }
 
 
