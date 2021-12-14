@@ -302,12 +302,12 @@ class Administrador extends BaseController
 
 
         $validacion = $this->validate([
-            'password' => 'required'
-
+            'password' => 'required',
+            'confirm_password' => 'required'
         ]);
 
 
-        if ($validacion) {
+        if ($validacion && ($_POST['password']===$_POST['confirm_password']))  {
 
             $_POST['password'] = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
@@ -319,6 +319,9 @@ class Administrador extends BaseController
         } else {
 
             $error = $this->validator->getErrors();
+            if(($_POST['password']!==$_POST['confirm_password']))
+                $error['confirm_password1']='Las Contraseñas deben coincidir';
+
             session()->setFlashdata($error);
             return redirect()->back()->withInput();
         }
