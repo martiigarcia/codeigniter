@@ -460,10 +460,14 @@ class Administrador extends BaseController
             $horaInicioHZSiguiente = explode(':', $hZonaSiguiente['comienzo']);
             $horaFinHZSiguiente = explode(':', $hZonaSiguiente['final']);
 
-            if ($horaFinHZActual < $horaInicioHZSiguiente) {
+            $fechaHoraFinActual = (new DateTime())->setTime($horaFinHZActual[0], $horaFinHZActual[1])->format('Y-m-d H:i:s');
+            $fechaHoraInicioHZSiguiente = (new DateTime())->setTime($horaInicioHZSiguiente[0], $horaInicioHZSiguiente[1])->format('Y-m-d H:i:s');
+
+            if ($fechaHoraFinActual < $fechaHoraInicioHZSiguiente) {
+
                 $fechaInicioSigTurno = (new DateTime())->setTime($horaInicioHZSiguiente[0], $horaInicioHZSiguiente[1])->format('Y-m-d H:i:s');
 
-                if (($fechaInicio < $fechaFin) &&
+                if ( ($fechaInicio < $fechaFin) &&
                     ($fechaFin < $fechaInicioSigTurno) &&
                     (strftime('%A') != 'Saturday') &&
                     (strftime('%A') != 'Sunday')) {
