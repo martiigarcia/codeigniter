@@ -82,12 +82,12 @@ class Cliente extends BaseController
                         $dominiVehiculoModel->save($dominioData);
                         return redirect()->to(base_url('/home'));
                     } else {
-                        return redirect()->back()->with('mensaje', 'Usted ya tiene registrado este vehiculo')
+                        return redirect()->back()->with('mensajeError', 'Usted ya tiene registrado este vehiculo')
                             ->withInput();
                     }
 
                 } else {
-                    return redirect()->back()->with('mensaje', 'Ya existe un vehiculo con esta Patente, pero con Marca y Modelo diferentes')
+                    return redirect()->back()->with('mensajeError', 'Ya existe un vehiculo con esta patente, pero con marca y modelo diferentes')
                         ->withInput();
                 }
             } else {

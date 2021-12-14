@@ -2,7 +2,7 @@
 <div class="header">
     <div class="header-bar">
         <div class="brand">
-            <a href="<?= base_url("/home"); ?>" class="logo"><span class="text-carolina">G&G</span>Software</a>
+            <a href="<?= base_url("/home"); ?>" class="logo"><span class="text-carolina">COMARCA</span>Estacionada</a>
             <a href="#" class="logo-sm text-carolina" style="display: none;">siQ</a>
         </div>
         <div class="btn-toggle">
