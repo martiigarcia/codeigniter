@@ -1,4 +1,4 @@
-<?= $this->extend("templates/master")?>
+<?= $this->extend("templates/master") ?>
 
 <?= $this->section('titulo') ?>
     Registrar usuario
@@ -27,6 +27,7 @@
 
                         </div>
 
+
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
                                 <div class="form-group row">
@@ -35,7 +36,8 @@
                                         <div class="input-group">
                                             <div class="col-6">
 
-                                                <input type="text" name="nombre" class="form-control" placeholder="Nombre"
+                                                <input type="text" name="nombre" class="form-control"
+                                                       placeholder="Nombre"
                                                        value="<?= old("nombre") ?>">
                                                 <p style="color: rgb(232,74,103) "> <?= session('nombre'); ?></p>
                                             </div>
@@ -88,7 +90,7 @@
                                     <div class="col">
                                         <div class="input-group col">
                                             <input type="password" name="password" class="form-control"
-                                                   placeholder="Contraseña" >
+                                                   placeholder="Contraseña">
                                             <div class="input-group-append">
                                                 <span class="input-group-text bg-danger"><span class="text-light">Obligatorio</span>
                                             </div>
@@ -109,14 +111,14 @@
 
                                         </div>
                                         <p style="color: rgb(232,74,103)"> <?= session('confirm_password') ? "El campo contraseña es obligatorio" : "" ?></p>
-                                        <p style="color: rgb(232,74,103)"> <?= session('confirm_password1')  ?></p>
+                                        <p style="color: rgb(232,74,103)"> <?= session('confirm_password1') ?></p>
                                     </div>
                                 </div>
 
-                                <div class="form-group row mt-3">
+                                <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Fecha de nacimiento</label>
                                     <div class="col">
-                                        <div class="input-group date">
+                                        <div class="input-group col date">
 
 
                                             <div class="input-group input-group-sm mb-3">
@@ -147,7 +149,7 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Rol</label>
                                     <div class="col">
-                                        <div class="form-group">
+                                        <div class="form-group col">
 
                                             <label>Seleccione un rol de la lista</label>
                                             <select class="form-control" name="id_rol" id="eleccionRol"
@@ -159,6 +161,7 @@
                                                         : <?= $rol['descripcion']; ?></option>
                                                 <?php endforeach; ?>
                                             </select>
+
 
                                         </div>
                                         <p style="color: rgb(232,74,103)"> <?= session('id_rol') ? "El campo rol es obligatorio" : "" ?></p>

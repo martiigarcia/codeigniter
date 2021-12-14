@@ -165,6 +165,8 @@ class Cliente extends BaseController
         $zonaModel = new ZonaModel();
         $data['zonas'] = $zonaModel->findAll();
 
+
+
         $tarjetaModel = new TarjetaDeCreditoModel();
         $data['tarjetas'] = $tarjetaModel->obtenerTarjetasPorUsuario(session('id'));
 

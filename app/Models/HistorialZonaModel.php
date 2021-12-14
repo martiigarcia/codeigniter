@@ -38,5 +38,14 @@ class HistorialZonaModel extends Model
             ->get()->getFirstRow('array');
    }
 
+   public function obtenerTurnoActivoDeCadaZona(){
+       return $this
+           ->select('historial_zonas.*,
+           zonas.id zona_id, zonas.nombre zona_nombre, zonas.descripcion zona_descripcion')
+           ->join('zonas', 'zonas.id = historial_zonas.id_zona')
+           ->where('estado',true)
+           ->get()->getResultArray();
+   }
+
 
 }

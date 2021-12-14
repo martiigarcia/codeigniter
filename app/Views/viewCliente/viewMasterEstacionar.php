@@ -101,7 +101,7 @@
                                 <p style="color: rgb(232,74,103)"> <?= session('errorDeCantidadDeHoras'); ?></p>
                                 <button class="btn btn-flat mb-1 btn-primary" type="button" data-toggle="collapse"
                                         data-target="#desplegable" aria-expanded="false" aria-controls="desplegable">
-                                    Estadia definida
+                                    Definir horario de finalizacion
                                 </button>
 
                                 <div class="collapse" id="desplegable">
@@ -109,7 +109,7 @@
 
 
                                     <div class="form-group row">
-                                        <label class="col-md-3 col-form-label">Cantidad de horas</label>
+                                        <label class="col-md-3 col-form-label">Hora de fin</label>
                                         <div class="col">
                                             <input type="time" name="cantidad_horas" class="form-control">
 

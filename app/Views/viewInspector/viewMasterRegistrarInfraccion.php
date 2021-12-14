@@ -36,23 +36,31 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
                                 <div class="form-group row">
-                                    <label class="col-md-10 col-form-label">Calle donde se encontraba estacionado el
-                                        vehiculo en infraccion</label>
+
                                     <div class="col-md-10">
+                                        <label class="col-md-10 col-form-label">Direccion donde se
+                                            encontraba estacionado el
+                                            vehiculo en infraccion</label>
                                         <div class="input-group">
-                                            <input type="text" name="dominio" value="<?= $dominio; ?>" hidden=""
-                                                   class="form-control">
+                                            <div class="col-6">
 
-                                            <input type="text" name="calle" class="form-control"
-                                                   placeholder="Nombre de la calle"
-                                                   value="<?= old("calle") ?>">
-                                            <input type="number" name="altura" class="form-control"
-                                                   placeholder="Altura"
-                                                   value="<?= old("altura") ?>">
+                                                <input type="text" name="dominio" value="<?= $dominio; ?>" hidden=""
+                                                       class="form-control">
 
+                                                <input type="text" name="calle" class="form-control"
+                                                       placeholder="Nombre de la calle"
+                                                       value="<?= old("calle") ?>">
+                                                <p style="color: rgb(232,74,103)"> <?= session('calle'); ?></p>
+                                            </div>
+                                            <div class="col-6">
+
+                                                <input type="number" name="altura" class="form-control"
+                                                       placeholder="Altura"
+                                                       value="<?= old("altura") ?>">
+                                                <p style="color: rgb(232,74,103)"> <?= session('altura'); ?></p>
+                                            </div>
                                         </div>
-                                        <p style="color: rgb(232,74,103)"> <?= session('calle'); ?></p>
-                                        <p style="color: rgb(232,74,103)"> <?= session('altura'); ?></p>
+
 
                                     </div>
                                 </div>
@@ -60,13 +68,15 @@
 
                             </li>
 
-                                <li class="list-group-item">
-                                    <div class="form-group row">
+                            <li class="list-group-item">
+                                <div class="form-group row">
+                                    <div class="col-md-10">
 
-                                        <div class="col-md-10">
-                                            <div class="form-group">
-                                                <label class="col-md-12 col-form-label">Seleccione la zona en la que se encontraba el vehiculo en infraccion</label>
+                                        <label class="col-md-10 col-form-label">Seleccione la zona en la que se
+                                            encontraba el vehiculo en infraccion</label>
 
+                                        <div class="input-group">
+                                            <div class="col">
                                                 <select class="form-control" id="idZona" name="id_zona"
                                                         onchange="cargarHorasZonasParaMultas()">
 
@@ -78,23 +88,28 @@
 
                                                     <?php endforeach; ?>
                                                 </select>
-                                                <p style="color: rgb(232,74,103)"> <?= session('id_zona') ? 'Debe Completar este campo' : ''; ?></p>
-                                            </div>
-
-                                            <label class="col-md-12 col-form-label">Seleccione el horario de la zona en el que se encontraba estacionado el vehiculo en infraccion</label>
-                                            <div class="form-group row">
-                                                <div class="col">
-                                                    <select class="form-control" name="historial_zona" id="hZona">
-                                                        <option disabled selected=inicial>Primero seleccione una Zona
-                                                        </option>
-                                                    </select>
-                                                    <p style="color: rgb(232,74,103)"> <?= session('historial_zona') ? 'Debe Completar este campo' : ''; ?></p>
-                                                </div>
+                                                <p style="color: rgb(232,74,103)"> <?= session('id_zona') ? 'Debe completar este campo' : ''; ?></p>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-10">
+                                        <label class="col-md-12 col-form-label">Seleccione el horario de la zona en el
+                                            que se encontraba estacionado el vehiculo en infraccion</label>
+                                        <div class="input-group">
+                                            <div class="col">
+                                                <select class="form-control" name="historial_zona" id="hZona">
+                                                    <option disabled selected=inicial>Primero seleccione una Zona
+                                                    </option>
+                                                </select>
+                                                <p style="color: rgb(232,74,103)"> <?= session('historial_zona') ? 'Debe completar este campo' : ''; ?></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                </li>
+                            </li>
 
 
                         </ul>
@@ -104,7 +119,8 @@
 
                                 <div class="col text-center">
                                     <p style="color: rgb(232,74,103)"> <?= session('mensaje'); ?></p>
-                                    <button type="submit" class="btn btn-flat mb-1 btn-primary">Confirmar</button>
+                                    <button type="submit" class="btn btn-flat mb-1 btn-primary">Registrar infraccion
+                                    </button>
 
                                     <a href="<?= base_url('/home') ?>" class="btn btn-flat mb-1 btn-secondary">
                                         Cancelar</a>

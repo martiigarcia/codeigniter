@@ -108,6 +108,7 @@ class Inspector extends BaseController
             'calle' => 'required',
             'altura' => 'required',
             'dominio' => 'required',
+            'id_zona' => 'required',
             'historial_zona' => 'required',
         ]);
 
@@ -136,7 +137,6 @@ class Inspector extends BaseController
                 ->withInput();
 
         }
-
 
     }
 

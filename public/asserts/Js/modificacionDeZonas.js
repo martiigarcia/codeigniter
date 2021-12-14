@@ -10,7 +10,7 @@ function cargarHorasZonas() {
 
             $.each(info, function (i, item) {
                 $('#hZona').append(
-                    '<option value="'+item.id+'">inicio: ' + item.comienzo +' finalizaion: '+item.final+' </option>'
+                    '<option value="'+item.id+'"> Inicio: ' + item.comienzo +' . Finalizacion: '+item.final+' </option>'
 
                 )
             })
@@ -28,7 +28,7 @@ function cargarHoraYPrecioZonas() {
 
             $.each(info, function (i, item) {
                 $('#hZona').append(
-                    '<option value="'+item.id+'">inicio: ' + item.comienzo +' finalizaion: '+item.final+' Precio actual: '+item.precio+' </option>'
+                    '<option value="'+item.id+'">Inicio: ' + item.comienzo +' . Finalizacion: '+item.final+' . Precio actual: '+item.precio+' </option>'
 
                 )
 
@@ -50,7 +50,7 @@ function cargarHorasZonasParaMultas() {
 
             $.each(info, function (i, item) {
                 $('#hZona').append(
-                    '<option value="'+item.id+'">inicio: ' + item.comienzo +' finalizaion: '+item.final+' </option>'
+                    '<option value="'+item.id+'">Inicio: ' + item.comienzo +' . Finalizacion: '+item.final+' </option>'
 
                 )
             })
