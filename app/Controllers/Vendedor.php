@@ -26,6 +26,7 @@ class Vendedor extends BaseController
 
         $dominioModel = new DominioVehiculoModel();
         $data['dominio_vehiculos'] = $dominioModel->obtenerTodos();
+
         $estadiaModel = new EstadiaModel();
         $fechaAcual = (new DateTime())->format('Y-m-d H:i');
 
