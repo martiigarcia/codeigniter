@@ -3,11 +3,15 @@
 namespace App\Controllers;
 
 use App\Models\CuentaModel;
+use App\Models\DominioVehiculoModel;
 use App\Models\EstadiaModel;
 use App\Models\HistorialZonaModel;
 use App\Models\InfraccionModel;
+use App\Models\RecuerdameModel;
 use App\Models\RolModel;
+use App\Models\TarjetaDeCreditoModel;
 use App\Models\UserModel;
+use App\Models\VentaModel;
 use App\Models\ZonaModel;
 use DateTime;
 
@@ -27,9 +31,66 @@ class Administrador extends BaseController
             return redirect()->back()->withInput(session());
 
         } else {
-            $cuentaModel= new CuentaModel();
-            $cuentaModel->eliminarCuentaUsuario($id);
             $userModel = new UserModel();
+            $usuario = $userModel->find($id);
+
+
+            if ($usuario['id_rol'] === '4') {//es cliente
+
+                $cuentaModel = new CuentaModel();
+                $cuentaModel->eliminarCuentaUsuario($id);
+
+                $tarjetasModel = new TarjetaDeCreditoModel();
+                $tarjetas = $tarjetasModel->obtenerTarjetasPorUsuario($id);
+                if (!empty($tarjetas)) {
+                    foreach ($tarjetas as $tarjeta) {
+                        $tarjetasModel->delete($tarjeta['id']);
+                    }
+                }
+
+                $dominioModel = new DominioVehiculoModel();
+                $dominios = $dominioModel->tieneVehiculos($id);
+
+                if (!empty($dominios)) {
+                    $infraccionesModel = new InfraccionModel();
+                    $infracciones = $infraccionesModel->obtenerInfraccionesPorUsuarioId($id);
+                    if (!empty($infracciones)) {
+                        foreach ($infracciones as $infraccion) {
+                            $infraccionesModel->delete($infraccion['id']);
+                        }
+                    }
+
+                    $estadiasModel = new EstadiaModel();
+                    $estadias = $estadiasModel->buscarPorUsuarioId($id);
+                    if (!empty($estadias)) {
+
+                        foreach ($estadias as $estadia) {
+                            $ventaModel = new VentaModel();
+                            $ventas = $ventaModel->obtenerPorEstadias($estadia['id']);
+                            if (!empty($ventas)) {
+                                $ventaModel->eliminarVentasPorEstadia($estadia['id']);
+                            }
+                            $estadiasModel->delete($estadia['id']);
+                        }
+                    }
+                    foreach ($dominios as $dominio) {
+                        $dominioModel->delete($dominio['id']);
+                    }
+                }
+            } elseif ($usuario['id_rol'] === '2') {//es vendedor
+
+                $ventaModel = new VentaModel();
+                $ventas = $ventaModel->obtenerPorVendedor($id);
+
+                if (!empty($ventas)) {
+                    foreach ($ventas as $venta) {
+                        $ventaModel->delete($venta['id']);
+                    }
+                }
+            }
+            $recuerdameSesionModel = new RecuerdameModel();
+            $recuerdameSesionModel->eliminarSesionesDeUsuario($id);
+
             $userModel->delete($id);
 
             session()->setFlashdata('mensaje', 'Los datos se eliminaron con exito');
@@ -153,10 +214,10 @@ class Administrador extends BaseController
             'id_rol' => 'required',
             'fecha_de_nacimiento' => 'required|valid_date',
             'password' => 'required',
-            'confirm_password'=>'required',
+            'confirm_password' => 'required',
         ]);
 
-        if ($validacion && ($_POST['password']===$_POST['confirm_password'])) {
+        if ($validacion && ($_POST['password'] === $_POST['confirm_password'])) {
 
             $_POST['fecha_de_nacimiento'] = DateTime::createFromFormat("d-m-Y", $_POST['fecha_de_nacimiento'])->format('Y-m-d');
 
@@ -165,9 +226,9 @@ class Administrador extends BaseController
             $userModel = new UserModel();
             $userModel->save($_POST);
             $cuentaModel = new CuentaModel();
-            $cuentainfo=[
-                'monto'=>'0',
-                'id_usuario'=>$userModel->obtenerUsuarioEmail($_POST['email'])['id'],
+            $cuentainfo = [
+                'monto' => '0',
+                'id_usuario' => $userModel->obtenerUsuarioEmail($_POST['email'])['id'],
             ];
             $cuentaModel->save($cuentainfo);
 
@@ -177,8 +238,8 @@ class Administrador extends BaseController
 
 
             $error = $this->validator->getErrors();
-            if(($_POST['password']!==$_POST['confirm_password']))
-                $error['confirm_password1']='Las Contraseñas deben coincidir';
+            if (($_POST['password'] !== $_POST['confirm_password']))
+                $error['confirm_password1'] = 'Las Contraseñas deben coincidir';
             session()->setFlashdata($error);
             return redirect()->back()->withInput();
         }
@@ -399,7 +460,7 @@ class Administrador extends BaseController
             if ($horaFinHZActual < $horaInicioHZSiguiente) {
                 $fechaInicioSigTurno = (new DateTime())->setTime($horaInicioHZSiguiente[0], $horaInicioHZSiguiente[1])->format('Y-m-d H:i:s');
 
-                if ( ($fechaInicio < $fechaFin) &&
+                if (($fechaInicio < $fechaFin) &&
                     ($fechaFin < $fechaInicioSigTurno) &&
                     (strftime('%A') != 'Saturday') &&
                     (strftime('%A') != 'Sunday')) {
@@ -428,7 +489,8 @@ class Administrador extends BaseController
         }
     }
 
-    public function modificarPrecioZona(){
+    public function modificarPrecioZona()
+    {
         if (!$this->esAdministrador()) {
             return redirect()->to(base_url());
         }
@@ -439,7 +501,7 @@ class Administrador extends BaseController
             'precio' => 'required',
 
         ]);
-        if($validacion){
+        if ($validacion) {
             $historialZonaModel = new HistorialZonaModel();
 
             $hZonaActual = $historialZonaModel->find($_POST['historial_zona']);
@@ -458,10 +520,10 @@ class Administrador extends BaseController
             session()->setFlashdata('mensaje', 'Los datos se guardaron con exito');
 
             return redirect()->to(base_url('/home'));
-    }else
+        } else
             $error = $this->validator->getErrors();
 
         session()->setFlashdata($error);
         return redirect()->back();
-        }
+    }
 }

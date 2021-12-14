@@ -39,5 +39,20 @@ class VentaModel extends Model
             ->get()->getResultArray();
     }
 
+    public function obtenerPorEstadias($id_estadias)
+    {
+        return $this
+            ->select('ventas.*')
+            ->join('estadias','estadias.id = ventas.id_estadia')
+            ->where('estadias.id',$id_estadias)
+            ->get()->getResultArray();
+    }
+    public function eliminarVentasPorEstadia($id_estadia)
+    {
+        $query = "DELETE FROM `ventas` WHERE `id_estadia`=" . $id_estadia;
+        $this->db->query($query);
+    }
+
+
 
 }

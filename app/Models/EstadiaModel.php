@@ -304,7 +304,6 @@ class EstadiaModel extends Model
             ->join('dominio_vehiculo', 'dominio_vehiculo.id = estadias.id_dominio_vehiculo')
             ->join('usuarios', 'usuarios.id = dominio_vehiculo.id_usuario')
             ->where('id_usuario', $id_usuario)
-
             ->where('estadias.fecha_fin >=', $fechaActual)
             ->orderBy("estadias.fecha_fin", "DESC")
             ->get()->getFirstRow();
@@ -345,4 +344,15 @@ class EstadiaModel extends Model
             ->get()->getResultArray();
     }
 
+    public
+    function buscarPorUsuarioId($id_usuario)
+    {
+        return $this
+            ->select('estadias.*,
+            dominio_vehiculo.id dominio_vehiculo_id,usuarios.id id_usuario')
+            ->join('dominio_vehiculo', 'dominio_vehiculo.id = estadias.id_dominio_vehiculo')
+            ->join('usuarios', 'usuarios.id = dominio_vehiculo.id_usuario')
+            ->where('usuarios.id', $id_usuario)
+            ->get()->getResultArray();
+    }
 }
