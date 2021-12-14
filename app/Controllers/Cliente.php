@@ -313,10 +313,10 @@ class Cliente extends BaseController
         $estadiaModel = new EstadiaModel();
         $data['estadia'] = $estadiaModel->find($id_estadia);
 
-        $fechaAcual = (new DateTime())->format('Y-m-d H:i:s');
-        if ($data['estadia']['fecha_fin'] >= $fechaAcual) {
+        $fechaActual = (new DateTime())->format('Y-m-d H:i:s');
+        if ($data['estadia']['fecha_fin'] >= $fechaActual) {
 
-            $data['estadia']['fecha_fin'] = $fechaAcual;
+            $data['estadia']['fecha_fin'] = $fechaActual;
         }
         $data['estadia']['duracion_definida'] = true;
 
@@ -324,6 +324,7 @@ class Cliente extends BaseController
 
             $estadiaModel->update($id_estadia, $data['estadia']);
             session()->setFlashdata('mensaje', 'Finalizo la estadia correctamente correctamente');
+            $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'),$fechaActual);
             return redirect()->to(base_url('/home'));
 
         } elseif ($valor == 1) { //si esta en uno se paga en el momento (primero se desEstaciona y desp se calcuula el monto y se verifica el saldo de la tarjeta)
