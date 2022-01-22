@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\CuentaModel;
 use App\Models\DominioVehiculoModel;
 use App\Models\EstadiaModel;
 use App\Models\TarjetaDeCreditoModel;
@@ -53,11 +54,9 @@ class Home extends BaseController
         $userModel = new UserModel();
         $data['usuarioActual'] = $userModel->obtenerUsuario(session('id'));
 
-        $fechaActual = (new DateTime())->format('Y-m-d H:i:s');
-
         $estadiaModel = new EstadiaModel();
-        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'), $fechaActual);
-        $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendiente(session('id'), $fechaActual);
+        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
+        $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendientePorUsuario(session('id'));
 
         $dominioVehiculoModel = new DominioVehiculoModel();
         $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
@@ -65,7 +64,11 @@ class Home extends BaseController
         $tarjetaModel = new TarjetaDeCreditoModel();
         $data['tarjetas'] = $tarjetaModel->obtenerTarjetasPorUsuario(session('id'));
 
-        //dd($data['dominio']);
+        $cuentaModel = new CuentaModel();
+        $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
+        $data['montoTotalDeCuenta'] = $cuenta->monto_total;
+
+
         return view('administrarPerfil', $data);
     }
 
@@ -73,8 +76,6 @@ class Home extends BaseController
     {
         $userModel = new UserModel();
         $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
-
-        $fechaActual = (new DateTime())->format('Y-m-d H:i:s');
 
         if ($this->esAdministrador()) {
             return view('viewAdministrador/viewMaster', $data);
@@ -92,8 +93,9 @@ class Home extends BaseController
         if ($this->esCliente()) {
 
             $estadiaModel = new EstadiaModel();
-            $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'), $fechaActual);
-            $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendiente(session('id'), $fechaActual);
+
+            $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
+            $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendientePorUsuario(session('id'));
 
             $dominioVehiculoModel = new DominioVehiculoModel();
             $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
@@ -101,8 +103,40 @@ class Home extends BaseController
             $tarjetaModel = new TarjetaDeCreditoModel();
             $data['tarjetas'] = $tarjetaModel->obtenerTarjetasPorUsuario(session('id'));
 
+            $cuentaModel = new CuentaModel();
+            $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
+            $data['montoTotalDeCuenta'] = $cuenta->monto_total;
+
+
+
+            $data['dominio_vehiculos'] = $data['dominio'];
+
+            $fechaAcual = (new DateTime())->format('Y-m-d H:i:s');
+
+            for ($j = 0; $j < sizeof($data['dominio']); $j++) {
+
+                $id_dominio=$data['dominio'][$j]['id'];
+                $id_vehiculo=$data['dominio'][$j]['id_vehiculo'];
+                $id_usuario=$data['dominio'][$j]['id_usuario'];
+
+                $estadias = $estadiaModel->buscarPorDominioId($id_dominio);
+
+                if (!empty($estadias)) {
+                    for ($i = 0; $i < sizeof($estadias); $i++) {
+                        if ($estadias[$i]['fecha_fin'] >= $fechaAcual) {
+                            $data['dominio_vehiculos'] =  array_filter($data['dominio_vehiculos'], function ($valor)use($id_vehiculo, $id_usuario) {
+
+                                return (($valor['id_vehiculo'] !== $id_vehiculo) && ($valor['id_usuario'] !== $id_usuario));
+                            });
+
+                        }
+                    }
+                }
+            }
+
             return view('viewCliente/viewMaster', $data);
-        } else {
+        }
+        else {
             return redirect()->to(base_url());
         }
 

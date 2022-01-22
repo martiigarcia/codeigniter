@@ -20,6 +20,7 @@ class Cliente extends BaseController
     private $idHistorialZona;
 
 
+    //registrar vehiculo:
     public function verRegistroVehiculo()
     {
         if (!$this->esCliente()) {
@@ -28,14 +29,17 @@ class Cliente extends BaseController
         $userModel = new UserModel();
         $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
 
+        $cuentaModel = new CuentaModel();
+        $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
+        $data['montoTotalDeCuenta'] = $cuenta->monto_total;
+
         $marcaModel = new MarcaModel();
         $data['marcas'] = $marcaModel->findAll();
 
-        $fechaActual = (new DateTime())->format('Y-m-d H:i:s');
 
         $estadiaModel = new EstadiaModel();
-        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'), $fechaActual);
-        $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendiente(session('id'), $fechaActual);
+        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
+        $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendientePorUsuario(session('id'));
 
         $dominioVehiculoModel = new DominioVehiculoModel();
         $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
@@ -113,36 +117,44 @@ class Cliente extends BaseController
 
     }
 
+
+    //estacionar:
     public function verEstacionar()
     {
         if (!$this->esCliente()) {
             return redirect()->to(base_url());
         }
 
+        $userModel = new UserModel();
+        $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
+
+        $cuentaModel = new CuentaModel();
+        $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
+        $data['montoTotalDeCuenta'] = $cuenta->monto_total;
+
         $fechaAcual = (new DateTime())->format('Y-m-d H:i:s');
 
         $estadiaModel = new EstadiaModel();
-        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'), $fechaAcual);
-        $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendiente(session('id'), $fechaAcual);
+        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
+        $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendientePorUsuario(session('id'));
 
         if (!empty($data['estadia'])) {
             return redirect()->to(base_url());
         }
 
-        $userModel = new UserModel();
-        $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
-
         $estadiaModel = new EstadiaModel();
-        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'), $fechaAcual);
-        $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendiente(session('id'), $fechaAcual);
+        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
+        $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendientePorUsuario(session('id'));
 
         $dominioVehiculoModel = new DominioVehiculoModel();
         $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
-
+        //recupera una lista de dominios segun el usuario actual
 
         $i = 0;
         foreach ($data['dominio'] as $dom) {
             $listadoDominio = $dominioVehiculoModel->obtenerDominioPorIdVehiculo($dom['id_vehiculo']);
+            //recupera un listado de dominios segun el vehiculo
+
 
             foreach ($listadoDominio as $dominio) {
                 $estadias = $estadiaModel->buscarPorDominioId($dominio['id']);
@@ -164,7 +176,6 @@ class Cliente extends BaseController
 
         $zonaModel = new ZonaModel();
         $data['zonas'] = $zonaModel->findAll();
-
 
 
         $tarjetaModel = new TarjetaDeCreditoModel();
@@ -253,7 +264,7 @@ class Cliente extends BaseController
             ];
 
             $estadiaModel->save($estadiaData);
-            $estadiaActiva = $estadiaModel->obtenerUltimaEstadiaActivaPorDominioId($_POST['dominio_vehiculo'], (new DateTime())->format('Y-m-d H:i:s'));
+            $estadiaActiva = $estadiaModel->obtenerUltimaEstadiaActivaPorDominioId($_POST['dominio_vehiculo']);
 
             if ($estadiaData['duracion_definida']) {
                 session()->setFlashdata('mensajePagar', '¿Desea pagar en este momento?');
@@ -275,37 +286,10 @@ class Cliente extends BaseController
 
     }
 
-    public function verDesEstacionar()
+
+    //desestacionar:
+    public function finalizarEstadia($id_estadia)
     {
-        if (!$this->esCliente()) {
-            return redirect()->to(base_url());
-        }
-
-        $fechaActual = (new DateTime())->format('Y-m-d H:i:s');
-
-        $estadiaModel = new EstadiaModel();
-        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'), $fechaActual);
-        $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendiente(session('id'), $fechaActual);
-
-        if (empty($data['estadia'])) {
-            return redirect()->to(base_url());
-        }
-
-        $userModel = new UserModel();
-        $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
-
-        $dominioVehiculoModel = new DominioVehiculoModel();
-        $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
-
-        $tarjetaModel = new TarjetaDeCreditoModel();
-        $data['tarjetas'] = $tarjetaModel->obtenerTarjetasPorUsuario(session('id'));
-
-        return view('viewCliente/viewMasterDesEstacionar', $data);
-    }
-
-    public function desEstacionar($id_estadia, $valor)
-    {
-
         if (!$this->esCliente()) {
             return redirect()->to(base_url());
         }
@@ -320,36 +304,67 @@ class Cliente extends BaseController
         }
         $data['estadia']['duracion_definida'] = true;
 
-        if ($valor == 0) {// si esta en cero se deja pendiente el pago
+        $estadiaModel->update($id_estadia, $data['estadia']);
+
+        return json_encode("id estadia: " . $id_estadia);
+    }
+
+    public function pagarAhora($id_estadia) //para pagar en el momento de desestacionar
+    {
+
+        if (!$this->esCliente()) {
+            return redirect()->to(base_url());
+        }
+
+        $estadiaModel = new EstadiaModel();
+        $data['estadia'] = $estadiaModel->find($id_estadia);
+
+        $cuentaModel = new CuentaModel();
+        $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
+
+        $historialZonaModel = new HistorialZonaModel();
+        $historial_zona = $historialZonaModel->find($data['estadia']['id_historial_zona']);
+        $precio = $historial_zona['precio'];
+
+        $montoAPagar = $this->calcularMontoDeEstadia(
+            $data['estadia']['fecha_inicio'],
+            $data['estadia']['fecha_fin'],
+            $precio);
+
+        if ($cuenta->monto_total >= $montoAPagar) {
+
+            $data['estadia']['pago_pendiente'] = false;
 
             $estadiaModel->update($id_estadia, $data['estadia']);
-            session()->setFlashdata('mensaje', 'Finalizo la estadia correctamente correctamente');
-            $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'),$fechaActual);
-            return redirect()->to(base_url('/home'));
+            $cuenta->monto_total = $cuenta->monto_total - $montoAPagar;
+            $cuentaModel->update($cuenta->id, $cuenta);
 
-        } elseif ($valor == 1) { //si esta en uno se paga en el momento (primero se desEstaciona y desp se calcuula el monto y se verifica el saldo de la tarjeta)
-
-            $estadiaModel->update($id_estadia, $data['estadia']);
-            $this->verificarPagarEstadiasPendientes($id_estadia);
-
+            return json_encode(true);
+        } else {
+            return json_encode(false);
         }
 
     }
 
+
+    //pagar pendientes:
     public function verPagarEstadiasPendientes()
     {
         if (!$this->esCliente()) {
             return redirect()->to(base_url());
         }
 
-        $fechaActual = (new DateTime())->format('Y-m-d H:i:s');
         $userModel = new UserModel();
         $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
 
-        $estadiaModel = new EstadiaModel();
-        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'), $fechaActual);
+        $cuentaModel = new CuentaModel();
+        $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
+        $data['montoTotalDeCuenta'] = $cuenta->monto_total;
 
-        $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendiente(session('id'), $fechaActual);
+        $estadiaModel = new EstadiaModel();
+        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
+
+        $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendientePorUsuario(session('id'));
 
         for ($i = 0; $i < sizeof($data['estadiasPendientes']); $i++) {
             $data['estadiasPendientes'][$i]['monto'] = $this->calcularMontoDeEstadia($data['estadiasPendientes'][$i]['fecha_inicio'],
@@ -369,19 +384,26 @@ class Cliente extends BaseController
         }
         $data['cantidad_horas'] = $cantidadDeHoras;
 
+        $estados[] = null;
+        $i = 0;
+        foreach ($data['estadiasPendientes'] as $infoEstadia) {
+            $estados[$i] = $this->verificarEstados($infoEstadia['fecha_fin']);
+            $i++;
+        }
+        $data['estados'] = $estados;
+
         $tarjetaModel = new TarjetaDeCreditoModel();
         $data['tarjetas'] = $tarjetaModel->obtenerTarjetasPorUsuario(session('id'));
 
         return view('viewCliente/viewMasterPagarEstadiasPendientes', $data);
     }
 
-    private function verificarPagarEstadiasPendientes($id)
+    public function pagarEstadiasPendientes($id) //pagar pagar desde estacionar y desde mis estadias pendientes
     {
 
         if (!$this->esCliente()) {
             return redirect()->to(base_url());
         }
-
 
         $estadiaModel = new EstadiaModel();
         $data['estadia'] = $estadiaModel->obtenerEstadiaById($id);
@@ -390,48 +412,14 @@ class Cliente extends BaseController
         $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
 
         $montoAPagar = $this->calcularMontoDeEstadia(
-            $data['estadia']['fecha_inicio'],
-            $data['estadia']['fecha_fin'],
-            $data['estadia']['historial_precio']);
-
-        if ($cuenta->monto_total >= $montoAPagar) {
-
-            $data['estadia']['pago_pendiente'] = false;
-
-            $estadiaModel->update($id, $data['estadia']);
-            $cuenta->monto_total = $cuenta->monto_total - $montoAPagar;
-            $cuentaModel->update($cuenta->id, $cuenta);
-            echo('true');
-        } else {
-            echo('false');
-        }
-    }
-
-    public function pagarEstadiasPendientes($id)
-    {
-
-
-        if (!$this->esCliente()) {
-            return redirect()->to(base_url());
-        }
-
-
-        $estadiaModel = new EstadiaModel();
-        $data['estadia'] = $estadiaModel->obtenerEstadiaById($id);
-
-
-        $cuentaModel = new CuentaModel();
-        $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
-
-        $montoAPagar = $this->calcularMontoDeEstadia(
-            $data['estadia']['fecha_inicio'],
-            $data['estadia']['fecha_fin'],
-            $data['estadia']['historial_precio']);
+            $data['estadia']->fecha_inicio,
+            $data['estadia']->fecha_fin,
+            $data['estadia']->historial_precio);
 
         if ($cuenta->monto_total >= $montoAPagar) {
 
 
-            $data['estadia']['pago_pendiente'] = false;
+            $data['estadia']->pago_pendiente = false;
 
             $estadiaModel->update($id, $data['estadia']);
             $cuenta->monto_total = $cuenta->monto_total - $montoAPagar;
@@ -440,57 +428,18 @@ class Cliente extends BaseController
             session()->setFlashdata('mensaje', 'El pago se realizo exitosamente');
             return redirect()->to(base_url('/home'));
         } else {
-            session()->setFlashdata('error', 'Su cuenta no dispone del saldo necesario para realizar el pago en este momento');
+            session()->setFlashdata('error', 'Su cuenta no dispone del saldo necesario para realizar el pago en este momento. La estadia quedo en estado de ' . "pago pendiente" . '. Para abonarlo vaya a la seccion ' . "Mis estadias pendientes" . ' y seleccionela para pagar');
             return redirect()->back();
         }
     }
 
-    private function esCliente()
-    {
-        if (session('rol') === '4') {
-            return true;
-        }
-        return false;
-    }
 
-    private function esFechaValidaParaEstacionar($fecha, $inicio, $fin, $idHistorialZona): bool
-    {
-        $horaInicio = explode(':', $inicio);
-        $horaFin = explode(':', $fin);
-        $fechaInicio = (new DateTime())->setTime($horaInicio[0], $horaInicio[1])->format('Y-m-d H:i:s');
-        $fechaFin = (new DateTime())->setTime($horaFin[0], $horaFin[1])->format('Y-m-d H:i:s');
-        $fechaActual = (new DateTime())->format('Y-m-d H:i');
-
-        if (($fecha >= $fechaActual) && ($fecha <= $fechaFin) && ($fecha >= $fechaInicio) && ($fechaActual >= $fechaInicio)
-            && (strftime('%A') != 'Saturday') && (strftime('%A') != 'Sunday')) {
-            $this->idHistorialZona = $idHistorialZona;
-            return true;
-        }
-        return false;
-    }
-
-    private function verificarTurno($fecha, $inicio, $fin): ?string
-    {
-        $horaInicio = explode(':', $inicio);
-        $horaFin = explode(':', $fin);
-        $fechaInicio = (new DateTime())->setTime($horaInicio[0], $horaInicio[1])->format('Y-m-d H:i:s');
-        $fechaFin = (new DateTime())->setTime($horaFin[0], $horaFin[1])->format('Y-m-d H:i:s');
-
-
-        if (($fecha <= $fechaFin) && ($fecha >= $fechaInicio)) {
-
-            return $fechaFin;
-        }
-        return null;
-    }
-
+    //consultar estacionamiento:
     public function consultarVehiculo()
     {
         if (!$this->esCliente()) {
             return redirect()->to(base_url());
         }
-
-        $fechaActual = (new DateTime())->format('Y-m-d H:i:s');
 
         $validacion = $this->validate([
             'dominio_vehiculo' => 'required',
@@ -501,13 +450,17 @@ class Cliente extends BaseController
             $userModel = new UserModel();
             $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
 
+            $cuentaModel = new CuentaModel();
+            $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
+            $data['montoTotalDeCuenta'] = $cuenta->monto_total;
+
             $dominioVehiculoModel = new DominioVehiculoModel();
             $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
             $data['dominioSeleccionado'] = $dominioVehiculoModel->obtenerPorId($_POST['dominio_vehiculo']);
 
             $estadiaModel = new EstadiaModel();
-            $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'), $fechaActual);
-            $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendiente(session('id'), $fechaActual);
+            $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
+            $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendientePorUsuario(session('id'));
 
             $data['estadiasTotales'] = $estadiaModel->buscarPorDominioId($_POST['dominio_vehiculo']);
             $cantidadDeHoras[] = null;
@@ -518,7 +471,7 @@ class Cliente extends BaseController
             }
             $data['cantidad_horas'] = $cantidadDeHoras;
 
-            $estadiasNoPagas = $estadiaModel->verificarEstadiasPagoPendientePorDominio($_POST['dominio_vehiculo'], $fechaActual);
+            $estadiasNoPagas = $estadiaModel->verificarEstadiasPagoPendientePorDominio($_POST['dominio_vehiculo']);
             $monto = 0;
             foreach ($estadiasNoPagas as $infoEstadia) {
                 $monto = $monto + $this->calcularMontoDeEstadia($infoEstadia['fecha_inicio'],
@@ -533,6 +486,7 @@ class Cliente extends BaseController
             $tarjetaModel = new TarjetaDeCreditoModel();
             $data['tarjetas'] = $tarjetaModel->obtenerTarjetasPorUsuario(session('id'));
 
+            //dd($data['estadiasTotales']);
             return view('viewCliente/viewMasterConsultarVehiculo', $data);
 
         } else {
@@ -543,45 +497,39 @@ class Cliente extends BaseController
         }
     }
 
-    private function calcularHoras($fecha_inicio, $fecha_fin): string
-    {
-        $fechaDeInicio = new DateTime($fecha_inicio);
-        $fechaDeFin = new DateTime($fecha_fin);
-
-        $diferenciaDeHoras = $fechaDeInicio->diff($fechaDeFin);
-        $hora = $diferenciaDeHoras->h . ':' . $diferenciaDeHoras->i . ':' . $diferenciaDeHoras->s;
-
-        return $hora;
-    }
-
     public function verDetalleEstacionamiento($id)
     {
         if ((!$this->esCliente())) {
             return redirect()->to(base_url());
         }
 
-        $fechaActual = (new DateTime())->format('Y-m-d H:i:s');
-
         $userModel = new UserModel();
         $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
+
+        $cuentaModel = new CuentaModel();
+        $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
+        $data['montoTotalDeCuenta'] = $cuenta->monto_total;
 
         $dominioVehiculoModel = new DominioVehiculoModel();
         $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
 
         $estadiaModel = new EstadiaModel();
-        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'), $fechaActual);
-        $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendiente(session('id'), $fechaActual);
+        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
+        $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendientePorUsuario(session('id'));
 
         $data['estadiaSeleccionada'] = $estadiaModel->obtenerEstadiaById($id);
 
-        $cantidadDeHoras = $this->calcularHoras($data['estadiaSeleccionada']['fecha_inicio'], $data['estadiaSeleccionada']['fecha_fin']);
+
+        $cantidadDeHoras = $this->calcularHoras($data['estadiaSeleccionada']->fecha_inicio, $data['estadiaSeleccionada']->fecha_fin);
         $data['cantidad_horas'] = $cantidadDeHoras;
 
-        $estado = $this->verificarEstados($data['estadiaSeleccionada']['fecha_fin']);
+        $estado = $this->verificarEstados($data['estadiaSeleccionada']->fecha_fin);
         $data['estado'] = $estado;
         return view('detalleEstacionamiento', $data);
     }
 
+
+    //cargar saldo:
     public function verCargarSaldo($valor)
     {
         //0:  usar tarjeta existente
@@ -591,16 +539,19 @@ class Cliente extends BaseController
             return redirect()->to(base_url());
         }
 
-        $fechaActual = (new DateTime())->format('Y-m-d H:i:s');
         $userModel = new UserModel();
         $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
+
+        $cuentaModel = new CuentaModel();
+        $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
+        $data['montoTotalDeCuenta'] = $cuenta->monto_total;
 
         $dominioVehiculoModel = new DominioVehiculoModel();
         $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
 
         $estadiaModel = new EstadiaModel();
-        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'), $fechaActual);
-        $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendiente(session('id'), $fechaActual);
+        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'));
+        $data['estadiasPendientes'] = $estadiaModel->verificarEstadiasPagoPendientePorUsuario(session('id'));
 
         $data['valor'] = $valor;
 
@@ -671,6 +622,102 @@ class Cliente extends BaseController
         }
     }
 
+
+    //funcion para saber si existen vehiculos que el usuario pueda estacioanr en el momento
+    public function obtenerDominiosDeUsuario()
+    {
+
+        $dominioModel = new DominioVehiculoModel();
+        $data2['dominio_vehiculos'] = $dominioModel->tieneVehiculos(session('id'));
+        $data['dominio_vehiculos'] = $data2['dominio_vehiculos'];
+
+        $fechaAcual = (new DateTime())->format('Y-m-d H:i:s');
+
+        $estadiaModel = new EstadiaModel();
+
+
+        for ($j = 0; $j < sizeof($data2['dominio_vehiculos']); $j++) {
+
+            $id_dominio = $data2['dominio_vehiculos'][$j]['id'];
+            $id_vehiculo = $data2['dominio_vehiculos'][$j]['id_vehiculo'];
+            $id_usuario = $data2['dominio_vehiculos'][$j]['id_usuario'];
+
+            $estadias = $estadiaModel->buscarPorDominioId($id_dominio);
+
+            if (!empty($estadias)) {
+                for ($i = 0; $i < sizeof($estadias); $i++) {
+                    if ($estadias[$i]['fecha_fin'] >= $fechaAcual) {
+                        $data['dominio_vehiculos'] = array_filter($data['dominio_vehiculos'], function ($valor) use ($id_vehiculo, $id_usuario) {
+
+                            return (($valor['id_vehiculo'] !== $id_vehiculo) && ($valor['id_usuario'] !== $id_usuario));
+                        });
+
+                    }
+                }
+            }
+        }
+        if (empty($data['dominio_vehiculos'])) {
+            return json_encode(true);
+        } else {
+            return json_encode(false);
+        }
+
+    }
+
+
+
+
+    //funciones private para otros metodos:
+    private function esCliente()
+    {
+        if (session('rol') === '4') {
+            return true;
+        }
+        return false;
+    }
+
+    private function esFechaValidaParaEstacionar($fecha, $inicio, $fin, $idHistorialZona): bool
+    {
+        $horaInicio = explode(':', $inicio);
+        $horaFin = explode(':', $fin);
+        $fechaInicio = (new DateTime())->setTime($horaInicio[0], $horaInicio[1])->format('Y-m-d H:i:s');
+        $fechaFin = (new DateTime())->setTime($horaFin[0], $horaFin[1])->format('Y-m-d H:i:s');
+        $fechaActual = (new DateTime())->format('Y-m-d H:i');
+
+        if (($fecha >= $fechaActual) && ($fecha <= $fechaFin) && ($fecha >= $fechaInicio) && ($fechaActual >= $fechaInicio)
+            && (strftime('%A') != 'Saturday') && (strftime('%A') != 'Sunday')) {
+            $this->idHistorialZona = $idHistorialZona;
+            return true;
+        }
+        return false;
+    }
+
+    private function verificarTurno($fecha, $inicio, $fin): ?string
+    {
+        $horaInicio = explode(':', $inicio);
+        $horaFin = explode(':', $fin);
+        $fechaInicio = (new DateTime())->setTime($horaInicio[0], $horaInicio[1])->format('Y-m-d H:i:s');
+        $fechaFin = (new DateTime())->setTime($horaFin[0], $horaFin[1])->format('Y-m-d H:i:s');
+
+
+        if (($fecha <= $fechaFin) && ($fecha >= $fechaInicio)) {
+
+            return $fechaFin;
+        }
+        return null;
+    }
+
+    private function calcularHoras($fecha_inicio, $fecha_fin): string
+    {
+        $fechaDeInicio = new DateTime($fecha_inicio);
+        $fechaDeFin = new DateTime($fecha_fin);
+
+        $diferenciaDeHoras = $fechaDeInicio->diff($fechaDeFin);
+        $hora = $diferenciaDeHoras->h . ':' . $diferenciaDeHoras->i . ':' . $diferenciaDeHoras->s;
+
+        return $hora;
+    }
+
     private function calcularMontoDeEstadia($fecha_inicio, $fecha_fin, $precio): string
     {
 
@@ -698,6 +745,5 @@ class Cliente extends BaseController
             return false; //termino
         }
     }
-
 
 }

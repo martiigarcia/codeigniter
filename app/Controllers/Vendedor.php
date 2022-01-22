@@ -27,22 +27,26 @@ class Vendedor extends BaseController
         $dominioModel = new DominioVehiculoModel();
         $data2['dominio_vehiculos'] = $dominioModel->obtenerTodos();
         $data['dominio_vehiculos'] = $data2['dominio_vehiculos'];
-        $estadiaModel = new EstadiaModel();
+
         $fechaAcual = (new DateTime())->format('Y-m-d H:i:s');
+
+        $estadiaModel = new EstadiaModel();
 
 
         for ($j = 0; $j < sizeof($data2['dominio_vehiculos']); $j++) {
-            $id=$data2['dominio_vehiculos'][$j]['id'];
+
+            $id_dominio=$data2['dominio_vehiculos'][$j]['id'];
             $id_vehiculo=$data2['dominio_vehiculos'][$j]['id_vehiculo'];
             $id_usuario=$data2['dominio_vehiculos'][$j]['id_usuario'];
-            $estadias = $estadiaModel->buscarPorDominioId($id);
+
+            $estadias = $estadiaModel->buscarPorDominioId($id_dominio);
 
             if (!empty($estadias)) {
                 for ($i = 0; $i < sizeof($estadias); $i++) {
                     if ($estadias[$i]['fecha_fin'] >= $fechaAcual) {
-                        $data['dominio_vehiculos'] =  array_filter($data['dominio_vehiculos'], function ($valor)use($id_vehiculo,$id_usuario) {
+                        $data['dominio_vehiculos'] =  array_filter($data['dominio_vehiculos'], function ($valor)use($id_vehiculo, $id_usuario) {
 
-                            return (($valor['id_vehiculo'] !== $id_vehiculo)&&($valor['id_usuario'] !== $id_usuario));
+                            return (($valor['id_vehiculo'] !== $id_vehiculo) && ($valor['id_usuario'] !== $id_usuario));
                         });
 
                     }
@@ -65,33 +69,16 @@ class Vendedor extends BaseController
         $marcaModel = new MarcaModel();
         $data['marcas'] = $marcaModel->findAll();
 
-        $fechaActual = (new DateTime())->format('Y-m-d H:i:s');
 
-        $estadiaModel = new EstadiaModel();
-        $data['estadia'] = $estadiaModel->verificarEstadiasExistentesActivasIndefinidas(session('id'), $fechaActual);
         $dominioModel = new DominioVehiculoModel();
         $data['dominio'] = $dominioModel->obtenerPorId($id_dominio);
 
         $zonaModel = new ZonaModel();
         $data['zonas'] = $zonaModel->findAll();
 
-        //dd($data);
+
         return view('viewVendedor/viewMasterVender', $data);
 
-    }
-
-    public function verListadoVentas()
-    {
-        if (!$this->esVendedor()) {
-            return redirect()->to(base_url());
-        }
-
-        $userModel = new UserModel();
-        $ventaModel = new VentaModel();
-        $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session('username'));
-        $data['ventas'] = $ventaModel->obtenerPorVendedor(session('id'));
-
-        return view('viewVendedor/viewMasterListadoVentas', $data);
     }
 
     public function estacionar()
@@ -101,12 +88,11 @@ class Vendedor extends BaseController
             return redirect()->to(base_url());
         }
 
-        $estadiaModel = new EstadiaModel();
-
         $validacion = $this->validate([
             'id_zona' => 'required'
         ]);
         if ($validacion) {
+
             date_default_timezone_set('America/Argentina/Buenos_Aires');
             $fechaInicio = (new DateTime())->format('Y-m-d H:i:s');
             $historialZonasModel = new HistorialZonaModel();
@@ -128,6 +114,8 @@ class Vendedor extends BaseController
                     ->withInput();
             }
 
+            $estadiaModel = new EstadiaModel();
+
             if (empty($_POST['cantidad_horas'])) {
 
                 $duracionDefinida = false;
@@ -136,11 +124,10 @@ class Vendedor extends BaseController
                 $fechaFin = $this->verificarTurno($fechaInicio, $infoZonas[0]['comienzo'], $infoZonas[0]['final']);
                 if ($fechaFin === null) {
                     $fechaFin = $this->verificarTurno($fechaInicio, $infoZonas[1]['comienzo'], $infoZonas[1]['final']);
-
                 }
 
-
             } else {
+
                 $duracionDefinida = false;
                 $horasFin = explode(':', $_POST['cantidad_horas']);
                 $fechaFin = (new DateTime())->setTime($horasFin[0], $horasFin[1])->format('Y-m-d H:i:s');
@@ -155,6 +142,7 @@ class Vendedor extends BaseController
             }
 
             $estadiaData = [
+
                 'duracion_definida' => $duracionDefinida,
                 'fecha_inicio' => $fechaInicio,
                 'fecha_fin' => $fechaFin,
@@ -164,9 +152,9 @@ class Vendedor extends BaseController
 
             ];
             $estadiaModel->save($estadiaData);
-            $fechaActual = (new DateTime())->format('Y-m-d H:i:s');
+
             //$listadoDeEstadias = $estadiaModel->buscarPorDominio($_POST['dominio_vehiculo'], $_POST['id_zona'], $fechaInicio);
-            $listadoDeEstadias = $estadiaModel->obtenerUltimaEstadiaActivaPorDominioId($_POST['dominio_vehiculo'], $fechaActual);
+            $listadoDeEstadias = $estadiaModel->obtenerUltimaEstadiaActivaPorDominioId($_POST['dominio_vehiculo']);
             $idEstadia = $listadoDeEstadias->id;
 
             $infoVenta = [
@@ -190,12 +178,18 @@ class Vendedor extends BaseController
         }
     }
 
-    private function esVendedor()
+    public function verListadoVentas()
     {
-        if (session('rol') === '2') {
-            return true;
+        if (!$this->esVendedor()) {
+            return redirect()->to(base_url());
         }
-        return false;
+
+        $userModel = new UserModel();
+        $ventaModel = new VentaModel();
+        $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session('username'));
+        $data['ventas'] = $ventaModel->obtenerPorVendedor(session('id'));
+
+        return view('viewVendedor/viewMasterListadoVentas', $data);
     }
 
     private function esFechaValidaParaEstacionar($fecha, $inicio, $fin, $idHistorialZona): bool
@@ -229,5 +223,11 @@ class Vendedor extends BaseController
         return null;
     }
 
-
+    private function esVendedor()
+    {
+        if (session('rol') === '2') {
+            return true;
+        }
+        return false;
+    }
 }

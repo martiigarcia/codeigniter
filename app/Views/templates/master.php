@@ -70,7 +70,7 @@
     <?= $this->include('layout/footer') ?>
 
 
-</div> <!-- END WRAPPER -->
+</div>
 
 <script src="<?= base_url("js/siqtheme.js") ?>"></script>
 
@@ -78,90 +78,25 @@
 <script src="<?= base_url("asserts/js/modificacionDeZonas.js") ?>"></script>
 <script src="<?= base_url("asserts/js/emergente.js") ?>"></script>
 <script src="<?= base_url("asserts/js/estadoEstadiaVehiculo.js") ?>"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+<script src="<?= base_url('asserts/DataTable/datatables.js') ?>"></script>
+<script src="<?= base_url('asserts/DataTable/DataTables-1.11.3/js/dataTables.bootstrap4.js') ?>"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="<?= base_url('asserts/Js/tables.js') ?>"></script>
 
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/locales/bootstrap-datepicker.es.min.js"></script>
 
 <script>
     var baseurl = '<?= base_url()?>'
-</script>
-<script>
     var mensaje = '<?= session('mensaje'); ?>'
-</script>
-<script>
     var error = '<?= session('error'); ?>'
-</script>
-<script>
     var mensajePagar = '<?= session('mensajePagar'); ?>'
     var id_estadia = '<?= session('id_estadia'); ?>'
-</script>
-
-
-<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-    <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
-        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-    </symbol>
-</svg>
-
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
-
-<script>
-    function mensajeEliminado(usuarioId, usuarioActual) {
-
-
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: 'btn btn-success',
-                cancelButton: 'btn btn-danger'
-            },
-            buttonsStyling: false
-        })
-
-
-        swalWithBootstrapButtons.fire({
-            title: 'Estas seguro que desea eliminar al usuario?',
-            'icon': 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Si',
-            cancelButtonText: 'No',
-            reverseButtons: true
-        }).then(result => {
-            if (result.isConfirmed) {
-
-
-                if (window.userData.id != usuarioId) {
-
-                    swalWithBootstrapButtons.fire({
-                        icon: 'success',
-                        text: 'El usuario fue eliminado con éxito.',
-                        showConfirmButton: false,
-                        timer: 1500,
-                        timerProgressBar: true
-                    }).then(result => {
-                        if (result.dismiss === Swal.DismissReason.timer) {
-                            window.location.href = "<?=base_url('administrador/eliminar')?>/" + usuarioId;
-
-                        }
-                    });
-                } else {
-
-                    swalWithBootstrapButtons.fire({
-                        icon: 'error',
-                        text: 'No se puede eliminar el usuario de la sesion actual.'
-                    }).then();
-
-
-                }
-
-            } else {
-
-                swalWithBootstrapButtons.fire({
-                    icon: 'error',
-                    text: 'No se eliminó al usuario.'
-                }).then();
-
-            }
-        });
-    }
 </script>
 
 <script>
@@ -203,26 +138,195 @@
                 }).then(result => {
                         if (result.isConfirmed) {
                             window.location.href = "<?= base_url('cliente/pagarEstadiasPendientes'); ?>/" + id_estadia;
+                        } else {
+                            swal.fire({
+                                title: "Importante",
+                                text: "La estadia quedo en estado de 'pago pendiente'. Para abonarlo vaya a la seccion 'Mis estadias pendientes' y seleccionela para pagar",
+                                icon: "info",
+                            }).then(result => {
+                                window.location.href = baseurl;
+                            });
                         }
+
                     }
                 );
             }
         }
     )
-
 </script>
 
-<script src="<?= base_url('asserts/DataTable/datatables.js') ?>"></script>
-<script src="<?= base_url('asserts/DataTable/DataTables-1.11.3/js/dataTables.bootstrap4.js') ?>"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="<?= base_url('asserts/Js/tables.js') ?>"></script>
+<script>
+    function mensajeEliminado(usuarioId) {
 
-<script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
-<script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/locales/bootstrap-datepicker.es.min.js"></script>
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        })
+
+
+        swalWithBootstrapButtons.fire({
+            title: '¿Esta seguro que desea eliminar al usuario?',
+            'icon': 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Si',
+            cancelButtonText: 'No',
+            reverseButtons: true
+        }).then(result => {
+            if (result.isConfirmed) {
+
+
+                if (window.userData.id != usuarioId) {
+
+                    swalWithBootstrapButtons.fire({
+                        icon: 'success',
+                        text: 'El usuario fue eliminado con éxito.',
+                        showConfirmButton: false,
+                        timer: 1500,
+                        timerProgressBar: true
+                    }).then(result => {
+                        if (result.dismiss === Swal.DismissReason.timer) {
+                            window.location.href = "<?=base_url('administrador/eliminar')?>/" + usuarioId;
+
+                        }
+                        if(result.isConfirmed){
+                            window.location.href = "<?=base_url('administrador/eliminar')?>/" + usuarioId;
+                        }
+                    });
+                } else {
+
+                    swalWithBootstrapButtons.fire({
+                        icon: 'error',
+                        text: 'No se puede eliminar el usuario de la sesion actual.'
+                    }).then();
+
+
+                }
+
+            } else {
+
+                swalWithBootstrapButtons.fire({
+                    icon: 'error',
+                    text: 'No se eliminó al usuario.'
+                }).then();
+
+            }
+        });
+    }
+</script>
+
+<script>
+    function estacionamineto() {
+
+        $.post(baseurl + "/cliente/obtenerDominiosDeUsuario/",
+            function (data) {
+                var info = JSON.parse(data);
+                if (info) {
+                    swal.fire({
+                        title: "Error!",
+                        text: "No existen vehiculos registrados con su usuario disponibles para estacionar",
+                        icon: "error",
+                    });
+                } else {
+                    window.location.href = "<?= base_url('cliente/verEstacionar'); ?>"
+                }
+            });
+    }
+</script>
+
+<script>
+    function desEstacionamineto(id_estadia) {
+
+        swal.fire({
+            title: "Finalizar estadia",
+            text: "¿Desea finalizar su estadia en este momento?",
+            icon: "question",
+            showConfirmButton: true,
+            confirmButtonText: "Finalizar",
+            showCancelButton: true,
+            cancelButtonText: "Calcelar"
+        }).then(result => {
+            if (result.isConfirmed) {
+
+                $.post(baseurl + "/cliente/finalizarEstadia/" + id_estadia,
+                    function (data) {
+
+                        swal.fire({
+                            title: "Pagar",
+                            text: "Su estadia acaba de finalizar existosamente ¿Desea abonar el costo de la estadia en este momento?",
+                            icon: "question",
+                            showConfirmButton: true,
+                            confirmButtonText: "Pagar ahora",
+                            showCancelButton: true,
+                            cancelButtonText: "Dejar pendiente"
+                        }).then(result => {
+
+                                if (result.isConfirmed) {
+
+                                    $.post(baseurl + "/cliente/pagarAhora/" + id_estadia,
+                                        function (data2) {
+
+                                            var existePaga = JSON.parse(data2);
+
+                                            if (existePaga) {
+
+                                                swal.fire({
+                                                    title: "¡Felicitaciones!",
+                                                    text: "Los datos se guardaron con exito",
+                                                    icon: "success",
+                                                    timer: 1500,
+                                                    timerProgressBar: true
+                                                }).then(result => {
+                                                    if (result.dismiss === Swal.DismissReason.timer) {
+                                                        window.location.href = baseurl;
+                                                    }
+                                                    if(result.isConfirmed){
+                                                        window.location.href = baseurl;
+                                                    }
+                                                });
+
+                                            } else {
+
+                                                swal.fire({
+                                                    title: "Error",
+                                                    text: "Su cuenta no dispone del saldo necesario para realizar el pago en este momento. La estadia quedo en estado de 'pago pendiente'. Para abonarlo vaya a la seccion 'Mis estadias pendientes' y seleccionela para pagar",
+                                                    icon: "error",
+                                                }).then(result => {
+                                                        window.location.href = baseurl;
+                                                });
+                                            }
+                                        });
+                                } else {
+                                    swal.fire({
+                                        title: "Importante",
+                                        text: "La estadia quedo en estado de 'pago pendiente'. Para abonarlo vaya a la seccion 'Mis estadias pendientes' y seleccionela para pagar",
+                                        icon: "info",
+                                    }).then(result => {
+                                        window.location.href = baseurl;
+                                    });
+                                }
+                            }
+                        );
+                    });
+            } else {
+                window.location.href = baseurl;
+            }
+
+        });
+    }
+</script>
+
+<script>
+    function definirTarjeta(valor) {
+        window.location.href = "<?= base_url('cliente/verCargarSaldo'); ?>/" + valor;
+    }
+</script>
+
+
 
 <script>
     $(function () {
@@ -241,61 +345,6 @@
         return new bootstrap.Tooltip(tooltipTriggerEl)
     })
 </script>
-
-<script>
-    function verificarPago(valor, id_estadia) {
-        if (valor == 0) { //dejar pendiente
-            window.location.href = "<?= base_url('cliente/desEstacionar'); ?>/" + id_estadia + "/" + valor;
-
-        }
-        if (valor == 1) {//pagar ahora
-            console.log('entra');
-
-            $.post(baseurl + "/cliente/desEstacionar/" + id_estadia + "/" + valor,
-
-                function (data) {
-                    console.log(data);
-                    var existePaga = JSON.parse(data);
-
-                    if (existePaga) {
-
-                        swal.fire({
-                            title: "¡Felicitaciones!",
-                            text: "Los datos se guardaron con exito",
-                            icon: "success",
-                        }).then(result => {
-                            if (result.isConfirmed)
-                                window.location.href = baseurl;
-                        });
-
-
-                    } else {
-
-                        swal.fire({
-                            title: "Error",
-                            text: "Su cuenta no dispone del saldo necesario para realizar el pago en este momento",
-                            icon: "error",
-                        }).then(result => {
-                            if (result.isConfirmed)
-                                window.location.href = baseurl;
-                        });
-
-
-                    }
-
-                })
-        }
-    }
-
-</script>
-<script>
-
-    function definirTarjeta(valor) {
-        window.location.href = "<?= base_url('cliente/verCargarSaldo'); ?>/" + valor;
-    }
-
-</script>
-
 
 </body>
 

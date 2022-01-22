@@ -1,11 +1,12 @@
 
-        <!-- BOF FOOTER -->
+
         <div class="footer">
-            <p class="text-center">Copyright © 2021 G&G <a href="#">Software</a>. All rights reserved.</p>
+            <p class="text-center">Copyright © 2021  <a style="color: floralwhite">G&G Software</a>. All rights reserved.</p>
+            <p class="text-center" style="color: floralwhite">Garcia & Gomez Tolosa</p>
             
         </div>
         
-        <!-- Preloader -->
+
         <div id="preloader"></div>
-        <!-- EOF FOOTER -->
+
    

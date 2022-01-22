@@ -32,14 +32,14 @@
                                     <li class="list-group-item">Cantidad de
                                         horas:
                                         <td>
-                                            <?= $estadiaSeleccionada['duracion_definida'] ?
+                                            <?= $estadiaSeleccionada->duracion_definida ?
                                                  $cantidad_horas : "INDEFINIDO"?>
                                         </td>
                                     </li>
                                     <li class="list-group-item">Fecha
-                                        inicio: <?= $estadiaSeleccionada['fecha_inicio'] ?></li>
-                                    <li class="list-group-item">Fecha fin: <?= $estadiaSeleccionada['fecha_fin'] ?></li>
-                                    <li class="list-group-item">Zona: <?= $estadiaSeleccionada['zona_nombre'] ?></li>
+                                        inicio: <?= $estadiaSeleccionada->fecha_inicio ?></li>
+                                    <li class="list-group-item">Fecha fin: <?= $estadiaSeleccionada->fecha_fin ?></li>
+                                    <li class="list-group-item">Zona: <?= $estadiaSeleccionada->zona_nombre ?></li>
                                 </ul>
                             </div>
                         </div>
@@ -52,9 +52,9 @@
 
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">Patente del
-                                        vehiculo: <?= $estadiaSeleccionada['vehiculo_patente'] ?></li>
+                                        vehiculo: <?= $estadiaSeleccionada->vehiculo_patente ?></li>
                                     <li class="list-group-item">Marca y modelo del
-                                        vehiculo: <?= $estadiaSeleccionada['vehiculo_marca_nombre'] ?> <?= $estadiaSeleccionada['vehiculo_modelo_nombre'] ?></li>
+                                        vehiculo: <?= $estadiaSeleccionada->vehiculo_marca_nombre ?> <?= $estadiaSeleccionada->vehiculo_modelo_nombre ?></li>
 
                                 </ul>
                             </div>
@@ -68,9 +68,9 @@
 
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">Nombre y
-                                        apellido: <?= $estadiaSeleccionada['nombre_usuario'] ?>
-                                        , <?= $estadiaSeleccionada['apellido_usuario'] ?></li>
-                                    <li class="list-group-item">DNI: <?= $estadiaSeleccionada['dni_usuario'] ?></li>
+                                        apellido: <?= $estadiaSeleccionada->nombre_usuario ?>
+                                        , <?= $estadiaSeleccionada->apellido_usuario ?></li>
+                                    <li class="list-group-item">DNI: <?= $estadiaSeleccionada->dni_usuario ?></li>
 
                                 </ul>
                             </div>

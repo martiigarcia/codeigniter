@@ -62,6 +62,7 @@ class Administrador extends BaseController
 
                     $estadiasModel = new EstadiaModel();
                     $estadias = $estadiasModel->buscarPorUsuarioId($id);
+
                     if (!empty($estadias)) {
 
                         foreach ($estadias as $estadia) {
@@ -225,12 +226,15 @@ class Administrador extends BaseController
 
             $userModel = new UserModel();
             $userModel->save($_POST);
-            $cuentaModel = new CuentaModel();
-            $cuentainfo = [
-                'monto' => '0',
-                'id_usuario' => $userModel->obtenerUsuarioEmail($_POST['email'])['id'],
-            ];
-            $cuentaModel->save($cuentainfo);
+
+            if ($_POST['id_rol'] == 4) {
+                $cuentaModel = new CuentaModel();
+                $cuentainfo = [
+                    'monto' => '0',
+                    'id_usuario' => $userModel->obtenerUsuarioEmail($_POST['email'])['id'],
+                ];
+                $cuentaModel->save($cuentainfo);
+            }
 
             session()->setFlashdata('mensaje', 'Los datos se guardaron con exito');
             return redirect()->to(base_url('home/index'));
@@ -263,8 +267,8 @@ class Administrador extends BaseController
         $data['usuarioActual'] = $userModel->obtenerUsuarioEmail(session()->get('username'));
 
         $estadiaModel = new EstadiaModel();
-        $fechaActual = (new DateTime())->format('Y-m-d H:i:s');
-        $data['estadias_activas'] = $estadiaModel->estadiasActivas($fechaActual);
+
+        $data['estadias_activas'] = $estadiaModel->estadiasActivas();
         $cantidadDeHoras[] = null;
         $i = 0;
         foreach ($data['estadias_activas'] as $infoEstadia) {
@@ -307,7 +311,7 @@ class Administrador extends BaseController
         ]);
 
 
-        if ($validacion && ($_POST['password']===$_POST['confirm_password']))  {
+        if ($validacion && ($_POST['password'] === $_POST['confirm_password'])) {
 
             $_POST['password'] = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
@@ -319,8 +323,8 @@ class Administrador extends BaseController
         } else {
 
             $error = $this->validator->getErrors();
-            if(($_POST['password']!==$_POST['confirm_password']))
-                $error['confirm_password1']='Las Contraseñas deben coincidir';
+            if (($_POST['password'] !== $_POST['confirm_password']))
+                $error['confirm_password1'] = 'Las Contraseñas deben coincidir';
 
             session()->setFlashdata($error);
             return redirect()->back()->withInput();
@@ -467,7 +471,7 @@ class Administrador extends BaseController
 
                 $fechaInicioSigTurno = (new DateTime())->setTime($horaInicioHZSiguiente[0], $horaInicioHZSiguiente[1])->format('Y-m-d H:i:s');
 
-                if ( ($fechaInicio < $fechaFin) &&
+                if (($fechaInicio < $fechaFin) &&
                     ($fechaFin < $fechaInicioSigTurno) &&
                     (strftime('%A') != 'Saturday') &&
                     (strftime('%A') != 'Sunday')) {

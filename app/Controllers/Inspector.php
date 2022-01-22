@@ -12,7 +12,7 @@ use DateTime;
 
 class Inspector extends BaseController
 {
-    //funcionalidad del inspector
+
     public function verConsultaEstacionamiento()
     {
         if (!$this->esInspector()) {
@@ -30,7 +30,9 @@ class Inspector extends BaseController
         $data['estadias'] = $estadiaModel->obtenerTodas();
         $estados[] = null;
         $i = 0;
+
         foreach ($data['estadias'] as $infoEstadia) {
+
             $estados[$i] = $this->verificarEstados( $infoEstadia['fecha_fin']);
             $i++;
         }
@@ -63,14 +65,14 @@ class Inspector extends BaseController
 
         $data['estadiaSeleccionada'] = $estadiaModel->obtenerEstadiaById($id);
 
-        $data['estadiaSeleccionada']['monto'] = $this->calcularMontoDeEstadia($data['estadiaSeleccionada']['fecha_inicio'],
-            $data['estadiaSeleccionada']['fecha_fin'],
-            $data['estadiaSeleccionada']['historial_precio']);
+        $data['estadiaSeleccionada']->monto = $this->calcularMontoDeEstadia($data['estadiaSeleccionada']->fecha_inicio,
+            $data['estadiaSeleccionada']->fecha_fin,
+            $data['estadiaSeleccionada']->historial_precio);
 
-        $cantidadDeHoras = $this->calcularHoras($data['estadiaSeleccionada']['fecha_inicio'], $data['estadiaSeleccionada']['fecha_fin']);
+        $cantidadDeHoras = $this->calcularHoras($data['estadiaSeleccionada']->fecha_inicio, $data['estadiaSeleccionada']->fecha_fin);
         $data['cantidad_horas'] = $cantidadDeHoras;
 
-        $estado = $this->verificarEstados( $data['estadiaSeleccionada']['fecha_fin']);
+        $estado = $this->verificarEstados( $data['estadiaSeleccionada']->fecha_fin);
         $data['estado'] = $estado;
 
         return view('detalleEstacionamiento', $data);
@@ -146,10 +148,8 @@ class Inspector extends BaseController
             return redirect()->to(base_url());
         }
 
-        $fechaAcual = (new DateTime())->format('Y-m-d H:i:s');
-
         $estadiasModel = new EstadiaModel();
-        $tieneEstadias = $estadiasModel->estadiasActivasPorDominioId($dominio, $fechaAcual);
+        $tieneEstadias = $estadiasModel->estadiasActivasPorDominioId($dominio);
 
         if ($tieneEstadias == NULL) {
             return json_encode(true);
