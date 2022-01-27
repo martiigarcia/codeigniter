@@ -270,6 +270,7 @@ class Cliente extends BaseController
                 session()->setFlashdata('mensajePagar', '¿Desea pagar en este momento?');
                 return redirect()->back()->with('id_estadia', $estadiaActiva->id);
 
+
             } else {
 
                 session()->setFlashdata('mensaje', 'El vehiculo se estaciono correctamente');

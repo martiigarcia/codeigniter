@@ -16,17 +16,21 @@
                     <form method="POST" action="<?= base_url('inspector/registrarInfraccion/'); ?>">
                         <div class="card-header uppercase">
                             <div class="caption">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"
-                                     fill="currentColor">
-                                    <path d="M0 0h24v24H0V0z" fill="none"/>
-                                    <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.85 7h10.29l1.08 3.11H5.77L6.85 7zM19 17H5v-5h14v5z"/>
-                                    <circle cx="7.5" cy="14.5" r="1.5"/>
-                                    <circle cx="16.5" cy="14.5" r="1.5"/>
-                                </svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 20 20" width="20px"
-                                     fill="currentColor">
-                                    <path d="M0 0h24v24H0V0z" fill="none"/>
-                                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                                <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px"
+                                     viewBox="0 0 24 24" width="24px" fill="currentColor">
+                                    <g>
+                                        <rect fill="none" height="24" width="24"/>
+                                    </g>
+                                    <g>
+                                        <g/>
+                                        <g>
+                                            <path d="M17,19.22H5V7h7V5H5C3.9,5,3,5.9,3,7v12c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2v-7h-2V19.22z"/>
+                                            <path d="M19,2h-2v3h-3c0.01,0.01,0,2,0,2h3v2.99c0.01,0.01,2,0,2,0V7h3V5h-3V2z"/>
+                                            <rect height="2" width="8" x="7" y="9"/>
+                                            <polygon points="7,12 7,14 15,14 15,12 12,12"/>
+                                            <rect height="2" width="8" x="7" y="15"/>
+                                        </g>
+                                    </g>
                                 </svg>
                                 Registrar infraccion
                             </div>
