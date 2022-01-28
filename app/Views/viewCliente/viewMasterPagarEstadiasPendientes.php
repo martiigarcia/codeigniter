@@ -43,7 +43,7 @@
 
                                 <td>
 
-                                    <a href="<?= base_url('cliente/PagarEstadiasPendientes/' . $e['id']); ?>"
+                                    <a href="<?= base_url('cliente/PagarEstadiasPendientes/' . $e['id'] . "/" . 0); ?>"
                                        class="btn btn-outline-warning bt-sm " data-bs-toggle="tooltip"
                                        data-bs-placement="top" title="Seleccionar para pagar">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"

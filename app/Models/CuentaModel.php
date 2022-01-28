@@ -14,7 +14,7 @@ class CuentaModel extends Model
     protected $returnType = 'array';
     protected $useSoftDeletes = false;
 
-    protected $allowedFields = ['id', 'monto_total', 'id_usuario'];
+    protected $allowedFields = ['id', 'monto_total', 'deuda', 'id_usuario'];
 
     protected $useTimestamps = false;
     protected $createdField = 'created_at';

@@ -17,7 +17,9 @@ use DateTime;
 
 class Cliente extends BaseController
 {
+
     private $idHistorialZona;
+    private const DEUDA_MAXIMA_PERMITIDA = 24;
 
 
     //registrar vehiculo:
@@ -224,7 +226,7 @@ class Cliente extends BaseController
 
             if (empty($_POST['cantidad_horas'])) {
 
-                $duracionDefinida = false;
+                $duracionDefinida = false; //porque es indefinido entonces se va a terminar cuando finalice el turno actual
 
                 //seleccionar el turno correspondiente para la hora de fin de estadia
                 $fechaFin = $this->verificarTurno($fechaInicio, $infoZonas[0]['comienzo'], $infoZonas[0]['final']);
@@ -233,10 +235,10 @@ class Cliente extends BaseController
 
                 }
 
-
             } else {
 
-                $duracionDefinida = true;
+                $duracionDefinida = true; //porque es definido por ende va a terminar a la hora que se haya seleccionado
+
                 $horasFin = explode(':', $_POST['cantidad_horas']);
                 $fechaFin = (new DateTime())->setTime($horasFin[0], $horasFin[1])->format('Y-m-d H:i:s');
 
@@ -248,6 +250,7 @@ class Cliente extends BaseController
                         ->withInput();
 
                 }
+
 
             }
             if ($fechaInicio >= $fechaFin) {
@@ -262,20 +265,52 @@ class Cliente extends BaseController
                 'id_dominio_vehiculo' => $_POST['dominio_vehiculo'],
                 'id_historial_zona' => $this->idHistorialZona
             ];
+            $arrayEstadia = implode(',', $estadiaData);
 
-            $estadiaModel->save($estadiaData);
-            $estadiaActiva = $estadiaModel->obtenerUltimaEstadiaActivaPorDominioId($_POST['dominio_vehiculo']);
+            $historialZonaModel = new HistorialZonaModel();
+            $historial_zona = $historialZonaModel->find($estadiaData['id_historial_zona']);
+            $precio = $historial_zona['precio'];
+
+            $montoAPagar = $this->calcularMontoDeEstadia($estadiaData['fecha_inicio'],
+                $estadiaData['fecha_fin'],
+                $precio);
+
 
             if ($estadiaData['duracion_definida']) {
-                session()->setFlashdata('mensajePagar', '¿Desea pagar en este momento?');
-                return redirect()->back()->with('id_estadia', $estadiaActiva->id);
 
+                if ($this->verificarMontoDeudaActual($montoAPagar)) {
+
+                    session()->setFlashdata('mensajePagar', '¿Desea pagar en este momento?');
+                    return redirect()->back()->with('estadia', $arrayEstadia);
+
+                } else {
+                    session()->setFlashdata('error', 'No se puede registrar su estadia. El monto de su estadia excede el monto total que puede tener de deuda de estadias, el cual es de $' . self::DEUDA_MAXIMA_PERMITIDA);
+                    return redirect()->back();
+                }
 
             } else {
 
-                session()->setFlashdata('mensaje', 'El vehiculo se estaciono correctamente');
-                return redirect()->to(base_url('/home'));
+                if ($this->verificarMontoDeudaActual($montoAPagar)) {
+
+                    $cuentaModel = new CuentaModel();
+                    $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
+                    $deudaCuenta = $cuenta->deuda;
+                    $cuenta->deuda = $deudaCuenta + $montoAPagar;
+
+                    $cuentaModel->update($cuenta->id, $cuenta);
+                    $estadiaModel->save($estadiaData);
+
+                    session()->setFlashdata('mensaje', 'El vehiculo se estaciono correctamente');
+                    return redirect()->to(base_url('/home'));
+
+                } else {
+
+                    session()->setFlashdata('error', 'No se puede registrar su estadia. El monto de su estadia (calculada hasta el fin de turno) excede el monto total que puede tener de deuda de estadias, el cual es de $' . self::DEUDA_MAXIMA_PERMITIDA);
+                    return redirect()->back();
+
+                }
             }
+
         } else {
             $error = $this->validator->getErrors();
             session()->setFlashdata($error);
@@ -287,6 +322,51 @@ class Cliente extends BaseController
 
     }
 
+    public function estacionarYObtenerId($infoEstadia)
+    {
+
+        $arrayEstadia = explode(",", $infoEstadia);
+
+        $estadiaData = [
+            'duracion_definida' => $arrayEstadia[0], //false: horario indefinido || true: horario definido
+            'fecha_inicio' => $arrayEstadia[1],
+            'fecha_fin' => $arrayEstadia[2],
+            'pago_pendiente' => $arrayEstadia[3], //true: pago pendiente || false: pago realizado
+            'id_dominio_vehiculo' => $arrayEstadia[4],
+            'id_historial_zona' => $arrayEstadia[5],
+        ];
+        $estadiaModel = new EstadiaModel();
+        $estadiaModel->save($estadiaData);
+        $estadiaActiva = $estadiaModel->obtenerUltimaEstadiaActivaPorDominioId($arrayEstadia[4]);
+
+        return json_encode("" . $estadiaActiva->id);
+    }
+
+    public function dejarPendiente($id_estadia)
+    {
+
+        $estadiaModel = new EstadiaModel();
+        $data['estadia'] = $estadiaModel->find($id_estadia);
+
+        $historialZonaModel = new HistorialZonaModel();
+        $historial_zona = $historialZonaModel->find($data['estadia']['id_historial_zona']);
+        $precio = $historial_zona['precio'];
+
+        $montoAPagar = $this->calcularMontoDeEstadia(
+            $data['estadia']['fecha_inicio'],
+            $data['estadia']['fecha_fin'],
+            $precio);
+
+        $cuentaModel = new CuentaModel();
+        $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
+        $deudaCuenta = $cuenta->deuda;
+        $cuenta->deuda = $deudaCuenta + $montoAPagar;
+
+        $cuentaModel->update($cuenta->id, $cuenta);
+
+        session()->setFlashdata('mensaje', 'La estadia se dejo en estado de pago pendiente. Para abonarla vaya a Mis estadias pendiente y seleccionela para pagar');
+        return redirect()->to(base_url('/home'));
+    }
 
     //desestacionar:
     public function finalizarEstadia($id_estadia)
@@ -298,12 +378,28 @@ class Cliente extends BaseController
         $estadiaModel = new EstadiaModel();
         $data['estadia'] = $estadiaModel->find($id_estadia);
 
+        $historialZonaModel = new HistorialZonaModel();
+        $historial_zona = $historialZonaModel->find($data['estadia']['id_historial_zona']);
+        $precio = $historial_zona['precio'];
+
+        $montoAPagar = $this->calcularMontoDeEstadia($data['estadia']['fecha_inicio'],
+            $data['estadia']['fecha_fin'],
+            $precio);
+
+        $cuentaModel = new CuentaModel();
+        $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
+        $deudaCuenta = $cuenta->deuda;
+        $cuenta->deuda = $deudaCuenta - $montoAPagar;
+
+        $cuentaModel->update($cuenta->id, $cuenta);
+
         $fechaActual = (new DateTime())->format('Y-m-d H:i:s');
         if ($data['estadia']['fecha_fin'] >= $fechaActual) {
 
             $data['estadia']['fecha_fin'] = $fechaActual;
         }
         $data['estadia']['duracion_definida'] = true;
+
 
         $estadiaModel->update($id_estadia, $data['estadia']);
 
@@ -331,6 +427,8 @@ class Cliente extends BaseController
             $data['estadia']['fecha_inicio'],
             $data['estadia']['fecha_fin'],
             $precio);
+
+        $cuentaModel->update($cuenta->id, $cuenta);
 
         if ($cuenta->monto_total >= $montoAPagar) {
 
@@ -399,7 +497,7 @@ class Cliente extends BaseController
         return view('viewCliente/viewMasterPagarEstadiasPendientes', $data);
     }
 
-    public function pagarEstadiasPendientes($id) //pagar pagar desde estacionar y desde mis estadias pendientes
+    public function pagarEstadiasPendientes($id, $valor) //pagar pagar desde estacionar y desde mis estadias pendientes
     {
 
         if (!$this->esCliente()) {
@@ -417,23 +515,51 @@ class Cliente extends BaseController
             $data['estadia']->fecha_fin,
             $data['estadia']->historial_precio);
 
-        if ($cuenta->monto_total >= $montoAPagar) {
+        $cuentaModel->update($cuenta->id, $cuenta);
 
+        if (($cuenta->monto_total >= $montoAPagar)) {
 
             $data['estadia']->pago_pendiente = false;
 
             $estadiaModel->update($id, $data['estadia']);
+
+            if($valor == 0){
+                $deudaCuenta = $cuenta->deuda;
+                $cuenta->deuda = $deudaCuenta - $montoAPagar;
+            }
+
             $cuenta->monto_total = $cuenta->monto_total - $montoAPagar;
             $cuentaModel->update($cuenta->id, $cuenta);
-
+            if($valor == 0){
+                session()->setFlashdata('mensaje', 'El pago se realizo exitosamente');
+                return redirect()->back();
+            }
             session()->setFlashdata('mensaje', 'El pago se realizo exitosamente');
             return redirect()->to(base_url('/home'));
+
         } else {
             session()->setFlashdata('error', 'Su cuenta no dispone del saldo necesario para realizar el pago en este momento. La estadia quedo en estado de ' . "pago pendiente" . '. Para abonarlo vaya a la seccion ' . "Mis estadias pendientes" . ' y seleccionela para pagar');
             return redirect()->back();
         }
     }
 
+    private function verificarMontoDeudaActual($montoEstadia): bool
+    {
+        $cuentaModel = new CuentaModel();
+        $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
+        $deudaCuenta = $cuenta->deuda; //deuda actual que ya hay en la cuenta
+        $deudaTotal = $deudaCuenta + $montoEstadia; // deuda de la cuenta + monto de la estadia a registrar en el momento
+
+        //var_dump($montoEstadia);
+        //var_dump($deudaCuenta);
+        //var_dump($deudaTotal);
+        // dd(self::DEUDA_MAXIMA_PERMITIDA);
+        if ($deudaTotal < self::DEUDA_MAXIMA_PERMITIDA) {
+            return true; //retorna true cuando el total de la deuda ya existe  + el monto de la estadia actual son MENORES al tamaño de la deuda maxima permitida
+        }
+        return false;//retorna true cuando el total de la deuda ya existe  + el monto de la estadia actual son MAYORES al tamaño de la deuda maxima permitida
+
+    }
 
     //consultar estacionamiento:
     public function consultarVehiculo()
@@ -664,8 +790,6 @@ class Cliente extends BaseController
         }
 
     }
-
-
 
 
     //funciones private para otros metodos:

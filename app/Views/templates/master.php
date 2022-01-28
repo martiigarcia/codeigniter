@@ -96,7 +96,18 @@
     var mensaje = '<?= session('mensaje'); ?>'
     var error = '<?= session('error'); ?>'
     var mensajePagar = '<?= session('mensajePagar'); ?>'
-    var id_estadia = '<?= session('id_estadia'); ?>'
+
+</script>
+
+<script>
+    let infoEstadia = '<?= session('estadia'); ?>'
+    /*let arrayEstadiaAuxiliar = infoEstadia.split(",", 6);
+
+    var size = arrayEstadiaAuxiliar.length;
+
+    for (let j = 0; j < 6; j++) {
+        console.log("Posicion " + j + ": " + arrayEstadiaAuxiliar[j]);
+    }*/
 </script>
 
 <script>
@@ -127,29 +138,49 @@
     $(document).ready(function () {
 
             if (mensajePagar !== '') {
-                swal.fire({
-                    title: "Su estadia se registro correctamente",
-                    text: mensajePagar,
-                    icon: "info",
-                    showConfirmButton: true,
-                    confirmButtonText: "Pagar ahora",
-                    showCancelButton: true,
-                    cancelButtonText: "Dejar pendiente"
-                }).then(result => {
-                        if (result.isConfirmed) {
-                            window.location.href = "<?= base_url('cliente/pagarEstadiasPendientes'); ?>/" + id_estadia;
-                        } else {
-                            swal.fire({
-                                title: "Importante",
-                                text: "La estadia quedo en estado de 'pago pendiente'. Para abonarlo vaya a la seccion 'Mis estadias pendientes' y seleccionela para pagar",
-                                icon: "info",
-                            }).then(result => {
-                                window.location.href = baseurl;
-                            });
-                        }
+                //estacionar aca
+                let id_estadia;
+                console.log("a");
+                $.post(baseurl + "/cliente/estacionarYObtenerId/" + infoEstadia,
+                    function (data) {
+                        console.log("b");
+                        id_estadia = JSON.parse(data);
+                        console.log("INFOR: " + id_estadia);
+                        console.log("c");
 
-                    }
-                );
+
+                        //id_estadia = info;
+                        console.log("d");
+                        console.log("ID ESTADIA: " + id_estadia);
+
+                        swal.fire({
+                            title: "Su estadia se registro correctamente",
+                            text: mensajePagar,
+                            icon: "info",
+                            showConfirmButton: true,
+                            confirmButtonText: "Pagar ahora",
+                            showCancelButton: true,
+                            cancelButtonText: "Dejar pendiente"
+                        }).then(result => {
+                                if (result.isConfirmed) {
+
+                                    console.log(id_estadia);
+                                    window.location.href = "<?= base_url('cliente/pagarEstadiasPendientes'); ?>/" + id_estadia + "/"+1;
+
+                                } else {
+                                    window.location.href = "<?= base_url('cliente/dejarPendiente'); ?>/" + id_estadia;
+                                    swal.fire({
+                                        title: "Importante",
+                                        text: "La estadia quedo en estado de 'pago pendiente'. Para abonarlo vaya a la seccion 'Mis estadias pendientes' y seleccionela para pagar",
+                                        icon: "info",
+                                    }).then(result => {
+                                        window.location.href = baseurl;
+                                    });
+                                }
+
+                            }
+                        );
+                    });
             }
         }
     )
@@ -193,7 +224,7 @@
                             window.location.href = "<?=base_url('administrador/eliminar')?>/" + usuarioId;
 
                         }
-                        if(result.isConfirmed){
+                        if (result.isConfirmed) {
                             window.location.href = "<?=base_url('administrador/eliminar')?>/" + usuarioId;
                         }
                     });
@@ -284,23 +315,26 @@
                                                     if (result.dismiss === Swal.DismissReason.timer) {
                                                         window.location.href = baseurl;
                                                     }
-                                                    if(result.isConfirmed){
+                                                    if (result.isConfirmed) {
                                                         window.location.href = baseurl;
                                                     }
                                                 });
 
                                             } else {
 
+
                                                 swal.fire({
                                                     title: "Error",
                                                     text: "Su cuenta no dispone del saldo necesario para realizar el pago en este momento. La estadia quedo en estado de 'pago pendiente'. Para abonarlo vaya a la seccion 'Mis estadias pendientes' y seleccionela para pagar",
                                                     icon: "error",
                                                 }).then(result => {
-                                                        window.location.href = baseurl;
+                                                    window.location.href = baseurl;
                                                 });
                                             }
                                         });
                                 } else {
+                                    window.location.href = "<?= base_url('cliente/dejarPendiente'); ?>/" + id_estadia;
+
                                     swal.fire({
                                         title: "Importante",
                                         text: "La estadia quedo en estado de 'pago pendiente'. Para abonarlo vaya a la seccion 'Mis estadias pendientes' y seleccionela para pagar",
@@ -325,7 +359,6 @@
         window.location.href = "<?= base_url('cliente/verCargarSaldo'); ?>/" + valor;
     }
 </script>
-
 
 
 <script>
