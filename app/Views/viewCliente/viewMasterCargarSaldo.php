@@ -13,7 +13,8 @@ Cargar saldo a mi cuenta
         <div class="col-lg-9">
 
             <div class="card mb-3">
-                <form method="POST" action="<?= base_url('cliente/cargarSaldo'); ?>">
+
+
                     <div class="card-header uppercase">
                         <div class="caption">
                             <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px"
@@ -34,7 +35,7 @@ Cargar saldo a mi cuenta
 
                         <li class="list-group-item">
 
-                            <input type="text" name="valor" class="form-control"
+                            <input type="text" name="valor" class="form-control" id="valor"
                                    hidden="" value="<?= $valor ?>">
 
                             <?php if ($valor == 1): ?>
@@ -43,7 +44,7 @@ Cargar saldo a mi cuenta
                                     <label class="col-md-3 col-form-label">Numero de tarjeta</label>
                                     <div class="col">
                                         <div class="input-group col">
-                                            <input type="text" name="tarjeta" class="form-control"
+                                            <input type="text" name="tarjeta" class="form-control" id="numero_tarjeta"
                                                    placeholder="Numero de tarjeta"
                                                    value="<?= old("tarjeta") ?>">
                                         </div>
@@ -55,7 +56,7 @@ Cargar saldo a mi cuenta
                                     <label class="col-md-3 col-form-label">Fecha de vencimiento</label>
                                     <div class="col">
                                         <div class="input-group col">
-                                            <input type="text" name="fecha_vencimiento" class="datepicker"
+                                            <input type="text" name="fecha_vencimiento" class="datepicker" id="fecha_vencimiento"
                                                    class="form-control calender-black" placeholder="dd/mm/aaaa"
                                                    style="width:90%;" value="<?= old("fecha_vencimiento") ?>">
                                         </div>
@@ -69,7 +70,7 @@ Cargar saldo a mi cuenta
                                     <label class="col-md-3 col-form-label">Codigo de seguridad</label>
                                     <div class="col">
                                         <div class="input-group col">
-                                            <input type="password" name="code" class="form-control"
+                                            <input type="password" name="code" class="form-control" id="codigo_seguridad"
                                                    placeholder="Codigo de seguridad"
                                                    value="<?= old("code") ?>">
                                         </div>
@@ -83,8 +84,8 @@ Cargar saldo a mi cuenta
                                     <label class="col-md-3 col-form-label">Tarjeta</label>
                                     <div class="col">
                                         <div class="input-group col">
-                                            <select class="form-control" name="tarjeta">
-                                                <option disabled selected=inicial>Seleccione una tarjeta segun el
+                                            <select class="form-control" name="tarjeta" id="id_tarjeta" >
+                                                <option disabled selected=inicial value="">Seleccione una tarjeta segun el
                                                     numero:
                                                 </option>
                                                 <?php foreach ($tarjetas as $tarjeta) : ?>
@@ -102,8 +103,9 @@ Cargar saldo a mi cuenta
                                 <label class="col-md-3 col-form-label">Saldo a ingresar en la cuenta</label>
                                 <div class="col">
                                     <div class="input-group col">
-                                        <input type="number" step="0.01" name="monto" class="form-control"
+                                        <input type="number" step="0.01" name="monto" class="form-control" id="monto"
                                                placeholder="Monto" value="<?= old("monto") ?>">
+
                                     </div>
                                     <p style="color: rgb(232,74,103)"> <?= session('monto') ? "El valor del monto es obligatorio" : "" ?></p>
                                 </div>
@@ -119,14 +121,14 @@ Cargar saldo a mi cuenta
                         <div class="row">
 
                             <div class="col text-center">
-                                <button type="submit" class="btn btn-flat mb-1 btn-primary">Confirmar</button>
+                                <button type="submit" onclick="return confirmarPasswordTarjetas()" class="btn btn-flat mb-1 btn-primary">Confirmar</button>
 
                                 <a href="<?= base_url() ?>"
                                    class="btn btn-flat mb-1 btn-secondary"> Cancelar</a>
                             </div>
                         </div>
                     </div>
-                </form>
+
             </div>
         </div>
 
@@ -134,7 +136,6 @@ Cargar saldo a mi cuenta
 
 </div>
 
-<p style="color: rgb(0,155,125)"> <?= session('mensaje'); ?></p>
 <?= $this->endSection() ?>
 
 

@@ -13,10 +13,12 @@ use App\Models\TarjetaDeCreditoModel;
 use App\Models\UserModel;
 use App\Models\VehiculoModel;
 use App\Models\ZonaModel;
+use Config\Services;
 use DateTime;
 
 class Cliente extends BaseController
 {
+
 
     private $idHistorialZona;
     private const DEUDA_MAXIMA_PERMITIDA = 24;
@@ -368,6 +370,7 @@ class Cliente extends BaseController
         return redirect()->to(base_url('/home'));
     }
 
+
     //desestacionar:
     public function finalizarEstadia($id_estadia)
     {
@@ -523,14 +526,14 @@ class Cliente extends BaseController
 
             $estadiaModel->update($id, $data['estadia']);
 
-            if($valor == 0){
+            if ($valor == 0) {
                 $deudaCuenta = $cuenta->deuda;
                 $cuenta->deuda = $deudaCuenta - $montoAPagar;
             }
 
             $cuenta->monto_total = $cuenta->monto_total - $montoAPagar;
             $cuentaModel->update($cuenta->id, $cuenta);
-            if($valor == 0){
+            if ($valor == 0) {
                 session()->setFlashdata('mensaje', 'El pago se realizo exitosamente');
                 return redirect()->back();
             }
@@ -560,6 +563,7 @@ class Cliente extends BaseController
         return false;//retorna true cuando el total de la deuda ya existe  + el monto de la estadia actual son MAYORES al tamaño de la deuda maxima permitida
 
     }
+
 
     //consultar estacionamiento:
     public function consultarVehiculo()
@@ -696,19 +700,20 @@ class Cliente extends BaseController
             return redirect()->to(base_url());
         }
 
+
         if ($_POST['valor'] == 1) {
 
             $validacion = $this->validate([
-                'tarjeta' => 'required|is_unique[tarjetas_de_credito.numero]',
-                'fecha_vencimiento' => 'required|valid_date',
-                'code' => 'required|max_length[3]|min_length[3]',
+                'numero_tarjeta' => 'required|is_unique[tarjetas_de_credito.numero]',
+                'fecha' => 'required|valid_date',
+                'codigo_seguridad' => 'required|max_length[3]|min_length[3]',
                 'monto' => 'required',
             ]);
 
         } elseif ($_POST['valor'] == 0) {
 
             $validacion = $this->validate([
-                'tarjeta' => 'required',
+                'id_tarjeta' => 'required',
                 'monto' => 'required',
             ]);
         }
@@ -720,14 +725,14 @@ class Cliente extends BaseController
                 $tarjetaModel = new TarjetaDeCreditoModel();
 
                 $data = [
-                    'numero' => $_POST['tarjeta'],
-                    'codigo_de_seguridad' => $_POST['code'],
-                    'fecha_vencimiento' => $_POST['fecha_vencimiento'],
+                    'numero' => $_POST['numero_tarjeta'],
+                    'codigo_de_seguridad' => $_POST['codigo_seguridad'],
+                    'fecha_vencimiento' => $_POST['fecha'],
                     'id_usuario' => session('id')
                 ];
 
-                $data['codigo_de_seguridad'] = password_hash($_POST['code'], PASSWORD_BCRYPT);
-                $data['fecha_vencimiento'] = DateTime::createFromFormat("d-m-Y", $_POST['fecha_vencimiento'])->format('Y-m-d');
+                $data['codigo_de_seguridad'] = password_hash($_POST['codigo_seguridad'], PASSWORD_BCRYPT);
+                $data['fecha_vencimiento'] = DateTime::createFromFormat("d-m-Y", $_POST['fecha'])->format('Y-m-d');
                 $tarjetaModel->save($data);
             }
 
@@ -736,21 +741,35 @@ class Cliente extends BaseController
             $cuenta->monto_total = $cuenta->monto_total + $_POST['monto'];
             $cuentaModel->update($cuenta->id, $cuenta);
 
-            session()->setFlashdata('mensaje', 'La transaccion se realizo exitosamente');
-            return redirect()->to(base_url('/home'));
+
+           session()->setFlashdata('mensaje', 'La transaccion se realizo exitosamente');
+           return json_encode(true);
+          // return redirect()->to(base_url('/home'));
 
         } else {
-
             $error = $this->validator->getErrors();
             session()->setFlashdata($error);
-            return redirect()
-                ->back()
-                ->withInput();
+            return json_encode(redirect()->back()->withInput());
+//            return redirect()
+//                ->back()
+//                ->withInput();
         }
     }
 
+    public function confirmarPassword($password)
+    {
+        $valor = false;
+        $userModel = new UserModel();
+        $data = $userModel->find(session('id'));
+        if (password_verify($password, $data['password'])) {
+            $valor = true;
+        }
+        return json_encode($valor);
 
-    //funcion para saber si existen vehiculos que el usuario pueda estacioanr en el momento
+    }
+
+
+    //funcion para saber si existen vehiculos que el usuario pueda estacionar en el momento
     public function obtenerDominiosDeUsuario()
     {
 

@@ -101,13 +101,7 @@
 
 <script>
     let infoEstadia = '<?= session('estadia'); ?>'
-    /*let arrayEstadiaAuxiliar = infoEstadia.split(",", 6);
-
-    var size = arrayEstadiaAuxiliar.length;
-
-    for (let j = 0; j < 6; j++) {
-        console.log("Posicion " + j + ": " + arrayEstadiaAuxiliar[j]);
-    }*/
+    var errorCarga = '<?= session('errorCarga'); ?>'
 </script>
 
 <script>
@@ -132,6 +126,22 @@
         }
     )
 
+</script>
+<script>
+    $(document).ready(function () {
+            if (errorCarga !== '') {
+                swal.fire({
+                    title: "Algo salio mal",
+                    text: errorCarga,
+                    icon: "error",
+                }).then(result => {
+                    if (result.isConfirmed) {
+
+                    }
+                });
+            }
+        }
+    )
 </script>
 
 <script>
@@ -165,7 +175,7 @@
                                 if (result.isConfirmed) {
 
                                     console.log(id_estadia);
-                                    window.location.href = "<?= base_url('cliente/pagarEstadiasPendientes'); ?>/" + id_estadia + "/"+1;
+                                    window.location.href = "<?= base_url('cliente/pagarEstadiasPendientes'); ?>/" + id_estadia + "/" + 1;
 
                                 } else {
                                     window.location.href = "<?= base_url('cliente/dejarPendiente'); ?>/" + id_estadia;
@@ -360,6 +370,100 @@
     }
 </script>
 
+<script>
+    function confirmarPasswordTarjetas() {
+
+        (async () => {
+
+            const {value: password} = await swal.fire({
+                title: 'Confirmar contraseña',
+                input: 'password',
+                inputLabel: 'Ingrese la contraseña de su cuenta para continuar',
+                inputPlaceholder: 'Contraseña',
+                inputAttributes: {
+                    maxlength: 10,
+                    autocapitalize: 'off',
+                    autocorrect: 'off'
+                }
+            })
+
+            if (password) {
+                $.post(baseurl + "/cliente/confirmarPassword/" + password,
+                    function (data) {
+                        var info = JSON.parse(data);
+
+                        if (info) {//si es verdadero es porque las contraseñas coinciden
+
+                            var valor = document.getElementById("valor").value;
+                            var monto = document.getElementById("monto").value;
+                            var id_tarjeta = null, numero_tarjeta = null, codigo_seguridad = null, fecha = null;
+
+                            if (valor === "0") {
+
+                                id_tarjeta = document.getElementById("id_tarjeta").value;
+
+                            } else {
+
+                                numero_tarjeta = document.getElementById("numero_tarjeta").value;
+                                codigo_seguridad = document.getElementById("codigo_seguridad").value;
+                                fecha = document.getElementById("fecha_vencimiento").value;
+
+                            }
+
+                            $.post("<?= base_url('cliente/cargarSaldo'); ?>",
+                                {
+                                    valor: valor,
+                                    monto: monto,
+                                    id_tarjeta: id_tarjeta,
+                                    numero_tarjeta: numero_tarjeta,
+                                    codigo_seguridad: codigo_seguridad,
+                                    fecha: fecha
+                                }, function (data2) {
+                                    console.log(data2);
+                                    var info2 = JSON.parse(data2);
+                                    if (info2 === true) {
+                                        swal.fire({
+                                            title: "¡Felicitaciones!",
+                                            text: "La transaccion se completo exitosamente",
+                                            icon: "success",
+                                        }).then(result => {
+                                            window.location.href = baseurl;
+                                        });
+                                    } else {
+                                        swal.fire({
+                                            title: "Error",
+                                            text: "Debe completar los campos correctamente",
+                                            icon: "error",
+                                        }).then(result => {
+
+                                        });
+                                    }
+                                });
+
+
+                        } else {
+                            swal.fire({
+                                title: "Error",
+                                text: "La contraseña ingresada no coincide con la contraseña de su cuenta",
+                                icon: "error",
+                            }).then(result => {
+
+                            });
+                        }
+                    });
+            } else {
+                swal.fire({
+                    title: "Error",
+                    text: "La contraseña no puede ser vacia",
+                    icon: "error",
+                }).then(result => {
+
+                });
+            }
+
+        })()
+    }
+</script>
 
 <script>
     $(function () {
@@ -378,6 +482,7 @@
         return new bootstrap.Tooltip(tooltipTriggerEl)
     })
 </script>
+
 
 </body>
 
