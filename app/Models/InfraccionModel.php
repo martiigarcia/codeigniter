@@ -14,7 +14,7 @@ class InfraccionModel extends Model
     protected $returnType = 'array';
     protected $useSoftDeletes = false;
 
-    protected $allowedFields = ['id', 'dia_hora', 'calle', 'altura', 'id_dominio_vehiculo', 'id_historial_zona'];
+    protected $allowedFields = ['id', 'dia_hora', 'calle', 'altura', 'id_vehiculo', 'id_historial_zona'];
 
     protected $useTimestamps = false;
     protected $createdField = 'created_at';
@@ -26,7 +26,6 @@ class InfraccionModel extends Model
     {
         return $this
             ->select('infracciones.*, 
-                dominio_vehiculo.id dominio_vehiculo_id,
 
                 vehiculos.id vehiculo_id, 
                 vehiculos.patente vehiculo_patente, 
@@ -42,8 +41,8 @@ class InfraccionModel extends Model
                 zonas.nombre zona_nombre,
                 zonas.descripcion zona_decripcion
                 ')
-            ->join('dominio_vehiculo', 'dominio_vehiculo.id = infracciones.id_dominio_vehiculo')
-            ->join('vehiculos', 'vehiculos.id = dominio_vehiculo.id_vehiculo')
+
+            ->join('vehiculos', 'vehiculos.id = infracciones.id_vehiculo')
             ->join('marcas', 'marcas.id = vehiculos.marca')
             ->join('modelos', 'modelos.id = vehiculos.modelo')
             ->join('usuarios', 'usuarios.id = dominio_vehiculo.id_usuario')
@@ -54,11 +53,10 @@ class InfraccionModel extends Model
 
     }
 
-    public function obtenerInfraccionesPorDominioId($dominio)
+    public function obtenerInfraccionesPorVehiculoId($vehiculo)
     {
         return $this
             ->select('infracciones.*, 
-                dominio_vehiculo.id dominio_vehiculo_id,
 
                 vehiculos.id vehiculo_id, 
                 vehiculos.patente vehiculo_patente, 
@@ -74,29 +72,27 @@ class InfraccionModel extends Model
                 zonas.nombre zona_nombre,
                 zonas.descripcion zona_decripcion
                 ')
-            ->join('dominio_vehiculo', 'dominio_vehiculo.id = infracciones.id_dominio_vehiculo')
-            ->join('vehiculos', 'vehiculos.id = dominio_vehiculo.id_vehiculo')
+
+            ->join('vehiculos', 'vehiculos.id = infracciones.id_vehiculo')
             ->join('marcas', 'marcas.id = vehiculos.marca')
             ->join('modelos', 'modelos.id = vehiculos.modelo')
             ->join('usuarios', 'usuarios.id = dominio_vehiculo.id_usuario')
             ->join('historial_zonas', 'historial_zonas.id = infracciones.id_historial_zona')
             ->join('zonas', 'zonas.id = historial_zonas.id_zona')
-            ->where('infracciones.id_dominio_vehiculo', $dominio)
+            ->where('infracciones.id_vehiculo', $vehiculo)
             ->get()->getResultArray();
 
 
     }
 
-    public function obtenerInfraccionesPorUsuarioId($id_usuario)
+    /*public function obtenerInfraccionesPorUsuarioId($id_usuario)
     {
         return $this
             ->select('infracciones.*, 
-                dominio_vehiculo.id dominio_vehiculo_id,
                 usuarios.id id_usuario')
-            ->join('dominio_vehiculo', 'dominio_vehiculo.id = infracciones.id_dominio_vehiculo')
             ->join('usuarios', 'usuarios.id = dominio_vehiculo.id_usuario')
             ->where('usuarios.id', $id_usuario)
             ->get()->getResultArray();
 
-    }
+    }*/
 }

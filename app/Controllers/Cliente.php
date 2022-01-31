@@ -13,7 +13,6 @@ use App\Models\TarjetaDeCreditoModel;
 use App\Models\UserModel;
 use App\Models\VehiculoModel;
 use App\Models\ZonaModel;
-use Config\Services;
 use DateTime;
 
 class Cliente extends BaseController
@@ -741,10 +740,11 @@ class Cliente extends BaseController
             $cuenta->monto_total = $cuenta->monto_total + $_POST['monto'];
             $cuentaModel->update($cuenta->id, $cuenta);
 
+            $this->pagarAutomaticamente();
 
-           session()->setFlashdata('mensaje', 'La transaccion se realizo exitosamente');
-           return json_encode(true);
-          // return redirect()->to(base_url('/home'));
+            session()->setFlashdata('mensaje', 'La transaccion se realizo exitosamente');
+            return json_encode(true);
+            // return redirect()->to(base_url('/home'));
 
         } else {
             $error = $this->validator->getErrors();
@@ -765,6 +765,41 @@ class Cliente extends BaseController
             $valor = true;
         }
         return json_encode($valor);
+
+    }
+
+    public function pagarAutomaticamente()
+    {
+        $cuentaModel = new CuentaModel();
+        $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
+
+        $montoTotal = $cuenta->monto_total;
+
+        $estadiaModel = new EstadiaModel();
+        $estadiasPendientes = $estadiaModel->verificarEstadiasPagoPendientePorUsuario(session('id'));
+
+        ksort($estadiasPendientes);
+
+        foreach ($estadiasPendientes as $infoEstadia) {
+            $montoEstadia = $this->calcularMontoDeEstadia($infoEstadia['fecha_inicio'],
+                $infoEstadia['fecha_fin'],
+                $infoEstadia['historial_precio']);
+
+            if ($montoEstadia <= $montoTotal) {
+
+                $infoEstadia['pago_pendiente'] = false;
+                $estadiaModel->update($infoEstadia['id'], $infoEstadia);
+
+                $cuenta->deuda = $cuenta->deuda - $montoEstadia;
+
+                $montoTotal = $montoTotal - $montoEstadia;
+                $cuenta->monto_total = $montoTotal;
+
+                $cuentaModel->update($cuenta->id, $cuenta);
+            }
+
+
+        }
 
     }
 

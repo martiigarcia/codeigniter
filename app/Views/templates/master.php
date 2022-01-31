@@ -21,7 +21,7 @@
 
     <link rel="stylesheet" href="<?= base_url('asserts/DataTable/DataTables-1.11.3/css/dataTables.bootstrap4.css') ?>">
     <link rel="stylesheet" href="<?= base_url('asserts/DataTable/datatables.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('asserts/DataTables/datatables.min.css') ?>">
+   <!-- <link rel="stylesheet" href="<?= base_url('asserts/DataTables/datatables.min.css') ?>">-->
 
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
@@ -30,7 +30,6 @@
     <script>
         window.userData = {
             id: <?=session('id');?>
-
         }
     </script>
 
@@ -96,10 +95,6 @@
     var mensaje = '<?= session('mensaje'); ?>'
     var error = '<?= session('error'); ?>'
     var mensajePagar = '<?= session('mensajePagar'); ?>'
-
-</script>
-
-<script>
     let infoEstadia = '<?= session('estadia'); ?>'
     var errorCarga = '<?= session('errorCarga'); ?>'
 </script>
@@ -125,8 +120,8 @@
             }
         }
     )
-
 </script>
+
 <script>
     $(document).ready(function () {
             if (errorCarga !== '') {
@@ -482,7 +477,6 @@
         return new bootstrap.Tooltip(tooltipTriggerEl)
     })
 </script>
-
 
 </body>
 
