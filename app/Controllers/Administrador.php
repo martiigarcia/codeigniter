@@ -11,6 +11,7 @@ use App\Models\RecuerdameModel;
 use App\Models\RolModel;
 use App\Models\TarjetaDeCreditoModel;
 use App\Models\UserModel;
+use App\Models\VehiculoModel;
 use App\Models\VentaModel;
 use App\Models\ZonaModel;
 use DateTime;
@@ -18,87 +19,158 @@ use DateTime;
 class Administrador extends BaseController
 {
 
+    //eliminar usuario:
     public function eliminar($id)
     {
         if (!$this->esAdministrador()) {
             return redirect()->to(base_url());
         }
 
-        if ($id == session('id')) {
-
-            session()->setFlashdata('mensaje', "no se puede eliminar el usuario de la sesion");
-
-            return redirect()->back()->withInput(session());
-
-        } else {
-            $userModel = new UserModel();
-            $usuario = $userModel->find($id);
+        $userModel = new UserModel();
+        $usuario = $userModel->find($id);
 
 
-            if ($usuario['id_rol'] === '4') {//es cliente
+        if ($usuario['id_rol'] === '4') {
 
-                $cuentaModel = new CuentaModel();
-                $cuentaModel->eliminarCuentaUsuario($id);
+            $this->eliminarCliente($usuario);
 
-                $tarjetasModel = new TarjetaDeCreditoModel();
-                $tarjetas = $tarjetasModel->obtenerTarjetasPorUsuario($id);
-                if (!empty($tarjetas)) {
-                    foreach ($tarjetas as $tarjeta) {
-                        $tarjetasModel->delete($tarjeta['id']);
-                    }
-                }
+        } elseif ($usuario['id_rol'] === '2') {//es vendedor
 
-                $dominioModel = new DominioVehiculoModel();
-                $dominios = $dominioModel->tieneVehiculos($id);
+            $this->eliminarVendedor($usuario);
 
-                if (!empty($dominios)) {
-                    $infraccionesModel = new InfraccionModel();
-                    $infracciones = $infraccionesModel->obtenerInfraccionesPorUsuarioId($id);
-                    if (!empty($infracciones)) {
-                        foreach ($infracciones as $infraccion) {
-                            $infraccionesModel->delete($infraccion['id']);
-                        }
-                    }
+        } else { //es administrador o inspector
+
+            $this->eliminarDatosPersonales($usuario);
+
+        }
+
+        session()->setFlashdata('mensaje', 'Los datos se eliminaron con exito');
+        return redirect()->to(base_url('administrador/listadoUsuarios'));
+
+    }
+
+    private function eliminarCliente($usuario)
+    {
+
+        $dominioModel = new DominioVehiculoModel();
+        $dominios = $dominioModel->tieneVehiculos($usuario['id']);
+
+        if (!empty($dominios)) {
+
+            $infraccionesModel = new InfraccionModel();
+
+            foreach ($dominios as $dominio) {
+
+                $infracciones = $infraccionesModel->obtenerInfraccionesPorVehiculoId($dominio['id_vehiculo']);
+
+                if (empty($infracciones)) { //si infracciones es vacio (true) entonces no tiene multas
 
                     $estadiasModel = new EstadiaModel();
-                    $estadias = $estadiasModel->buscarPorUsuarioId($id);
+                    $estadiasPendientePorVehiculo = $estadiasModel->verificarEstadiasPagoPendientePorDominio($dominio['id_vehiculo']);
 
-                    if (!empty($estadias)) {
+                    if (empty($estadiasPendientePorVehiculo)) { // si estadias pendientes es vacio (true) entonces no tiene ninguna estadia sin pagar
 
-                        foreach ($estadias as $estadia) {
+
+                        $estadiasTotales = $estadiasModel->buscarPorUsuarioId($usuario['id']);
+
+                        foreach ($estadiasTotales as $estadia) {
+
                             $ventaModel = new VentaModel();
                             $ventas = $ventaModel->obtenerPorEstadias($estadia['id']);
+
                             if (!empty($ventas)) {
+
                                 $ventaModel->eliminarVentasPorEstadia($estadia['id']);
+
                             }
                             $estadiasModel->delete($estadia['id']);
                         }
+                    } else {
+                        //TIENE ESTADIAS PENDIENTES: NO SE PUEDE BORRAR
+                        session()->setFlashdata('error', 'No se puede eliminar debido a que algun vehiculo del cliente tiene estadias sin pagar');
+                        return redirect()->back();
                     }
-                    foreach ($dominios as $dominio) {
-                        $dominioModel->delete($dominio['id']);
-                    }
-                }
-            } elseif ($usuario['id_rol'] === '2') {//es vendedor
 
-                $ventaModel = new VentaModel();
-                $ventas = $ventaModel->obtenerPorVendedor($id);
 
-                if (!empty($ventas)) {
-                    foreach ($ventas as $venta) {
-                        $ventaModel->delete($venta['id']);
-                    }
+                } else {
+
+                    session()->setFlashdata('error', 'No se puede eliminar debido a que algun vehiculo del cliente tiene infracciones');
+                    return redirect()->back();
+
                 }
+
             }
-            $recuerdameSesionModel = new RecuerdameModel();
-            $recuerdameSesionModel->eliminarSesionesDeUsuario($id);
 
-            $userModel->delete($id);
+            foreach ($dominios as $dominio) { //se hace otro foreach ya que solo se van a borrar los dominios y vehiculos si se cumplen las condiciones del foreach anterior (o sea si llego la ejecucion hasta aca)
 
-            session()->setFlashdata('mensaje', 'Los datos se eliminaron con exito');
-            return redirect()->to(base_url('administrador/listadoUsuarios'));
+                $idVehiculo = $dominio['id_vehiculo'];
+
+                //VER SI LOS VEHICULOS DE LOS DOMINIOS ESTAN RELACIONADOS A OTROS CLIENTES (para borrarlos o no)
+
+                $vehiculoModel = new VehiculoModel();
+
+                $otrosDominiosDelVehiculo = $dominioModel->obtenerDominioPorIdVehiculo($dominio['id_vehiculo']);
+
+                if(empty($otrosDominiosDelVehiculo)) { //si otros dominios es vacio (true) entonces no hay otro propietario del vehiculo
+
+                    $dominioModel->delete($dominio['id']);
+                    $vehiculoModel->delete($idVehiculo);
+
+                }else{
+
+                    $dominioModel->delete($dominio['id']);
+                }
+
+            }
+
         }
+
+        //los datos personales se van a borrar solo si se completo lo anterior en caso de tener dominios o si no tiene dominios es lo unico q se borra
+        $this->eliminarDatosPersonales($usuario);
+
     }
 
+    private function eliminarVendedor($usuario)
+    {
+        $ventaModel = new VentaModel();
+        $ventas = $ventaModel->obtenerPorVendedor($usuario['id']);
+
+        if (!empty($ventas)) {
+            foreach ($ventas as $venta) {
+                $ventaModel->delete($venta['id']);
+            }
+        }
+
+        $this->eliminarDatosPersonales($usuario);
+    }
+
+    private function eliminarDatosPersonales($usuario)
+    {
+
+        if ($usuario['id_rol'] === '4') {
+            $tarjetasModel = new TarjetaDeCreditoModel();
+            $tarjetas = $tarjetasModel->obtenerTarjetasPorUsuario($usuario['id']);
+
+            if (!empty($tarjetas)) {
+                foreach ($tarjetas as $tarjeta) {
+                    $tarjetasModel->delete($tarjeta['id']);
+                }
+            }
+
+            $cuentaModel = new CuentaModel();
+            $cuentaModel->eliminarCuentaUsuario($usuario['id']);
+        }
+
+        $recuerdameSesionModel = new RecuerdameModel();
+        $recuerdameSesionModel->eliminarSesionesDeUsuario($usuario['id']);
+
+        $userModel = new UserModel();
+        $userModel->delete($usuario['id']);
+
+    }
+
+
+    //guardar usuario:
     public function guardarModificaciones()
     {
         if (!$this->esAdministrador()) {

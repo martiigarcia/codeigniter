@@ -61,35 +61,7 @@ class EstadiaModel extends Model
     function obtenerTodas()
     {
         return $this->db->query($this->queryAll)->getResultArray();
-        /* return $this
-             ->select('estadias.*,
-                 dominio_vehiculo.id dominio_vehiculo_id,
 
-                 vehiculos.id vehiculo_id,
-                 vehiculos.patente vehiculo_patente,
-                 marcas.nombre vehiculo_marca_nombre,
-                 modelos.nombre vehiculo_modelo_nombre,
-
-                 usuarios.id id_usuario,
-                 usuarios.nombre nombre_usuario,
-
-                 historial_zonas.comienzo historia_comienzo,
-                 historial_zonas.final historia_final,
-                 historial_zonas.precio historia_precio,
-                 historial_zonas.estado historia_estado,
-
-
-                 zonas.id zona_id,
-                 zonas.nombre zona_nombre,
-                 zonas.descripcion zona_descripcion')
-             ->join('dominio_vehiculo', 'dominio_vehiculo.id = estadias.id_dominio_vehiculo')
-             ->join('usuarios', 'usuarios.id = dominio_vehiculo.id_usuario')
-             ->join('vehiculos', 'vehiculos.id = dominio_vehiculo.id_vehiculo')
-             ->join('marcas', 'marcas.id = vehiculos.marca')
-             ->join('modelos', 'modelos.id = vehiculos.modelo')
-             ->join('historial_zonas', 'historial_zonas.id = estadias.id_historial_zona')
-             ->join('zonas', 'zonas.id = historial_zonas.id_zona')
-             ->get()->getResultArray();*/
     }
 
 
@@ -99,36 +71,7 @@ class EstadiaModel extends Model
 
         $query = $this->queryAll . "WHERE e.id = " . $id . " AND u.id = dv.id_usuario AND v.id = dv.id_vehiculo AND ma.id = v.marca AND mo.id = v.modelo AND hz.id = e.id_historial_zona  AND z.id = hz.id_zona";
         return $this->db->query($query)->getFirstRow();
-        /*return $this
-            ->select('estadias.*,
-                dominio_vehiculo.id dominio_vehiculo_id,
 
-                vehiculos.id vehiculo_id,
-                vehiculos.patente vehiculo_patente,
-                marcas.nombre vehiculo_marca_nombre,
-                modelos.nombre vehiculo_modelo_nombre,
-
-                usuarios.id id_usuario,
-                usuarios.nombre nombre_usuario,
-                usuarios.apellido apellido_usuario,
-                usuarios.dni dni_usuario,
-
-                historial_zonas.comienzo historial_comienzo,
-                historial_zonas.final historial_final,
-                historial_zonas.precio historial_precio,
-                historial_zonas.estado historial_estado,
-
-                zonas.id zona_id,
-                zonas.nombre zona_nombre,
-                zonas.descripcion zona_descripcion')
-            ->join('dominio_vehiculo', 'dominio_vehiculo.id = estadias.id_dominio_vehiculo')
-            ->join('usuarios', 'usuarios.id = dominio_vehiculo.id_usuario')
-            ->join('vehiculos', 'vehiculos.id = dominio_vehiculo.id_vehiculo')
-            ->join('marcas', 'marcas.id = vehiculos.marca')
-            ->join('modelos', 'modelos.id = vehiculos.modelo')
-            ->join('historial_zonas', 'historial_zonas.id = estadias.id_historial_zona')
-            ->join('zonas', 'zonas.id = historial_zonas.id_zona')
-            ->find($id);*/
     }
 
 
@@ -148,37 +91,7 @@ class EstadiaModel extends Model
         AND u.id = dv.id_usuario AND v.id = dv.id_vehiculo AND ma.id = v.marca 
         AND mo.id = v.modelo AND hz.id = e.id_historial_zona  AND z.id = hz.id_zona";
         return $this->db->query($query)->getResultArray();
-        /*return $this
-            ->select('estadias.*,
-            dominio_vehiculo.id dominio_vehiculo_id,
 
-                vehiculos.id vehiculo_id,
-                vehiculos.patente vehiculo_patente,
-                marcas.nombre vehiculo_marca_nombre,
-                modelos.nombre vehiculo_modelo_nombre,
-
-                usuarios.id id_usuario,
-                usuarios.nombre nombre_usuario,
-                usuarios.apellido apellido_usuario,
-                usuarios.dni dni_usuario,
-
-                historial_zonas.comienzo historia_comienzo,
-                historial_zonas.final historia_final,
-                historial_zonas.precio historia_precio,
-                historial_zonas.estado historia_estado,
-
-                zonas.id zona_id,
-                zonas.nombre zona_nombre,
-                zonas.descripcion zona_descripcion')
-            ->join('dominio_vehiculo', 'dominio_vehiculo.id = estadias.id_dominio_vehiculo')
-            ->join('usuarios', 'usuarios.id = dominio_vehiculo.id_usuario')
-            ->join('vehiculos', 'vehiculos.id = dominio_vehiculo.id_vehiculo')
-            ->join('marcas', 'marcas.id = vehiculos.marca')
-            ->join('modelos', 'modelos.id = vehiculos.modelo')
-            ->join('historial_zonas', 'historial_zonas.id = estadias.id_historial_zona')
-            ->join('zonas', 'zonas.id = historial_zonas.id_zona')
-            ->where('id_dominio_vehiculo', $id_dominio)
-            ->get()->getResultArray();*/
     }
 
 
@@ -189,35 +102,7 @@ class EstadiaModel extends Model
          AND u.id = dv.id_usuario AND v.id = dv.id_vehiculo AND ma.id = v.marca AND mo.id = v.modelo AND hz.id = e.id_historial_zona  AND z.id = hz.id_zona";
         return $this->db->query($query)->getResultArray();
 
-        /* return $this
-            ->select('estadias.*,
-                dominio_vehiculo.id dominio_vehiculo_id,
 
-                vehiculos.id vehiculo_id,
-                vehiculos.patente vehiculo_patente,
-                marcas.nombre vehiculo_marca_nombre,
-                modelos.nombre vehiculo_modelo_nombre,
-
-                usuarios.id id_usuario,
-
-                historial_zonas.comienzo historia_comienzo,
-                historial_zonas.final historia_final,
-                historial_zonas.precio historia_precio,
-                historial_zonas.estado historia_estado,
-
-                zonas.id zona_id,
-                zonas.nombre zona_nombre,
-                zonas.descripcion zona_descripcion')
-            ->join('dominio_vehiculo', 'dominio_vehiculo.id = estadias.id_dominio_vehiculo')
-            ->join('usuarios', 'usuarios.id = dominio_vehiculo.id_usuario')
-            ->join('vehiculos', 'vehiculos.id = dominio_vehiculo.id_vehiculo')
-            ->join('marcas', 'marcas.id = vehiculos.marca')
-            ->join('modelos', 'modelos.id = vehiculos.modelo')
-            ->join('historial_zonas', 'historial_zonas.id = estadias.id_historial_zona')
-            ->join('zonas', 'zonas.id = historial_zonas.id_zona')
-            ->where('dominio_vehiculo.id', $id_dominio)
-            ->where('estadias.fecha_fin >=', $fechaActual)
-            ->get()->getResultArray();*/
     }
 
 
@@ -232,36 +117,7 @@ class EstadiaModel extends Model
          ORDER BY e.fecha_fin DESC";
         return $this->db->query($query)->getFirstRow();
 
-       /* return $this
-            ->select('estadias.*,
-                dominio_vehiculo.id dominio_vehiculo_id,
 
-                vehiculos.id vehiculo_id,
-                vehiculos.patente vehiculo_patente,
-                marcas.nombre vehiculo_marca_nombre,
-                modelos.nombre vehiculo_modelo_nombre,
-
-                usuarios.id id_usuario,
-
-                historial_zonas.comienzo historia_comienzo,
-                historial_zonas.final historia_final,
-                historial_zonas.precio historia_precio,
-                historial_zonas.estado historia_estado,
-
-                zonas.id zona_id,
-                zonas.nombre zona_nombre,
-                zonas.descripcion zona_descripcion')
-            ->join('dominio_vehiculo', 'dominio_vehiculo.id = estadias.id_dominio_vehiculo')
-            ->join('usuarios', 'usuarios.id = dominio_vehiculo.id_usuario')
-            ->join('vehiculos', 'vehiculos.id = dominio_vehiculo.id_vehiculo')
-            ->join('marcas', 'marcas.id = vehiculos.marca')
-            ->join('modelos', 'modelos.id = vehiculos.modelo')
-            ->join('historial_zonas', 'historial_zonas.id = estadias.id_historial_zona')
-            ->join('zonas', 'zonas.id = historial_zonas.id_zona')
-            ->where('dominio_vehiculo.id', $id_dominio)
-            ->where('estadias.fecha_fin >=', $fechaActual)
-            ->orderBy("estadias.fecha_fin", "DESC")
-            ->get()->getFirstRow();*/
     }
 
     public
@@ -270,36 +126,7 @@ class EstadiaModel extends Model
         $query = $this->queryAll . "WHERE dv.id = " . $id_dominio . " AND u.id = dv.id_usuario AND v.id = dv.id_vehiculo AND ma.id = v.marca AND mo.id = v.modelo AND hz.id = e.id_historial_zona  AND z.id = hz.id_zona 
         AND e.pago_pendiente = true";
         return $this->db->query($query)->getResultArray();
-        /*return $this
-            ->select('estadias.*,
-                dominio_vehiculo.id dominio_vehiculo_id,
 
-                vehiculos.id vehiculo_id,
-                vehiculos.patente vehiculo_patente,
-                marcas.nombre vehiculo_marca_nombre,
-                modelos.nombre vehiculo_modelo_nombre,
-
-                usuarios.id id_usuario,
-
-                historial_zonas.comienzo historial_comienzo,
-                historial_zonas.final historial_final,
-                historial_zonas.precio historial_precio,
-                historial_zonas.estado historial_estado,
-
-                zonas.id zona_id,
-                zonas.nombre zona_nombre,
-                zonas.descripcion zona_descripcion')
-            ->join('dominio_vehiculo', 'dominio_vehiculo.id = estadias.id_dominio_vehiculo')
-            ->join('usuarios', 'usuarios.id = dominio_vehiculo.id_usuario')
-            ->join('vehiculos', 'vehiculos.id = dominio_vehiculo.id_vehiculo')
-            ->join('marcas', 'marcas.id = vehiculos.marca')
-            ->join('modelos', 'modelos.id = vehiculos.modelo')
-            ->join('historial_zonas', 'historial_zonas.id = estadias.id_historial_zona')
-            ->join('zonas', 'zonas.id = historial_zonas.id_zona')
-            ->where('dominio_vehiculo.id', $id_dominio)
-            ->where('estadias.fecha_fin >=', $fechaActual) //?
-            ->where('pago_pendiente', true)
-            ->get()->getResultArray();*/
     }
 
 
@@ -328,36 +155,6 @@ class EstadiaModel extends Model
          AND v.id = dv.id_vehiculo AND ma.id = v.marca AND mo.id = v.modelo AND hz.id = e.id_historial_zona  AND z.id = hz.id_zona";
         return $this->db->query($query)->getResultArray();
 
-       /* return $this
-            ->select('estadias.*,
-                dominio_vehiculo.id dominio_vehiculo_id,
-
-                vehiculos.id vehiculo_id,
-                vehiculos.patente vehiculo_patente,
-                marcas.nombre vehiculo_marca_nombre,
-                modelos.nombre vehiculo_modelo_nombre,
-
-                usuarios.id id_usuario,
-
-                historial_zonas.comienzo historial_comienzo,
-                historial_zonas.final historial_final,
-                historial_zonas.precio historial_precio,
-                historial_zonas.estado historial_estado,
-
-                zonas.id zona_id,
-                zonas.nombre zona_nombre,
-                zonas.descripcion zona_descripcion')
-            ->join('dominio_vehiculo', 'dominio_vehiculo.id = estadias.id_dominio_vehiculo')
-            ->join('usuarios', 'usuarios.id = dominio_vehiculo.id_usuario')
-            ->join('vehiculos', 'vehiculos.id = dominio_vehiculo.id_vehiculo')
-            ->join('marcas', 'marcas.id = vehiculos.marca')
-            ->join('modelos', 'modelos.id = vehiculos.modelo')
-            ->join('historial_zonas', 'historial_zonas.id = estadias.id_historial_zona')
-            ->join('zonas', 'zonas.id = historial_zonas.id_zona')
-            ->where('id_usuario', $id_usuario)
-            ->where('pago_pendiente', true)
-            ->where('estadias.fecha_fin >=', $fechaActual)
-            ->get()->getResultArray();*/
     }
 
 
@@ -367,73 +164,6 @@ class EstadiaModel extends Model
         $query = $this->queryAll . "WHERE u.id = " . $id_usuario . " AND v.id = dv.id_vehiculo AND ma.id = v.marca AND mo.id = v.modelo AND hz.id = e.id_historial_zona  AND z.id = hz.id_zona";
         return $this->db->query($query)->getResultArray();
 
-        /*return $this
-            ->select('estadias.*,
-            dominio_vehiculo.id dominio_vehiculo_id,usuarios.id id_usuario')
-            ->join('dominio_vehiculo', 'dominio_vehiculo.id = estadias.id_dominio_vehiculo')
-            ->join('usuarios', 'usuarios.id = dominio_vehiculo.id_usuario')
-            ->where('usuarios.id', $id_usuario)
-            ->get()->getResultArray();*/
     }
 }
 
-
-
-/*protected $queryAll = "SELECT estadias.*,
-
-dominio_vehiculo.id AS dominio_vehiculo_id,
-
-vehiculos.patente AS vehiculo_patente,
-marcas.nombre AS vehiculo_marca_nombre,
-modelos.nombre AS vehiculo_modelo_nombre,
-
-usuarios.nombre AS nombre_usuario,
-usuarios.apellido AS apellido_usuario,
-usuarios.dni AS dni_usuario,
-
-historial_zonas.comienzo AS historia_comienzo,
-historial_zonas.final AS historia_final,
-historial_zonas.precio AS historia_precio,
-historial_zonas.estado AS historia_estado,
-
-zonas.id AS zona_id,
-zonas.nombre AS zona_nombre,
-zonas.descripcion AS zona_descripcion
-
-FROM estadias, dominio_vehiculo, vehiculos, marcas, modelos, usuarios, historial_zonas, zonas
-";*/
-
-
-/* public function eliminarCuentaUsuario($id_usuario)
-
- {
-     //$query = "DELETE FROM `estadias` WHERE `id_usuario`=" . $id_usuario;
-    // $query = "SELECT FROM " + $this->selectQueryAll + $this->joinsQueryAll;
-     $this->db->query($query);
- }*/
-
-//ver si esta funcion se usa en alguna parte
-/*public function buscarPorDominio($id_dominio, $id_zona, $fecha_inicio)
-{
-    return $this
-        ->select('estadias.*,')
-        ->where('id_dominio_vehiculo', $id_dominio)
-        ->where('id_zona', $id_zona)
-        ->where('fecha_inicio', $fecha_inicio)
-        ->get()->getFirstRow();
-}*/
-
-/* no se encontraron usos?
-   public
-    function verificarEstadiasExistentesActivas($id_usuario, $fechaActual)
-    {
-        return $this
-            ->select('estadias.*,
-                dominio_vehiculo.id dominio_vehiculo_id,
-                usuarios.id id_usuario')
-            ->join('dominio_vehiculo', 'dominio_vehiculo.id = estadias.id_dominio_vehiculo')
-            ->join('usuarios', 'usuarios.id = dominio_vehiculo.id_usuario')
-            ->where('id_usuario', $id_usuario)
-            ->where('estadias.fecha_fin >=', $fechaActual)
-            ->get()->getFirstRow();
-    }*/

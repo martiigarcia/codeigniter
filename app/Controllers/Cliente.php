@@ -611,7 +611,7 @@ class Cliente extends BaseController
             $data['monto'] = $monto;
 
             $infraccionesModel = new InfraccionModel();
-            $data['infracciones'] = $infraccionesModel->obtenerInfraccionesPorDominioId($_POST['dominio_vehiculo']);
+            $data['infracciones'] = $infraccionesModel->obtenerInfraccionesPorVehiculoId($data['dominioSeleccionado']['id_vehiculo']);
 
             $tarjetaModel = new TarjetaDeCreditoModel();
             $data['tarjetas'] = $tarjetaModel->obtenerTarjetasPorUsuario(session('id'));

@@ -17,7 +17,6 @@
                     <tr>
 
                         <th>Patente del vehiculo</th>
-                        <th>Propietario en infraccion</th>
                         <th>Calle</th>
                         <th>Altura</th>
                         <th>Fecha</th>
@@ -30,7 +29,6 @@
 
                         <tr>
                             <td><?= $infraccion['vehiculo_patente']; ?></td>
-                            <td><?= $infraccion['usuario_nombre']; ?> <?= $infraccion['usuario_apellido']; ?></td>
                             <td><?= $infraccion['calle']; ?></td>
                             <td><?= $infraccion['altura']; ?></td>
                             <td><?= $infraccion['dia_hora']; ?></td>
