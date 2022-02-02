@@ -12,7 +12,7 @@
 
             <div class="col-lg-9">
                 <div class="card mb-3">
-                    <form method="POST" action="<?= base_url('vendedor/estacionar'); ?>">
+
                         <div class="card-header uppercase">
                             <div class="caption">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"
@@ -35,13 +35,13 @@
 
                                     <div class="col">
                                         <div class="form-group">
-                                            <input hidden="" name="dominio_vehiculo" value="<?= $dominio['id'] ?>">
+                                            <input hidden="" name="dominio_vehiculo" id="dominio_vehiculo" value="<?= $dominio['id'] ?>">
 
                                         </div>
                                         <label>Seleccione una zona</label>
-                                        <select class="form-control" name="id_zona">
+                                        <select class="form-control" name="id_zona" id="id_zona">
 
-                                            <option disabled selected=inicial>Zonas:</option>
+                                            <option disabled selected=inicial value="">Zonas:</option>
                                             <?php foreach ($zonas as $zona) : ?>
 
                                                 <option value=<?= $zona['id']; ?>><?= $zona['nombre']; ?>
@@ -70,7 +70,7 @@
                                     <div class="form-group row">
                                         <label class="col-md-3 col-form-label">Hora de fin</label>
                                         <div class="col">
-                                            <input type="time" name="cantidad_horas" class="form-control">
+                                            <input type="time" name="cantidad_horas" id="cantidad_horas" class="form-control">
 
                                         </div>
                                     </div>
@@ -83,7 +83,7 @@
                             <div class="row">
 
                                 <div class="col text-center">
-                                    <button type="submit" class="btn btn-flat mb-1 btn-primary">Comenzar estadia
+                                    <button type="submit" class="btn btn-flat mb-1 btn-primary" onclick="return abonarVenta()">Comenzar estadia
                                     </button>
 
                                     <a href="<?= base_url('/home'); ?>"
@@ -93,7 +93,7 @@
                             <p style="color: rgb(232,74,103)"> <?= session('errorHoraDeInicio'); ?></p>
 
                         </div>
-                    </form>
+
                 </div>
             </div>
         </div>

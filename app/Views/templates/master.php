@@ -21,7 +21,7 @@
 
     <link rel="stylesheet" href="<?= base_url('asserts/DataTable/DataTables-1.11.3/css/dataTables.bootstrap4.css') ?>">
     <link rel="stylesheet" href="<?= base_url('asserts/DataTable/datatables.css') ?>">
-   <!-- <link rel="stylesheet" href="<?= base_url('asserts/DataTables/datatables.min.css') ?>">-->
+    <!-- <link rel="stylesheet" href="<?= base_url('asserts/DataTables/datatables.min.css') ?>">-->
 
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
@@ -101,25 +101,41 @@
 
 <script>
     $(document).ready(function () {
-            if (mensaje !== '') {
+            if (error !== '') {
+                swal.fire({
+                    title: "Algo salio mal",
+                    text: error,
+                    icon: "error",
+                })
+
+            } else if (mensaje !== '') {
                 swal.fire({
                     title: "¡Felicitaciones!",
                     text: mensaje,
                     icon: "success",
                 });
-            } else if (error !== '') {
-                swal.fire({
-                    title: "Algo salio mal",
-                    text: error,
-                    icon: "error",
-                }).then(result => {
-                    if (result.isConfirmed) {
-                        window.location.href = baseurl;
-                    }
-                });
             }
+
         }
     )
+    // if (mensaje !== '') {
+    //     swal.fire({
+    //         title: "¡Felicitaciones!",
+    //         text: mensaje,
+    //         icon: "success",
+    //     });
+    // } else if (error !== '') {
+    //     swal.fire({
+    //         title: "Algo salio mal",
+    //         text: error,
+    //         icon: "error",
+    //     }).then(result => {
+    //         if (result.isConfirmed) {
+    //             window.location.href = baseurl;
+    //         }
+    //     });
+
+
 </script>
 
 <script>
@@ -218,21 +234,20 @@
 
                 if (window.userData.id != usuarioId) {
 
-                    swalWithBootstrapButtons.fire({
-                        icon: 'success',
-                        text: 'El usuario fue eliminado con éxito.',
-                        showConfirmButton: false,
-                        timer: 1500,
-                        timerProgressBar: true
-                    }).then(result => {
-                        if (result.dismiss === Swal.DismissReason.timer) {
-                            window.location.href = "<?=base_url('administrador/eliminar')?>/" + usuarioId;
+                    window.location.href = "<?=base_url('administrador/eliminar')?>/" + usuarioId;
 
-                        }
-                        if (result.isConfirmed) {
-                            window.location.href = "<?=base_url('administrador/eliminar')?>/" + usuarioId;
-                        }
-                    });
+                    //swalWithBootstrapButtons.fire({
+                    //    icon: 'success',
+                    //    text: 'Procesando la operacion . . . ',
+                    //    showConfirmButton: false,
+                    //    timer: 1500,
+                    //    timerProgressBar: true
+                    //}).then(result => {
+                    //    if (result.dismiss === Swal.DismissReason.timer) {
+                    //        window.location.href = "<?//=base_url('administrador/eliminar')?>///" + usuarioId;
+                    //
+                    //    }
+                    //});
                 } else {
 
                     swalWithBootstrapButtons.fire({
@@ -478,6 +493,104 @@
     })
 </script>
 
+<script>
+    function abonarVenta() {
+
+        swal.fire({
+            title: "Abonar estadia",
+            text: "Indique si el cliente abona la estadia en este momento o si la deja pendiente",
+            icon: "warning",
+            showConfirmButton: true,
+            confirmButtonText: "Abonar",
+            showCancelButton: true,
+            cancelButtonText: "Dejar pendiente"
+        }).then(result => {
+
+            dominio = document.getElementById("dominio_vehiculo").value;
+            idZona = document.getElementById("id_zona").value === "" ? null : document.getElementById("id_zona").value;
+            horas = document.getElementById("cantidad_horas").value;
+
+            console.log(dominio);
+            console.log(idZona);
+            console.log(horas);
+
+            if (result.isConfirmed) {
+
+
+                $.post("<?= base_url('vendedor/estacionar'); ?>/" + true,
+                    {
+                        dominio_vehiculo: dominio,
+                        id_zona: idZona,
+                        cantidad_horas: horas,
+
+                    }, function (data) {
+                        var info = JSON.parse(data);
+                       /* console.log("info: " + info);
+                        var array = [];
+                        $.each(info, function (i, item) {
+                            array [i] = item;
+                            console.log("ARRAY: " +array[i]);
+                        });*/
+
+                        if (info === true) {
+                            swal.fire({
+                                title: "¡Felicitaciones!",
+                                text: "El vehiculo se estaciono correctamente",
+                                icon: "success",
+                            }).then(result => {
+                                window.location.href = baseurl;
+                            });
+                        } else {
+                            swal.fire({
+                                title: "Error",
+                                text: "La zona y la cantidad de horas son requeridas",
+                                icon: "error",
+                            }).then(result => {
+
+                            });
+                        }
+
+                    }
+                );
+
+            } else {
+
+                $.post("<?= base_url('vendedor/estacionar'); ?>/" + false,
+                    {
+                        dominio_vehiculo: dominio,
+                        id_zona: idZona,
+                        cantidad_horas: horas,
+
+                    }, function (data) {
+                        var info = JSON.parse(data);
+
+                        if (info === true) {
+                            swal.fire({
+                                title: "¡Felicitaciones!",
+                                text: "El vehiculo se estaciono correctamente",
+                                icon: "success",
+                            }).then(result => {
+                                window.location.href = baseurl;
+                            });
+                        } else {
+                            swal.fire({
+                                title: "Error",
+                                text: "La zona y la cantidad de horas son requeridas",
+                                icon: "error",
+                            }).then(result => {
+
+                            });
+                        }
+
+                    }
+                );
+
+               // window.location.href = "<?= base_url('vendedor/estacionar'); ?>/" + false;
+            }
+        });
+    }
+
+</script>
 </body>
 
 </html>

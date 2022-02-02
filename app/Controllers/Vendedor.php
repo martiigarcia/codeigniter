@@ -81,15 +81,17 @@ class Vendedor extends BaseController
 
     }
 
-    public function estacionar()
+    public function estacionar($valor)
     {
+
         $this->idHistorialZona = 0;
         if (!$this->esVendedor()) {
             return redirect()->to(base_url());
         }
 
         $validacion = $this->validate([
-            'id_zona' => 'required'
+            'id_zona' => 'required',
+            'cantidad_horas' => 'required'
         ]);
         if ($validacion) {
 
@@ -141,24 +143,24 @@ class Vendedor extends BaseController
                 }
             }
 
+
             $estadiaData = [
 
                 'duracion_definida' => $duracionDefinida,
                 'fecha_inicio' => $fechaInicio,
                 'fecha_fin' => $fechaFin,
-                'pago_pendiente' => true, //esto cambiaria cuando se haga la parte de pagar en el estacionar
+                'pago_pendiente' => $valor,
                 'id_dominio_vehiculo' => $_POST['dominio_vehiculo'],
                 'id_historial_zona' => $this->idHistorialZona
 
             ];
             $estadiaModel->save($estadiaData);
 
-            //$listadoDeEstadias = $estadiaModel->buscarPorDominio($_POST['dominio_vehiculo'], $_POST['id_zona'], $fechaInicio);
             $listadoDeEstadias = $estadiaModel->obtenerUltimaEstadiaActivaPorDominioId($_POST['dominio_vehiculo']);
             $idEstadia = $listadoDeEstadias->id;
 
             $infoVenta = [
-                'esta_pago' => false,
+                'esta_pago' => $valor,
                 'id_vendedor' => session('id'),
                 'id_estadia' => $idEstadia
             ];
@@ -167,14 +169,15 @@ class Vendedor extends BaseController
             $ventaModel->save($infoVenta);
 
             session()->setFlashdata('mensaje', 'El vehiculo se estaciono correctamente');
-            return redirect()->to(base_url('/home'));
+            return (json_encode(true));
 
         } else {
             $error = $this->validator->getErrors();
-            session()->setFlashdata($error);
-            return redirect()
+           // session()->setFlashdata($error);
+          /*  return redirect()
                 ->back()
-                ->withInput();
+                ->withInput();*/
+            return (json_encode($error));
         }
     }
 

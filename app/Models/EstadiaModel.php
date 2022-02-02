@@ -129,6 +129,15 @@ class EstadiaModel extends Model
 
     }
 
+    public
+    function verificarEstadiasPagoPendientePorVehiculo($id_vehiculo)
+    {
+        $query = $this->queryAll . "WHERE v.id = " . $id_vehiculo . " AND u.id = dv.id_usuario AND v.id = dv.id_vehiculo AND ma.id = v.marca AND mo.id = v.modelo AND hz.id = e.id_historial_zona  AND z.id = hz.id_zona 
+        AND e.pago_pendiente = true";
+        return $this->db->query($query)->getResultArray();
+
+    }
+
 
     //para ver si se muestran las opciones de estacionar o desestacionar
     public

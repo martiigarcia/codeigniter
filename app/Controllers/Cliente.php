@@ -430,18 +430,24 @@ class Cliente extends BaseController
             $data['estadia']['fecha_fin'],
             $precio);
 
-        $cuentaModel->update($cuenta->id, $cuenta);
-
         if ($cuenta->monto_total >= $montoAPagar) {
 
             $data['estadia']['pago_pendiente'] = false;
 
             $estadiaModel->update($id_estadia, $data['estadia']);
-            $cuenta->monto_total = $cuenta->monto_total - $montoAPagar;
+            $cuenta->monto_total = number_format($cuenta->monto_total - $montoAPagar,2);
             $cuentaModel->update($cuenta->id, $cuenta);
 
             return json_encode(true);
         } else {
+
+            $data['estadia']['pago_pendiente'] = true;
+            $estadiaModel->update($id_estadia, $data['estadia']);
+
+            $deudaCuenta = $cuenta->deuda;
+            $cuenta->deuda = number_format($deudaCuenta + $montoAPagar, 2);
+
+            $cuentaModel->update($cuenta->id, $cuenta);
             return json_encode(false);
         }
 
@@ -738,6 +744,7 @@ class Cliente extends BaseController
             $cuentaModel = new CuentaModel();
             $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
             $cuenta->monto_total = $cuenta->monto_total + $_POST['monto'];
+
             $cuentaModel->update($cuenta->id, $cuenta);
 
             $this->pagarAutomaticamente();
