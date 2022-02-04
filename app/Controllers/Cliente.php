@@ -296,7 +296,7 @@ class Cliente extends BaseController
                     $cuentaModel = new CuentaModel();
                     $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
                     $deudaCuenta = $cuenta->deuda;
-                    $cuenta->deuda = $deudaCuenta + $montoAPagar;
+                    $cuenta->deuda = number_format($deudaCuenta + $montoAPagar,2);
 
                     $cuentaModel->update($cuenta->id, $cuenta);
                     $estadiaModel->save($estadiaData);
@@ -361,7 +361,7 @@ class Cliente extends BaseController
         $cuentaModel = new CuentaModel();
         $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
         $deudaCuenta = $cuenta->deuda;
-        $cuenta->deuda = $deudaCuenta + $montoAPagar;
+        $cuenta->deuda = number_format($deudaCuenta + $montoAPagar,2);
 
         $cuentaModel->update($cuenta->id, $cuenta);
 
@@ -391,7 +391,7 @@ class Cliente extends BaseController
         $cuentaModel = new CuentaModel();
         $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
         $deudaCuenta = $cuenta->deuda;
-        $cuenta->deuda = $deudaCuenta - $montoAPagar;
+        $cuenta->deuda = number_format($deudaCuenta - $montoAPagar,2);
 
         $cuentaModel->update($cuenta->id, $cuenta);
 
@@ -533,10 +533,10 @@ class Cliente extends BaseController
 
             if ($valor == 0) {
                 $deudaCuenta = $cuenta->deuda;
-                $cuenta->deuda = $deudaCuenta - $montoAPagar;
+                $cuenta->deuda =number_format($deudaCuenta - $montoAPagar,2) ;
             }
 
-            $cuenta->monto_total = $cuenta->monto_total - $montoAPagar;
+            $cuenta->monto_total =number_format($cuenta->monto_total - $montoAPagar,2) ;
             $cuentaModel->update($cuenta->id, $cuenta);
             if ($valor == 0) {
                 session()->setFlashdata('mensaje', 'El pago se realizo exitosamente');
@@ -556,7 +556,7 @@ class Cliente extends BaseController
         $cuentaModel = new CuentaModel();
         $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
         $deudaCuenta = $cuenta->deuda; //deuda actual que ya hay en la cuenta
-        $deudaTotal = $deudaCuenta + $montoEstadia; // deuda de la cuenta + monto de la estadia a registrar en el momento
+        $deudaTotal = number_format($deudaCuenta + $montoEstadia,2); // deuda de la cuenta + monto de la estadia a registrar en el momento
 
         //var_dump($montoEstadia);
         //var_dump($deudaCuenta);
@@ -797,9 +797,9 @@ class Cliente extends BaseController
                 $infoEstadia['pago_pendiente'] = false;
                 $estadiaModel->update($infoEstadia['id'], $infoEstadia);
 
-                $cuenta->deuda = $cuenta->deuda - $montoEstadia;
+                $cuenta->deuda = number_format($cuenta->deuda - $montoEstadia,2);
 
-                $montoTotal = $montoTotal - $montoEstadia;
+                $montoTotal =number_format($montoTotal - $montoEstadia,2) ;
                 $cuenta->monto_total = $montoTotal;
 
                 $cuentaModel->update($cuenta->id, $cuenta);

@@ -66,7 +66,7 @@ class Administrador extends BaseController
                 if (empty($infracciones)) { //si infracciones es vacio (true) entonces no tiene multas
 
                     $estadiasModel = new EstadiaModel();
-                    $estadiasPendientePorVehiculo = $estadiasModel->verificarEstadiasPagoPendientePorVehiculo($dominio['id_vehiculo']);
+                    $estadiasPendientePorVehiculo = $estadiasModel->verificarEstadiasPagoPendientePorDominio($dominio['id']);
 
                     if (empty($estadiasPendientePorVehiculo)) { // si estadias pendientes es vacio (true) entonces no tiene ninguna estadia sin pagar
 
