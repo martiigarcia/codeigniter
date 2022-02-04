@@ -118,12 +118,14 @@ class Inspector extends BaseController
 
             $infraccionModel = new InfraccionModel();
             date_default_timezone_set('America/Argentina/Buenos_Aires');
+            $dominioModel = new DominioVehiculoModel();
+            $dominio = $dominioModel->obtenerPorId($_POST['dominio']);
             $fechaInicio = (new DateTime())->format('Y-m-d H:i:s');
             $data = [
                 'dia_hora' => $fechaInicio,
                 'calle' => $_POST['calle'],
                 'altura' => $_POST['altura'],
-                'id_dominio_vehiculo' => $_POST['dominio'],
+                'id_vehiculo' => $dominio['id_vehiculo'],
                 'id_historial_zona' => $_POST['historial_zona']
             ];
             $infraccionModel->save($data);
