@@ -20,7 +20,7 @@ class Cliente extends BaseController
 
 
     private $idHistorialZona;
-    private const DEUDA_MAXIMA_PERMITIDA = 24;
+    private const DEUDA_MAXIMA_PERMITIDA = 500;
 
 
     //registrar vehiculo:
@@ -365,7 +365,7 @@ class Cliente extends BaseController
 
         $cuentaModel->update($cuenta->id, $cuenta);
 
-        session()->setFlashdata('mensaje', 'La estadia se dejo en estado de pago pendiente. Para abonarla vaya a Mis estadias pendiente y seleccionela para pagar');
+        session()->setFlashdata('mensaje', 'La estadia finalizo correctamente');
         return redirect()->to(base_url('/home'));
     }
 

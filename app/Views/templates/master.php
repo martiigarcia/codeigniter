@@ -353,14 +353,14 @@
                                             }
                                         });
                                 } else {
-                                    window.location.href = "<?= base_url('cliente/dejarPendiente'); ?>/" + id_estadia;
+
 
                                     swal.fire({
                                         title: "Importante",
                                         text: "La estadia quedo en estado de 'pago pendiente'. Para abonarlo vaya a la seccion 'Mis estadias pendientes' y seleccionela para pagar",
                                         icon: "info",
                                     }).then(result => {
-                                        window.location.href = baseurl;
+                                        window.location.href = "<?= base_url('cliente/dejarPendiente'); ?>/" + id_estadia;
                                     });
                                 }
                             }
