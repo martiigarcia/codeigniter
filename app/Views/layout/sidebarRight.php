@@ -84,7 +84,7 @@
                                     <div class="form-group row">
                                         <label class="col-form-label col-md-4">Fecha de nacimiento:</label>
                                         <div class="col">
-                                            <input type="text" name="fecha_de_nacimiento" class="form-control-plaintext"
+                                            <input type="text" name="fecha_de_nacimiento" class="datepicker"
                                                    value="<?= $usuarioActual['fecha_de_nacimiento']; ?>">
                                         </div>
                                     </div>
