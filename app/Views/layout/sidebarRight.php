@@ -1,23 +1,15 @@
-<!-- BOF ASIDE-RIGHT -->
 <div id="sidebar-right">
     <div class="sidebar-right-container">
 
-        <!-- BOF TABS -->
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a href="#tab-1" data-toggle="tab" class="nav-link active">Informacion</a>
+        <ul class="nav nav-tabs" style="display: flex; justify-content: right;">
+            <li class="nav-item" style="width: -webkit-fill-available; border-bottom:solid 1px grey; border-top: solid 1px grey">
+                <a  class="nav-link active">Informacion</a>
             </li>
-            <li class="nav-item">
-                <a href="#tab-2" data-toggle="tab" class="nav-link">Configuracion</a>
-            </li>
-
         </ul>
-        <!-- EOF TABS -->
 
-        <!-- BOF TAB PANES -->
         <div class="tab-content">
-            <!-- BOF TAB-PANE #1 -->
-            <div id="tab-1" class="tab-pane show active">
+
+            <div  class="tab-pane show active">
                 <div class="pane-header">
                     <h3>
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
@@ -96,55 +88,33 @@
 
                             </li>
 
-
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- EOF TAB-PANE #1 -->
-
-            <!-- BOF TAB-PANE #2 -->
-            <div id="tab-2" class="tab-pane">
-                <div class="pane-header">
-                    <h3>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                             class="bi bi-gear" viewBox="0 0 16 16">
-                            <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
-                            <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
-                        </svg>
-                        Configuracion
-                    </h3>
-
-                    <span class="float-right"><a href="<?= base_url('login/salir'); ?>" class="text-carolina">Salir</a></span>
-                </div>
-                <div class="pane-body">
-                    <div class="card bg-transparent mb-3">
-                        <ul class="list-group list-group-flush">
                             <li class="list-group-item">
-                                <h5 class="mb-3">Tema</h5>
-                                <div class="btn-group mb-2">
-                                    <button type="button" class="btn switch-theme btn-light" data-theme="theme-default">
-                                        Light
-                                    </button>
-                                    <button type="button" class="btn switch-theme btn-dark" data-theme="theme-dark">
-                                        Dark
-                                    </button>
-                                </div>
-                            </li>
+                                <h5 class="mb-3">Configuracion</h5>
 
+                                <div class="form-group row">
+                                    <label class="col-form-label col-md-4">Tema</label>
+                                    <div class="btn-group col">
+
+                                        <button type="button" class="btn switch-theme btn-light"
+                                                id="botonTemaClaro" data-theme="theme-default">
+                                            Claro
+                                        </button>
+                                        <button type="button" class="btn switch-theme btn-dark"
+                                                id="botonTemaOscuro" data-theme="theme-dark">
+                                            Oscuro
+                                        </button>
+                                    </div>
+                            </li>
                         </ul>
                     </div>
+
                 </div>
             </div>
-            <!-- EOF TAB-PANE #2 -->
-
-
         </div>
-        <!-- EOF TAB PANES -->
-
     </div>
+
 </div>
-<!-- EOF ASIDE-RIGHT -->
+
 
 <div id="overlay"></div>
 
