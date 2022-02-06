@@ -19091,7 +19091,7 @@ label.error {
   margin: 0;
 }
 .sidebar a {
-  color: #6c757d;
+  color: #211e1e;
   text-decoration: none;
   transition: color 0.3s ease;
 }
@@ -20742,12 +20742,12 @@ body.theme-dark .cke-document-style {
 }
 
 body.theme-default {
-  color: #6c757d;
+  color: #1f1e1e;
   background: #343a40;
 }
 body.theme-default .dataTables_wrapper .odd.selected,
 body.theme-default .dataTables_wrapper .even.selected {
-  background-color: #e9ecef;
+  background-color: #b3b5b9;
 }
 
 body.theme-dark {
