@@ -7,6 +7,7 @@ use App\Models\EstadiaModel;
 use App\Models\HistorialZonaModel;
 use App\Models\InfraccionModel;
 use App\Models\UserModel;
+use App\Models\VehiculoModel;
 use App\Models\ZonaModel;
 use DateTime;
 
@@ -24,8 +25,9 @@ class Inspector extends BaseController
 
         $estadiaModel = new EstadiaModel();
 
-        $dominioVehiculoModel = new DominioVehiculoModel();
-        $data['dominiosTotales'] = $dominioVehiculoModel->obtenerTodos();
+
+        $vehiculosModel = new VehiculoModel();
+        $data['vehiculos']=$vehiculosModel->obtenerTodos();
 
         $data['estadias'] = $estadiaModel->obtenerTodas();
         $estados[] = null;
@@ -60,8 +62,8 @@ class Inspector extends BaseController
 
         $estadiaModel = new EstadiaModel();
 
-        $dominioVehiculoModel = new DominioVehiculoModel();
-        $data['dominiosTotales'] = $dominioVehiculoModel->obtenerTodos();
+        $vehiculosModel = new VehiculoModel();
+        $data['vehiculos']=$vehiculosModel->obtenerTodos();
 
         $data['estadiaSeleccionada'] = $estadiaModel->obtenerEstadiaById($id);
 
@@ -78,7 +80,7 @@ class Inspector extends BaseController
         return view('detalleEstacionamiento', $data);
     }
 
-    public function verRegistrarInfraccion($dominio)
+    public function verRegistrarInfraccion($vehiculo)
     {
         if (!$this->esInspector()) {
             return redirect()->to(base_url());
@@ -89,12 +91,12 @@ class Inspector extends BaseController
 
         $zonaModel = new ZonaModel();
 
-        $data['dominio'] = $dominio;
+        $data['vehiculo'] = $vehiculo;
 
         $data['zonas'] = $zonaModel->findAll();
 
-        $dominioVehiculoModel = new DominioVehiculoModel();
-        $data['dominiosTotales'] = $dominioVehiculoModel->obtenerTodos();
+        $vehiculosModel = new VehiculoModel();
+        $data['vehiculos']=$vehiculosModel->obtenerTodos();
 
         return view('viewInspector/viewMasterRegistrarInfraccion', $data);
     }
@@ -105,11 +107,9 @@ class Inspector extends BaseController
             return redirect()->to(base_url());
         }
 
-
         $validacion = $this->validate([
             'calle' => 'required',
             'altura' => 'required',
-            'dominio' => 'required',
             'id_zona' => 'required',
             'historial_zona' => 'required',
         ]);
@@ -118,14 +118,13 @@ class Inspector extends BaseController
 
             $infraccionModel = new InfraccionModel();
             date_default_timezone_set('America/Argentina/Buenos_Aires');
-            $dominioModel = new DominioVehiculoModel();
-            $dominio = $dominioModel->obtenerPorId($_POST['dominio']);
+
             $fechaInicio = (new DateTime())->format('Y-m-d H:i:s');
             $data = [
                 'dia_hora' => $fechaInicio,
                 'calle' => $_POST['calle'],
                 'altura' => $_POST['altura'],
-                'id_vehiculo' => $dominio['id_vehiculo'],
+                'id_vehiculo' =>$_POST['vehiculo'],
                 'id_historial_zona' => $_POST['historial_zona']
             ];
             $infraccionModel->save($data);
@@ -144,20 +143,20 @@ class Inspector extends BaseController
 
     }
 
-    public function consultarEstadiaVehiculo($dominio)
+    public function consultarEstadiaVehiculo($vehiculo)
     {
         if (!$this->esInspector()) {
             return redirect()->to(base_url());
         }
 
         $estadiasModel = new EstadiaModel();
-        $tieneEstadias = $estadiasModel->estadiasActivasPorDominioId($dominio);
+        $tieneEstadias = $estadiasModel->estadiasActivasPorVehiculoId($vehiculo);
 
-        if ($tieneEstadias == NULL) {
-            return json_encode(true);
+        if (empty($tieneEstadias) ) {
+            return json_encode(false);
 
         } else
-            return json_encode(false);
+            return json_encode(true);
 
 
     }

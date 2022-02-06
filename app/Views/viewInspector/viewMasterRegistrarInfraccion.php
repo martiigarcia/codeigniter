@@ -48,7 +48,7 @@
                                         <div class="input-group">
                                             <div class="col-6">
 
-                                                <input type="text" name="dominio" value="<?= $dominio; ?>" hidden=""
+                                                <input type="text" name="vehiculo" value="<?= $vehiculo; ?>" hidden=""
                                                        class="form-control">
 
                                                 <input type="text" name="calle" class="form-control"

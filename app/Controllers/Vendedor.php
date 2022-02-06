@@ -10,6 +10,7 @@ use App\Models\UserModel;
 use App\Models\VentaModel;
 use App\Models\ZonaModel;
 use DateTime;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class Vendedor extends BaseController
 {
@@ -83,7 +84,6 @@ class Vendedor extends BaseController
 
     public function estacionar($valor)
     {
-
         $this->idHistorialZona = 0;
         if (!$this->esVendedor()) {
             return redirect()->to(base_url());
@@ -95,6 +95,7 @@ class Vendedor extends BaseController
         ]);
         if ($validacion) {
 
+
             date_default_timezone_set('America/Argentina/Buenos_Aires');
             $fechaInicio = (new DateTime())->format('Y-m-d H:i:s');
             $historialZonasModel = new HistorialZonaModel();
@@ -103,17 +104,21 @@ class Vendedor extends BaseController
             //dependiendo de cuantas zonas traiga se usa 1 o 2 validaciones, porque pueden ser hasta 2 turnos
             if (sizeof($infoZonas) === 1) {
                 if (!($this->esFechaValidaParaEstacionar($fechaInicio, $infoZonas[0]['comienzo'], $infoZonas[0]['final'], $infoZonas[0]['id']))) {
-                    return redirect()->back()->with('errorHoraDeInicio', 'Se encuentra fuera del horario de estacionamiento el Horario es de Lunes a Viernes de: '
-                        . $infoZonas[0]['comienzo'] . 'hs a ' . $infoZonas[0]['final'] . 'hs')
-                        ->withInput();
+//                    return redirect()->back()->with('errorHoraDeInicio', 'Se encuentra fuera del horario de estacionamiento el Horario es de Lunes a Viernes de: '
+//                        . $infoZonas[0]['comienzo'] . 'hs a ' . $infoZonas[0]['final'] . 'hs')
+//                        ->withInput();
+                return (json_encode('Se encuentra fuera del horario de estacionamiento el Horario es de Lunes a Viernes de: ' . $infoZonas[0]['comienzo'] . 'hs a ' . $infoZonas[0]['final'] . 'hs'));
+
                 }
             }
 
             if (!(($this->esFechaValidaParaEstacionar($fechaInicio, $infoZonas[0]['comienzo'], $infoZonas[0]['final'], $infoZonas[0]['id'])) ||
                 ($this->esFechaValidaParaEstacionar($fechaInicio, $infoZonas[1]['comienzo'], $infoZonas[1]['final'], $infoZonas[1]['id'])))) {
-                return redirect()->back()->with('errorHoraDeInicio', 'Se encuentra fuera del horario de estacionamiento el Horario es de Lunes a Viernes de: '
-                    . $infoZonas[0]['comienzo'] . 'hs a ' . $infoZonas[0]['final'] . 'hs y de ' . $infoZonas[1]['comienzo'] . 'hs a ' . $infoZonas[1]['final'] . 'hs')
-                    ->withInput();
+//                return redirect()->back()->with('errorHoraDeInicio', 'Se encuentra fuera del horario de estacionamiento el Horario es de Lunes a Viernes de: '
+//                    . $infoZonas[0]['comienzo'] . 'hs a ' . $infoZonas[0]['final'] . 'hs y de ' . $infoZonas[1]['comienzo'] . 'hs a ' . $infoZonas[1]['final'] . 'hs')
+//                    ->withInput();
+                return json_encode('Se encuentra fuera del horario de estacionamiento el Horario es de Lunes a Viernes de: '
+                    . $infoZonas[0]['comienzo'] . 'hs a ' . $infoZonas[0]['final'] . 'hs y de ' . $infoZonas[1]['comienzo'] . 'hs a ' . $infoZonas[1]['final'] . 'hs');
             }
 
             $estadiaModel = new EstadiaModel();
@@ -136,10 +141,14 @@ class Vendedor extends BaseController
 
                 if (!(($this->esFechaValidaParaEstacionar($fechaFin, $infoZonas[0]['comienzo'], $infoZonas[0]['final'], $infoZonas[0]['id'])) ||
                     ($this->esFechaValidaParaEstacionar($fechaFin, $infoZonas[1]['comienzo'], $infoZonas[1]['final'], $infoZonas[1]['id'])))) {
-                    return redirect()->back()->with('errorDeCantidadDeHoras', 'El horario seleccionado se encuentra fuera del horario de estacionamiento. El Horario es de Lunes a Viernes de: '
-                        . $infoZonas[0]['comienzo'] . 'hs a ' . $infoZonas[0]['final'] . 'hs y de ' . $infoZonas[1]['comienzo'] . 'hs a ' . $infoZonas[1]['final'] . 'hs' . "<br>" .
-                        '(La hora seleccionada debe ser mayor a la actual)')
-                        ->withInput();
+//                    return redirect()->back()->with('errorDeCantidadDeHoras', 'El horario seleccionado se encuentra fuera del horario de estacionamiento. El Horario es de Lunes a Viernes de: '
+//                        . $infoZonas[0]['comienzo'] . 'hs a ' . $infoZonas[0]['final'] . 'hs y de ' . $infoZonas[1]['comienzo'] . 'hs a ' . $infoZonas[1]['final'] . 'hs' . "<br>" .
+//                        '(La hora seleccionada debe ser mayor a la actual)')
+//                        ->withInput();
+
+                    return json_encode('El horario seleccionado se encuentra fuera del horario de estacionamiento. El Horario es de Lunes a Viernes de: '
+                        . $infoZonas[0]['comienzo'] . 'hs a ' . $infoZonas[0]['final'] . 'hs y de ' . $infoZonas[1]['comienzo'] . 'hs a ' . $infoZonas[1]['final'] . 'hs'  .
+                        '(La hora seleccionada debe ser mayor a la actual)');
                 }
             }
 
@@ -149,7 +158,7 @@ class Vendedor extends BaseController
                 'duracion_definida' => $duracionDefinida,
                 'fecha_inicio' => $fechaInicio,
                 'fecha_fin' => $fechaFin,
-                'pago_pendiente' => $valor,
+                'pago_pendiente' => !filter_var($valor,FILTER_VALIDATE_BOOLEAN),
                 'id_dominio_vehiculo' => $_POST['dominio_vehiculo'],
                 'id_historial_zona' => $this->idHistorialZona
 
@@ -160,7 +169,7 @@ class Vendedor extends BaseController
             $idEstadia = $listadoDeEstadias->id;
 
             $infoVenta = [
-                'esta_pago' => $valor,
+                'esta_pago' => !filter_var($valor,FILTER_VALIDATE_BOOLEAN),
                 'id_vendedor' => session('id'),
                 'id_estadia' => $idEstadia
             ];
@@ -172,12 +181,8 @@ class Vendedor extends BaseController
             return (json_encode(true));
 
         } else {
-            $error = $this->validator->getErrors();
-           // session()->setFlashdata($error);
-          /*  return redirect()
-                ->back()
-                ->withInput();*/
-            return (json_encode($error));
+
+            return (json_encode("La zona y la cantidad de horas son requeridas"));
         }
     }
 
@@ -204,7 +209,8 @@ class Vendedor extends BaseController
         $fechaActual = (new DateTime())->format('Y-m-d H:i');
 
         if (($fecha >= $fechaActual) && ($fecha <= $fechaFin) && ($fecha >= $fechaInicio) && ($fechaActual >= $fechaInicio)
-            && (strftime('%A') != 'Saturday') && (strftime('%A') != 'Sunday')) {
+            //&& (strftime('%A') != 'Saturday') && (strftime('%A') != 'Sunday'))
+        ){
             $this->idHistorialZona = $idHistorialZona;
             return true;
         }

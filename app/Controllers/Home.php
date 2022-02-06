@@ -7,6 +7,7 @@ use App\Models\DominioVehiculoModel;
 use App\Models\EstadiaModel;
 use App\Models\TarjetaDeCreditoModel;
 use App\Models\UserModel;
+use App\Models\VehiculoModel;
 use DateTime;
 
 class Home extends BaseController
@@ -87,6 +88,8 @@ class Home extends BaseController
 
             $dominioVehiculoModel = new DominioVehiculoModel();
             $data['dominiosTotales'] = $dominioVehiculoModel->obtenerTodos();
+            $vehiculosModel = new VehiculoModel();
+            $data['vehiculos']=$vehiculosModel->obtenerTodos();
 
             return view('viewInspector/viewMaster', $data);
         }

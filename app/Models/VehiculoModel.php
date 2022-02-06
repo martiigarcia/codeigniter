@@ -34,8 +34,12 @@ class VehiculoModel extends Model
     public function obtenerTodos()
     {
         return $this
-            ->select('vehiculos.*')
-            ->get()->getFirstRow();
+            ->select('vehiculos.*, 
+            marcas.nombre vehiculo_marca_nombre,
+            modelos.nombre vehiculo_modelo_nombre')
+            ->join('marcas', 'marcas.id = vehiculos.marca')
+            ->join('modelos', 'modelos.id = vehiculos.modelo')
+            ->get()->getResultArray();
 
     }
 

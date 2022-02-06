@@ -158,13 +158,11 @@ class Cliente extends BaseController
             $listadoDominio = $dominioVehiculoModel->obtenerDominioPorIdVehiculo($dom['id_vehiculo']);
             //recupera un listado de dominios segun el vehiculo
 
-
             foreach ($listadoDominio as $dominio) {
                 $estadias = $estadiaModel->buscarPorDominioId($dominio['id']);
                 if (!empty($estadias)) {
                     foreach ($estadias as $estadia) {
                         if ($estadia['fecha_fin'] > $fechaAcual) {
-
                             unset($data['dominio'][$i]);
                         }
                     }
@@ -558,10 +556,6 @@ class Cliente extends BaseController
         $deudaCuenta = $cuenta->deuda; //deuda actual que ya hay en la cuenta
         $deudaTotal = number_format($deudaCuenta + $montoEstadia,2); // deuda de la cuenta + monto de la estadia a registrar en el momento
 
-        //var_dump($montoEstadia);
-        //var_dump($deudaCuenta);
-        //var_dump($deudaTotal);
-        // dd(self::DEUDA_MAXIMA_PERMITIDA);
         if ($deudaTotal < self::DEUDA_MAXIMA_PERMITIDA) {
             return true; //retorna true cuando el total de la deuda ya existe  + el monto de la estadia actual son MENORES al tamaño de la deuda maxima permitida
         }
@@ -622,7 +616,7 @@ class Cliente extends BaseController
             $tarjetaModel = new TarjetaDeCreditoModel();
             $data['tarjetas'] = $tarjetaModel->obtenerTarjetasPorUsuario(session('id'));
 
-            //dd($data['estadiasTotales']);
+
             return view('viewCliente/viewMasterConsultarVehiculo', $data);
 
         } else {
@@ -834,16 +828,18 @@ class Cliente extends BaseController
 
             if (!empty($estadias)) {
                 for ($i = 0; $i < sizeof($estadias); $i++) {
-                    if ($estadias[$i]['fecha_fin'] >= $fechaAcual) {
+                    if ($estadias[$i]['fecha_fin'] > $fechaAcual) {
                         $data['dominio_vehiculos'] = array_filter($data['dominio_vehiculos'], function ($valor) use ($id_vehiculo, $id_usuario) {
 
-                            return (($valor['id_vehiculo'] !== $id_vehiculo) && ($valor['id_usuario'] !== $id_usuario));
+                            return (($valor['id_vehiculo'] == $id_vehiculo) && ($valor['id_usuario'] == $id_usuario));
                         });
+
 
                     }
                 }
             }
         }
+
         if (empty($data['dominio_vehiculos'])) {
             return json_encode(true);
         } else {
@@ -871,7 +867,8 @@ class Cliente extends BaseController
         $fechaActual = (new DateTime())->format('Y-m-d H:i');
 
         if (($fecha >= $fechaActual) && ($fecha <= $fechaFin) && ($fecha >= $fechaInicio) && ($fechaActual >= $fechaInicio)
-            && (strftime('%A') != 'Saturday') && (strftime('%A') != 'Sunday')) {
+           // && (strftime('%A') != 'Saturday') && (strftime('%A') != 'Sunday'))
+        ){
             $this->idHistorialZona = $idHistorialZona;
             return true;
         }

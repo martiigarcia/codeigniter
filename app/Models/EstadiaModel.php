@@ -104,6 +104,15 @@ class EstadiaModel extends Model
 
 
     }
+    public
+    function estadiasActivasPorVehiculoId($id_vehiculo)
+    {
+        $query = $this->queryAll . "WHERE v.id = " . $id_vehiculo . " AND e.fecha_fin >= NOW() 
+         AND u.id = dv.id_usuario AND v.id = dv.id_vehiculo AND ma.id = v.marca AND mo.id = v.modelo AND hz.id = e.id_historial_zona  AND z.id = hz.id_zona";
+        return $this->db->query($query)->getResultArray();
+
+
+    }
 
 
     public

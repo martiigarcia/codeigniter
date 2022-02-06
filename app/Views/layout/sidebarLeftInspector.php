@@ -66,20 +66,20 @@
 
                                                 <div class="input-group-prepend">
 
-                                                    <select class="form-control" name="dominio_vehiculo"
-                                                            id="dominio_vehiculo"
+                                                    <select class="form-control" name="vehiculo"
+                                                            id="vehiculo"
                                                             required>
 
 
                                                         <option disabled selected=inicial>Vehiculos registrados
                                                         </option>
 
-                                                        <?php foreach ($dominiosTotales as $d) : ?>
+                                                        <?php foreach ($vehiculos as $v) : ?>
 
-                                                            <option value=<?= $d['id']; ?>>
-                                                                <?= $d['vehiculo_patente']; ?>
-                                                                --> <?= $d['vehiculo_marca_nombre']; ?>
-                                                                , <?= $d['vehiculo_modelo_nombre']; ?>
+                                                            <option value=<?= $v['id']; ?>>
+                                                                <?= $v['patente']; ?>
+                                                                --> <?= $v['vehiculo_marca_nombre']; ?>
+                                                                , <?= $v['vehiculo_modelo_nombre']; ?>
                                                             </option>
 
                                                         <?php endforeach; ?>

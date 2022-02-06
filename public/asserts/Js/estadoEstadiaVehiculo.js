@@ -1,8 +1,8 @@
 function verEstadoEstadia() {
 
-    var dominioSeleccionado = document.getElementById("dominio_vehiculo").value;
+    var vehiculoSeleccionado = document.getElementById("vehiculo").value;
 
-    $.post(baseurl + "/inspector/consultarEstadiaVehiculo/" + dominioSeleccionado,
+    $.post(baseurl + "/inspector/consultarEstadiaVehiculo/" + vehiculoSeleccionado,
 
         function (data) {
 
@@ -15,7 +15,8 @@ function verEstadoEstadia() {
                 },
                 buttonsStyling: false
             })
-            if (existeEstadia) {
+
+            if (!existeEstadia) {
 
                 swalWithBootstrapButtons.fire({
                     title: '¿Desea registrar una infraccion?',
@@ -27,7 +28,7 @@ function verEstadoEstadia() {
                     reverseButtons: true
                 }).then(result => {
                     if (result.isConfirmed) {
-                        window.location.href = baseurl + "/inspector/verRegistrarInfraccion/" + dominioSeleccionado;
+                        window.location.href = baseurl + "/inspector/verRegistrarInfraccion/" + vehiculoSeleccionado;
                     } else {
                         window.location.href = baseurl;
                     }

@@ -495,7 +495,6 @@
 
 <script>
     function abonarVenta() {
-
         swal.fire({
             title: "Abonar estadia",
             text: "Indique si el cliente abona la estadia en este momento o si la deja pendiente",
@@ -510,9 +509,9 @@
             idZona = document.getElementById("id_zona").value === "" ? null : document.getElementById("id_zona").value;
             horas = document.getElementById("cantidad_horas").value;
 
-            console.log(dominio);
-            console.log(idZona);
-            console.log(horas);
+            // console.log(dominio);
+            // console.log(idZona);
+            // console.log(horas);
 
             if (result.isConfirmed) {
 
@@ -524,6 +523,7 @@
                         cantidad_horas: horas,
 
                     }, function (data) {
+
                         var info = JSON.parse(data);
                        /* console.log("info: " + info);
                         var array = [];
@@ -531,6 +531,7 @@
                             array [i] = item;
                             console.log("ARRAY: " +array[i]);
                         });*/
+
 
                         if (info === true) {
                             swal.fire({
@@ -543,7 +544,7 @@
                         } else {
                             swal.fire({
                                 title: "Error",
-                                text: "La zona y la cantidad de horas son requeridas",
+                                text: info,
                                 icon: "error",
                             }).then(result => {
 
@@ -575,7 +576,7 @@
                         } else {
                             swal.fire({
                                 title: "Error",
-                                text: "La zona y la cantidad de horas son requeridas",
+                                text: info,
                                 icon: "error",
                             }).then(result => {
 
