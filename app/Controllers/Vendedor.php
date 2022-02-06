@@ -209,8 +209,8 @@ class Vendedor extends BaseController
         $fechaActual = (new DateTime())->format('Y-m-d H:i');
 
         if (($fecha >= $fechaActual) && ($fecha <= $fechaFin) && ($fecha >= $fechaInicio) && ($fechaActual >= $fechaInicio)
-            //&& (strftime('%A') != 'Saturday') && (strftime('%A') != 'Sunday'))
-        ){
+            && (strftime('%A') != 'Saturday') && (strftime('%A') != 'Sunday'))
+        {
             $this->idHistorialZona = $idHistorialZona;
             return true;
         }
