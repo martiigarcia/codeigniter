@@ -263,7 +263,7 @@
                                         <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 5.982 5.982 0 0 1 3.13-1.567z"/>
                                     </svg>
 
-                                    Consultar monto de mi cuenta</a>
+                                    Consultar saldo de mi cuenta</a>
 
                                 <form method="POST" action="<?= base_url('cliente/consultarVehiculo'); ?>">
                                     <div class="modal fade modal-dark show" id="consultarMontoDeCuentaModalToolPop"

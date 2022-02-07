@@ -85,9 +85,7 @@
                                     <div class="input-group col">
                                         <input type="text" name="dni" class="form-control" placeholder="DNI"
                                                value="<?= old("dni") ?>">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text bg-danger"><span class="text-light">Obligatorio</span>
-                                        </div>
+
 
                                     </div>
                                     <p style="color: rgb(232,74,103)"> <?= session('dni'); ?></p>
@@ -99,9 +97,7 @@
                                     <div class="input-group col">
                                         <input type="password" name="password" class="form-control"
                                                placeholder="Contraseña" >
-                                        <div class="input-group-append">
-                                            <span class="input-group-text bg-danger"><span class="text-light">Obligatorio</span>
-                                        </div>
+
 
                                     </div>
                                     <p style="color: rgb(232,74,103)"> <?= session('password') ? "El campo contraseña es obligatorio" : "" ?></p>
@@ -113,9 +109,6 @@
                                     <div class="input-group col">
                                         <input type="password" name="confirm_password" class="form-control"
                                                placeholder="Confirmar Contraseña">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text bg-danger"><span class="text-light">Obligatorio</span>
-                                        </div>
 
                                     </div>
                                     <p style="color: rgb(232,74,103)"> <?= session('confirm_password') ? "El campo contraseña es obligatorio" : "" ?></p>
