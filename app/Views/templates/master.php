@@ -275,6 +275,8 @@
 
         $.post(baseurl + "/cliente/obtenerDominiosDeUsuario/",
             function (data) {
+            console.log(data)
+
                 var info = JSON.parse(data);
                 if (info) {
                     swal.fire({

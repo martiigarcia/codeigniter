@@ -806,38 +806,34 @@ class Cliente extends BaseController
     public function obtenerDominiosDeUsuario()
     {
 
-        $dominioModel = new DominioVehiculoModel();
-        $data2['dominio_vehiculos'] = $dominioModel->tieneVehiculos(session('id'));
-        $data['dominio_vehiculos'] = $data2['dominio_vehiculos'];
-
-        $fechaAcual = (new DateTime())->format('Y-m-d H:i:s');
+       $fechaAcual = (new DateTime())->format('Y-m-d H:i:s');
 
         $estadiaModel = new EstadiaModel();
 
+        $dominioVehiculoModel = new DominioVehiculoModel();
+        $data['dominio'] = $dominioVehiculoModel->tieneVehiculos(session('id'));
+        //recupera una lista de dominios segun el usuario actual
 
-        for ($j = 0; $j < sizeof($data2['dominio_vehiculos']); $j++) {
+        $i = 0;
+        foreach ($data['dominio'] as $dom) {
+            $listadoDominio = $dominioVehiculoModel->obtenerDominioPorIdVehiculo($dom['id_vehiculo']);
+            //recupera un listado de dominios segun el vehiculo
 
-            $id_dominio = $data2['dominio_vehiculos'][$j]['id'];
-            $id_vehiculo = $data2['dominio_vehiculos'][$j]['id_vehiculo'];
-            $id_usuario = $data2['dominio_vehiculos'][$j]['id_usuario'];
-
-            $estadias = $estadiaModel->buscarPorDominioId($id_dominio);
-
-            if (!empty($estadias)) {
-                for ($i = 0; $i < sizeof($estadias); $i++) {
-                    if ($estadias[$i]['fecha_fin'] > $fechaAcual) {
-                        $data['dominio_vehiculos'] = array_filter($data['dominio_vehiculos'], function ($valor) use ($id_vehiculo, $id_usuario) {
-
-                            return (($valor['id_vehiculo'] == $id_vehiculo) && ($valor['id_usuario'] == $id_usuario));
-                        });
-
-
+            foreach ($listadoDominio as $dominio) {
+                $estadias = $estadiaModel->buscarPorDominioId($dominio['id']);
+                if (!empty($estadias)) {
+                    foreach ($estadias as $estadia) {
+                        if ($estadia['fecha_fin'] >= $fechaAcual) {
+                            unset($data['dominio'][$i]);
+                        }
                     }
                 }
             }
+            $i++;
+
         }
 
-        if (empty($data['dominio_vehiculos'])) {
+        if (empty($data['dominio'])) {
             return json_encode(true);
         } else {
             return json_encode(false);

@@ -196,6 +196,10 @@ class Administrador extends BaseController
                 $_POST['id_rol'] = $datos['datos']['id_rol'];
             }
 
+            $formatoFecha = explode('-', $_POST['fecha_de_nacimiento']);
+            if (strlen($formatoFecha[0]) ==2){
+                $_POST['fecha_de_nacimiento'] = DateTime::createFromFormat("d-m-Y", $_POST['fecha_de_nacimiento'])->format('Y-m-d');
+            }
 
             $userModel->update($_POST['id'], $_POST);
 
