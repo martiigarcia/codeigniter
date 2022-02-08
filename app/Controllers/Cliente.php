@@ -20,7 +20,7 @@ class Cliente extends BaseController
 
 
     private $idHistorialZona;
-    private const DEUDA_MAXIMA_PERMITIDA = 500;
+    private const DEUDA_MAXIMA_PERMITIDA = 500.0;
 
 
     //registrar vehiculo:
@@ -294,7 +294,7 @@ class Cliente extends BaseController
                     $cuentaModel = new CuentaModel();
                     $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
                     $deudaCuenta = $cuenta->deuda;
-                    $cuenta->deuda = number_format($deudaCuenta + $montoAPagar,2);
+                    $cuenta->deuda = round($deudaCuenta + $montoAPagar,3);
 
                     $cuentaModel->update($cuenta->id, $cuenta);
                     $estadiaModel->save($estadiaData);
@@ -359,7 +359,7 @@ class Cliente extends BaseController
         $cuentaModel = new CuentaModel();
         $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
         $deudaCuenta = $cuenta->deuda;
-        $cuenta->deuda = number_format($deudaCuenta + $montoAPagar,2);
+        $cuenta->deuda = round($deudaCuenta + $montoAPagar,3);
 
         $cuentaModel->update($cuenta->id, $cuenta);
 
@@ -389,7 +389,7 @@ class Cliente extends BaseController
         $cuentaModel = new CuentaModel();
         $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
         $deudaCuenta = $cuenta->deuda;
-        $cuenta->deuda = number_format($deudaCuenta - $montoAPagar,2);
+        $cuenta->deuda = round($deudaCuenta - $montoAPagar,3);
 
         $cuentaModel->update($cuenta->id, $cuenta);
 
@@ -433,7 +433,7 @@ class Cliente extends BaseController
             $data['estadia']['pago_pendiente'] = false;
 
             $estadiaModel->update($id_estadia, $data['estadia']);
-            $cuenta->monto_total = number_format($cuenta->monto_total - $montoAPagar,2);
+            $cuenta->monto_total = round($cuenta->monto_total - $montoAPagar,3);
             $cuentaModel->update($cuenta->id, $cuenta);
 
             return json_encode(true);
@@ -443,7 +443,7 @@ class Cliente extends BaseController
             $estadiaModel->update($id_estadia, $data['estadia']);
 
             $deudaCuenta = $cuenta->deuda;
-            $cuenta->deuda = number_format($deudaCuenta + $montoAPagar, 2);
+            $cuenta->deuda = round($deudaCuenta + $montoAPagar, 3);
 
             $cuentaModel->update($cuenta->id, $cuenta);
             return json_encode(false);
@@ -531,10 +531,10 @@ class Cliente extends BaseController
 
             if ($valor == 0) {
                 $deudaCuenta = $cuenta->deuda;
-                $cuenta->deuda =number_format($deudaCuenta - $montoAPagar,2) ;
+                $cuenta->deuda =round($deudaCuenta - $montoAPagar,3) ;
             }
 
-            $cuenta->monto_total =number_format($cuenta->monto_total - $montoAPagar,2) ;
+            $cuenta->monto_total =round($cuenta->monto_total - $montoAPagar,3) ;
             $cuentaModel->update($cuenta->id, $cuenta);
             if ($valor == 0) {
                 session()->setFlashdata('mensaje', 'El pago se realizo exitosamente');
@@ -554,12 +554,12 @@ class Cliente extends BaseController
         $cuentaModel = new CuentaModel();
         $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
         $deudaCuenta = $cuenta->deuda; //deuda actual que ya hay en la cuenta
-        $deudaTotal = number_format($deudaCuenta + $montoEstadia,2); // deuda de la cuenta + monto de la estadia a registrar en el momento
+        $deudaTotal = round($deudaCuenta + $montoEstadia,3); // deuda de la cuenta + monto de la estadia a registrar en el momento
 
         if ($deudaTotal < self::DEUDA_MAXIMA_PERMITIDA) {
             return true; //retorna true cuando el total de la deuda ya existe  + el monto de la estadia actual son MENORES al tamaño de la deuda maxima permitida
         }
-        return false;//retorna true cuando el total de la deuda ya existe  + el monto de la estadia actual son MAYORES al tamaño de la deuda maxima permitida
+            return false;//retorna true cuando el total de la deuda ya existe  + el monto de la estadia actual son MAYORES al tamaño de la deuda maxima permitida
 
     }
 
@@ -737,7 +737,7 @@ class Cliente extends BaseController
 
             $cuentaModel = new CuentaModel();
             $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
-            $cuenta->monto_total = $cuenta->monto_total + $_POST['monto'];
+            $cuenta->monto_total = round(($cuenta->monto_total +$_POST['monto']),3);
 
             $cuentaModel->update($cuenta->id, $cuenta);
 
@@ -745,15 +745,12 @@ class Cliente extends BaseController
 
             session()->setFlashdata('mensaje', 'La transaccion se realizo exitosamente');
             return json_encode(true);
-            // return redirect()->to(base_url('/home'));
+
 
         } else {
             $error = $this->validator->getErrors();
             session()->setFlashdata($error);
             return json_encode(redirect()->back()->withInput());
-//            return redirect()
-//                ->back()
-//                ->withInput();
         }
     }
 
@@ -791,9 +788,9 @@ class Cliente extends BaseController
                 $infoEstadia['pago_pendiente'] = false;
                 $estadiaModel->update($infoEstadia['id'], $infoEstadia);
 
-                $cuenta->deuda = number_format($cuenta->deuda - $montoEstadia,2);
+                $cuenta->deuda = round($cuenta->deuda - $montoEstadia,3);
 
-                $montoTotal =number_format($montoTotal - $montoEstadia,2) ;
+                $montoTotal =round($montoTotal - $montoEstadia,3) ;
                 $cuenta->monto_total = $montoTotal;
 
                 $cuentaModel->update($cuenta->id, $cuenta);
@@ -914,7 +911,7 @@ class Cliente extends BaseController
         $seg = $diferenciaDeHoras->s;
         $monto = (($hora + $min + $seg) * $precio) / 3600;
 
-        return number_format($monto, 2, '.', '');
+        return round($monto, 3);
 
     }
 
