@@ -2,14 +2,15 @@
     <div class="sidebar-right-container">
 
         <ul class="nav nav-tabs" style="display: flex; justify-content: right;">
-            <li class="nav-item" style="width: -webkit-fill-available; border-bottom:solid 1px grey; border-top: solid 1px grey">
-                <a  class="nav-link active">Informacion</a>
+            <li class="nav-item"
+                style="width: -webkit-fill-available; border-bottom:solid 1px grey; border-top: solid 1px grey">
+                <a class="nav-link active">Informacion</a>
             </li>
         </ul>
 
         <div class="tab-content">
 
-            <div  class="tab-pane show active">
+            <div class="tab-pane show active">
                 <div class="pane-header">
                     <h3>
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"

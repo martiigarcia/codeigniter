@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Models\DominioVehiculoModel;
 use App\Models\EstadiaModel;
 use App\Models\HistorialZonaModel;
 use App\Models\InfraccionModel;
@@ -27,7 +26,7 @@ class Inspector extends BaseController
 
 
         $vehiculosModel = new VehiculoModel();
-        $data['vehiculos']=$vehiculosModel->obtenerTodos();
+        $data['vehiculos'] = $vehiculosModel->obtenerTodos();
 
         $data['estadias'] = $estadiaModel->obtenerTodas();
         $estados[] = null;
@@ -35,7 +34,7 @@ class Inspector extends BaseController
 
         foreach ($data['estadias'] as $infoEstadia) {
 
-            $estados[$i] = $this->verificarEstados( $infoEstadia['fecha_fin']);
+            $estados[$i] = $this->verificarEstados($infoEstadia['fecha_fin']);
             $i++;
         }
         $data['estados'] = $estados;
@@ -63,7 +62,7 @@ class Inspector extends BaseController
         $estadiaModel = new EstadiaModel();
 
         $vehiculosModel = new VehiculoModel();
-        $data['vehiculos']=$vehiculosModel->obtenerTodos();
+        $data['vehiculos'] = $vehiculosModel->obtenerTodos();
 
         $data['estadiaSeleccionada'] = $estadiaModel->obtenerEstadiaById($id);
 
@@ -74,7 +73,7 @@ class Inspector extends BaseController
         $cantidadDeHoras = $this->calcularHoras($data['estadiaSeleccionada']->fecha_inicio, $data['estadiaSeleccionada']->fecha_fin);
         $data['cantidad_horas'] = $cantidadDeHoras;
 
-        $estado = $this->verificarEstados( $data['estadiaSeleccionada']->fecha_fin);
+        $estado = $this->verificarEstados($data['estadiaSeleccionada']->fecha_fin);
         $data['estado'] = $estado;
 
         return view('detalleEstacionamiento', $data);
@@ -96,7 +95,7 @@ class Inspector extends BaseController
         $data['zonas'] = $zonaModel->findAll();
 
         $vehiculosModel = new VehiculoModel();
-        $data['vehiculos']=$vehiculosModel->obtenerTodos();
+        $data['vehiculos'] = $vehiculosModel->obtenerTodos();
 
         return view('viewInspector/viewMasterRegistrarInfraccion', $data);
     }
@@ -124,7 +123,7 @@ class Inspector extends BaseController
                 'dia_hora' => $fechaInicio,
                 'calle' => $_POST['calle'],
                 'altura' => $_POST['altura'],
-                'id_vehiculo' =>$_POST['vehiculo'],
+                'id_vehiculo' => $_POST['vehiculo'],
                 'id_historial_zona' => $_POST['historial_zona']
             ];
             $infraccionModel->save($data);
@@ -152,7 +151,7 @@ class Inspector extends BaseController
         $estadiasModel = new EstadiaModel();
         $tieneEstadias = $estadiasModel->estadiasActivasPorVehiculoId($vehiculo);
 
-        if (empty($tieneEstadias) ) {
+        if (empty($tieneEstadias)) {
             return json_encode(false);
 
         } else
@@ -208,12 +207,13 @@ class Inspector extends BaseController
 
     }
 
-    private function verificarEstados($fecha_fin){
+    private function verificarEstados($fecha_fin)
+    {
         $fechaActual = (new DateTime())->format('Y-m-d H:i:s');
 
-        if($fecha_fin>$fechaActual){
+        if ($fecha_fin > $fechaActual) {
             return true; //esta activa
-        }else{
+        } else {
             return false; //termino
         }
     }

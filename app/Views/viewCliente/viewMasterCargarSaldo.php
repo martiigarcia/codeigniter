@@ -121,7 +121,8 @@ Cargar saldo a mi cuenta
                     <div class="row">
 
                         <div class="col text-center">
-                            <p style="color: #E84A67"> ATENCION! Cuando ingrese saldo a la cuenta, automaticamente se pagaran las estadias que ya esten registradas con pagos pedientes</p>
+                            <p style="color: #E84A67"> ATENCION! Cuando ingrese saldo a la cuenta, automaticamente se
+                                pagaran las estadias que ya esten registradas con pagos pedientes</p>
                         </div>
                     </div>
                 </div>

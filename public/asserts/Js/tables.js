@@ -45,8 +45,8 @@
 //             })
 //         })
 // }
-$(document).ready(function() {
-    $('#tableUsuarios').DataTable( {
+$(document).ready(function () {
+    $('#tableUsuarios').DataTable({
         "language": {
             "lengthMenu": "Mostrar _MENU_ registros por pagina",
             "zeroRecords": "No se encontraron coincidencias",
@@ -60,5 +60,5 @@ $(document).ready(function() {
             }
 
         }
-    } );
-} );
+    });
+});

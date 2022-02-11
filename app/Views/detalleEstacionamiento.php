@@ -28,12 +28,14 @@
                             <div class="card-body">
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">
-                                        Estado: <td><?= $estado == true ? "ACTIVA" : "FINALIZADA"; ?></td></li>
+                                        Estado:
+                                        <td><?= $estado == true ? "ACTIVA" : "FINALIZADA"; ?></td>
+                                    </li>
                                     <li class="list-group-item">Cantidad de
                                         horas:
                                         <td>
                                             <?= $estadiaSeleccionada->duracion_definida ?
-                                                 $cantidad_horas : "INDEFINIDO"?>
+                                                $cantidad_horas : "INDEFINIDO" ?>
                                         </td>
                                     </li>
                                     <li class="list-group-item">Fecha

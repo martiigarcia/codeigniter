@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Controllers;
+
 use App\Entities\User;
 use App\Models\CuentaModel;
-use App\Models\UserModel;
 use App\Models\RecuerdameModel;
+use App\Models\UserModel;
 use CodeIgniter\Encryption\Encryption;
 use Config\Services;
 use DateTime;
@@ -17,21 +18,17 @@ class Login extends BaseController
 
 
     public function login()
-    {   
-        if($this->isLoggedIn()){
+    {
+        if ($this->isLoggedIn()) {
             return redirect()->to(base_url("home/index"));
         }
         return view('Login/login');
     }
 
-    /*public function verifyPassword(string $password): bool
-    {
-        return password_verify($password, $this->attributes['password']);
-    }*/
 
     public function ingresar()
     {
-      
+
         //validaciones del attempt
         if (!$this->validate([
                 'email' => 'required',
@@ -43,13 +40,13 @@ class Login extends BaseController
         }
         $userModel = new UserModel();
         $data = $userModel->obtenerUsuarioEmail($_POST['email']);
-        if(empty($data)){
-            return redirect()->back()->with('mensajeLogin','El usuario o la contraseña son incorrectos')
+        if (empty($data)) {
+            return redirect()->back()->with('mensajeLogin', 'El usuario o la contraseña son incorrectos')
                 ->withInput();
-        }else {
-           
-            if(!password_verify($_POST['password'],$data['password'])){
-           
+        } else {
+
+            if (!password_verify($_POST['password'], $data['password'])) {
+
                 return redirect()->back()->with('mensajeLogin', 'El usuario o la contraseña son incorrectos')
                     ->withInput();
             }
@@ -58,16 +55,15 @@ class Login extends BaseController
         //del attempt
         Services::response()->noCache();
 
-       // doLogIn
+        // doLogIn
         $this->usuario = $data;
         session()->regenerate(true);
-        
-        
+
 
         session()->set([
-            'id'=>$this->usuario['id'],
-            'username'  => $this->usuario['email'],
-            'rol'=>$this->usuario['rol_id'],
+            'id' => $this->usuario['id'],
+            'username' => $this->usuario['email'],
+            'rol' => $this->usuario['rol_id'],
             'logged_in' => true,
         ]);
 
@@ -75,7 +71,6 @@ class Login extends BaseController
         if (isset($_POST['recuerdame']))
             $this->remember(['id_usuario' => $this->usuario['id']]);
 
-           
 
         return redirect()->withCookies()->to(base_url("home/index"));
     }
@@ -105,9 +100,9 @@ class Login extends BaseController
             ? $data['id']
             : $recuerdameModel->db->insertID();
 
-       
+
         Services::response()->setCookie('remember', $tokenId . ':' . $hash, $fecha_fin);
-       // dd(Services::request()->getCookie('remember'));
+
     }
 
 
@@ -118,11 +113,11 @@ class Login extends BaseController
     {
         if (!is_null($this->usuario))
             return true;
-//dd(session()->get('logged_id'));
+
         if ($userId = session()->get('id'))
             $this->usuario = (new UserModel())->obtenerUsuario($userId);
 
-        if (! is_null($this->usuario))
+        if (!is_null($this->usuario))
             return true;
 
         return $this->verify();
@@ -149,21 +144,20 @@ class Login extends BaseController
 
         $usuario = (new UserModel())->obtenerUsuario($token['id_usuario']);
 
-        if (is_null($usuario) && ! $usuario instanceof User)
+        if (is_null($usuario) && !$usuario instanceof User)
             return false;
 
-        
-         // doLogIn
-         $this->usuario = $usuario;
-         session()->regenerate(true);
-         
-      //  dd($usuario);
-         session()->set([
-             'id'=>$usuario['id'],
-             'username'  => $usuario['email'],
-             'rol'=>$usuario['rol_id'],
 
-         ]);
+        $this->usuario = $usuario;
+        session()->regenerate(true);
+
+
+        session()->set([
+            'id' => $usuario['id'],
+            'username' => $usuario['email'],
+            'rol' => $usuario['rol_id'],
+
+        ]);
 
         $this->remember($token, true);
 
@@ -180,7 +174,6 @@ class Login extends BaseController
         return $this->usuario;
     }
 
-   
 
     /*
     *
@@ -198,7 +191,7 @@ class Login extends BaseController
         }
 
         $this->usuario = null;
-      
+
         session()->destroy();
         return redirect()->to(base_url());
     }
@@ -213,14 +206,17 @@ class Login extends BaseController
         Services::response()->setCookie('remember');
     }
 
-    
-    public function registrarUsuario(){
+
+    public function registrarUsuario()
+    {
         if (session('rol') === null) {
-    return view('login/registro');
+            return view('login/registro');
         }
         return redirect()->to(base_url());
     }
-    public function guardar(){
+
+    public function guardar()
+    {
         $validacion = $this->validate([
             'nombre' => 'required',
             'apellido' => 'required',
@@ -228,21 +224,21 @@ class Login extends BaseController
             'email' => 'required|is_unique[usuarios.email]',
             'fecha_de_nacimiento' => 'required|valid_date',
             'password' => 'required',
-            'confirm_password'=>'required',
+            'confirm_password' => 'required',
         ]);
 
-        if ($validacion && ($_POST['password']===$_POST['confirm_password'])) {
+        if ($validacion && ($_POST['password'] === $_POST['confirm_password'])) {
 
             $_POST['fecha_de_nacimiento'] = DateTime::createFromFormat("d-m-Y", $_POST['fecha_de_nacimiento'])->format('Y-m-d');
 
             $_POST['password'] = password_hash($_POST['password'], PASSWORD_BCRYPT);
-             $_POST['id_rol']='4';
+            $_POST['id_rol'] = '4';
             $userModel = new UserModel();
             $userModel->save($_POST);
             $cuentaModel = new CuentaModel();
-            $cuentainfo=[
-                'monto'=>'0',
-                'id_usuario'=>$userModel->obtenerUsuarioEmail($_POST['email'])['id'],
+            $cuentainfo = [
+                'monto' => '0',
+                'id_usuario' => $userModel->obtenerUsuarioEmail($_POST['email'])['id'],
             ];
             $cuentaModel->save($cuentainfo);
 
@@ -252,8 +248,8 @@ class Login extends BaseController
 
 
             $error = $this->validator->getErrors();
-            if(($_POST['password']!==$_POST['confirm_password']))
-                $error['confirm_password1']='Las Contraseñas deben coincidir';
+            if (($_POST['password'] !== $_POST['confirm_password']))
+                $error['confirm_password1'] = 'Las Contraseñas deben coincidir';
             session()->setFlashdata($error);
 
             return redirect()->back()->withInput();

@@ -36,7 +36,7 @@ class Home extends BaseController
                 $_POST['id_rol'] = $datos['datos']['id_rol'];
             }
             $formatoFecha = explode('-', $_POST['fecha_de_nacimiento']);
-            if (strlen($formatoFecha[0]) ==2){
+            if (strlen($formatoFecha[0]) == 2) {
                 $_POST['fecha_de_nacimiento'] = DateTime::createFromFormat("d-m-Y", $_POST['fecha_de_nacimiento'])->format('Y-m-d');
             }
 
@@ -93,7 +93,7 @@ class Home extends BaseController
             $dominioVehiculoModel = new DominioVehiculoModel();
             $data['dominiosTotales'] = $dominioVehiculoModel->obtenerTodos();
             $vehiculosModel = new VehiculoModel();
-            $data['vehiculos']=$vehiculosModel->obtenerTodos();
+            $data['vehiculos'] = $vehiculosModel->obtenerTodos();
 
             return view('viewInspector/viewMaster', $data);
         }
@@ -115,23 +115,22 @@ class Home extends BaseController
             $data['montoTotalDeCuenta'] = $cuenta->monto_total;
 
 
-
             $data['dominio_vehiculos'] = $data['dominio'];
 
             $fechaAcual = (new DateTime())->format('Y-m-d H:i:s');
 
             for ($j = 0; $j < sizeof($data['dominio']); $j++) {
 
-                $id_dominio=$data['dominio'][$j]['id'];
-                $id_vehiculo=$data['dominio'][$j]['id_vehiculo'];
-                $id_usuario=$data['dominio'][$j]['id_usuario'];
+                $id_dominio = $data['dominio'][$j]['id'];
+                $id_vehiculo = $data['dominio'][$j]['id_vehiculo'];
+                $id_usuario = $data['dominio'][$j]['id_usuario'];
 
                 $estadias = $estadiaModel->buscarPorDominioId($id_dominio);
 
                 if (!empty($estadias)) {
                     for ($i = 0; $i < sizeof($estadias); $i++) {
                         if ($estadias[$i]['fecha_fin'] >= $fechaAcual) {
-                            $data['dominio_vehiculos'] =  array_filter($data['dominio_vehiculos'], function ($valor)use($id_vehiculo, $id_usuario) {
+                            $data['dominio_vehiculos'] = array_filter($data['dominio_vehiculos'], function ($valor) use ($id_vehiculo, $id_usuario) {
 
                                 return (($valor['id_vehiculo'] !== $id_vehiculo) && ($valor['id_usuario'] !== $id_usuario));
                             });
@@ -142,8 +141,7 @@ class Home extends BaseController
             }
 
             return view('viewCliente/viewMaster', $data);
-        }
-        else {
+        } else {
             return redirect()->to(base_url());
         }
 

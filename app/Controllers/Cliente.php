@@ -294,7 +294,7 @@ class Cliente extends BaseController
                     $cuentaModel = new CuentaModel();
                     $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
                     $deudaCuenta = $cuenta->deuda;
-                    $cuenta->deuda = round($deudaCuenta + $montoAPagar,3);
+                    $cuenta->deuda = round($deudaCuenta + $montoAPagar, 3);
 
                     $cuentaModel->update($cuenta->id, $cuenta);
                     $estadiaModel->save($estadiaData);
@@ -359,7 +359,7 @@ class Cliente extends BaseController
         $cuentaModel = new CuentaModel();
         $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
         $deudaCuenta = $cuenta->deuda;
-        $cuenta->deuda = round($deudaCuenta + $montoAPagar,3);
+        $cuenta->deuda = round($deudaCuenta + $montoAPagar, 3);
 
         $cuentaModel->update($cuenta->id, $cuenta);
 
@@ -389,7 +389,7 @@ class Cliente extends BaseController
         $cuentaModel = new CuentaModel();
         $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
         $deudaCuenta = $cuenta->deuda;
-        $cuenta->deuda = round($deudaCuenta - $montoAPagar,3);
+        $cuenta->deuda = round($deudaCuenta - $montoAPagar, 3);
 
         $cuentaModel->update($cuenta->id, $cuenta);
 
@@ -433,7 +433,7 @@ class Cliente extends BaseController
             $data['estadia']['pago_pendiente'] = false;
 
             $estadiaModel->update($id_estadia, $data['estadia']);
-            $cuenta->monto_total = round($cuenta->monto_total - $montoAPagar,3);
+            $cuenta->monto_total = round($cuenta->monto_total - $montoAPagar, 3);
             $cuentaModel->update($cuenta->id, $cuenta);
 
             return json_encode(true);
@@ -531,10 +531,10 @@ class Cliente extends BaseController
 
             if ($valor == 0) {
                 $deudaCuenta = $cuenta->deuda;
-                $cuenta->deuda =round($deudaCuenta - $montoAPagar,3) ;
+                $cuenta->deuda = round($deudaCuenta - $montoAPagar, 3);
             }
 
-            $cuenta->monto_total =round($cuenta->monto_total - $montoAPagar,3) ;
+            $cuenta->monto_total = round($cuenta->monto_total - $montoAPagar, 3);
             $cuentaModel->update($cuenta->id, $cuenta);
             if ($valor == 0) {
                 session()->setFlashdata('mensaje', 'El pago se realizo exitosamente');
@@ -554,12 +554,12 @@ class Cliente extends BaseController
         $cuentaModel = new CuentaModel();
         $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
         $deudaCuenta = $cuenta->deuda; //deuda actual que ya hay en la cuenta
-        $deudaTotal = round($deudaCuenta + $montoEstadia,3); // deuda de la cuenta + monto de la estadia a registrar en el momento
+        $deudaTotal = round($deudaCuenta + $montoEstadia, 3); // deuda de la cuenta + monto de la estadia a registrar en el momento
 
         if ($deudaTotal < self::DEUDA_MAXIMA_PERMITIDA) {
             return true; //retorna true cuando el total de la deuda ya existe  + el monto de la estadia actual son MENORES al tamaño de la deuda maxima permitida
         }
-            return false;//retorna true cuando el total de la deuda ya existe  + el monto de la estadia actual son MAYORES al tamaño de la deuda maxima permitida
+        return false;//retorna true cuando el total de la deuda ya existe  + el monto de la estadia actual son MAYORES al tamaño de la deuda maxima permitida
 
     }
 
@@ -737,7 +737,7 @@ class Cliente extends BaseController
 
             $cuentaModel = new CuentaModel();
             $cuenta = $cuentaModel->obtenerCuentaDeUsuario(session('id'));
-            $cuenta->monto_total = round(($cuenta->monto_total +$_POST['monto']),3);
+            $cuenta->monto_total = round(($cuenta->monto_total + $_POST['monto']), 3);
 
             $cuentaModel->update($cuenta->id, $cuenta);
 
@@ -788,9 +788,9 @@ class Cliente extends BaseController
                 $infoEstadia['pago_pendiente'] = false;
                 $estadiaModel->update($infoEstadia['id'], $infoEstadia);
 
-                $cuenta->deuda = round($cuenta->deuda - $montoEstadia,3);
+                $cuenta->deuda = round($cuenta->deuda - $montoEstadia, 3);
 
-                $montoTotal =round($montoTotal - $montoEstadia,3) ;
+                $montoTotal = round($montoTotal - $montoEstadia, 3);
                 $cuenta->monto_total = $montoTotal;
 
                 $cuentaModel->update($cuenta->id, $cuenta);
@@ -806,7 +806,7 @@ class Cliente extends BaseController
     public function obtenerDominiosDeUsuario()
     {
 
-       $fechaAcual = (new DateTime())->format('Y-m-d H:i:s');
+        $fechaAcual = (new DateTime())->format('Y-m-d H:i:s');
 
         $estadiaModel = new EstadiaModel();
 
@@ -860,8 +860,7 @@ class Cliente extends BaseController
         $fechaActual = (new DateTime())->format('Y-m-d H:i');
 
         if (($fecha >= $fechaActual) && ($fecha <= $fechaFin) && ($fecha >= $fechaInicio) && ($fechaActual >= $fechaInicio)
-            && (strftime('%A') != 'Saturday') && (strftime('%A') != 'Sunday'))
-        {
+            && (strftime('%A') != 'Saturday') && (strftime('%A') != 'Sunday')) {
             $this->idHistorialZona = $idHistorialZona;
             return true;
         }

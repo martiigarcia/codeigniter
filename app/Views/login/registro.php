@@ -62,7 +62,8 @@
                                 <div class="col">
                                     <div class="input-group col">
                                         <div class="input-group-prepend">
-                                            <span style="border-color: #af69ee ;background-color:#af69ee" class="input-group-text bg-orchid border-orchid text-white">
+                                            <span style="border-color: #af69ee ;background-color:#af69ee"
+                                                  class="input-group-text bg-orchid border-orchid text-white">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                      fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
                                                 <path fill-rule="evenodd"
@@ -96,7 +97,7 @@
                                 <div class="col">
                                     <div class="input-group col">
                                         <input type="password" name="password" class="form-control"
-                                               placeholder="Contraseña" >
+                                               placeholder="Contraseña">
 
 
                                     </div>
@@ -112,7 +113,7 @@
 
                                     </div>
                                     <p style="color: rgb(232,74,103)"> <?= session('confirm_password') ? "El campo contraseña es obligatorio" : "" ?></p>
-                                    <p style="color: rgb(232,74,103)"> <?= session('confirm_password1')  ?></p>
+                                    <p style="color: rgb(232,74,103)"> <?= session('confirm_password1') ?></p>
                                 </div>
                             </div>
 
@@ -124,7 +125,8 @@
 
                                         <div class="input-group input-group-sm mb-3">
                                             <div class="input-group-append">
-                                            <span style="border-color: #af69ee ;background-color:#af69ee" class="input-group-text bg-orchid border-orchid text-white">
+                                            <span style="border-color: #af69ee ;background-color:#af69ee"
+                                                  class="input-group-text bg-orchid border-orchid text-white">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                                  fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
                                                 <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
@@ -167,14 +169,10 @@
 </div>
 
 
-
 </body>
 
 
-
 <script src="<?= base_url("js/siqtheme.js") ?>"></script>
-
-
 
 
 <script type="text/javascript"
@@ -192,8 +190,6 @@
         });
     });
 </script>
-
-
 
 
 </html>

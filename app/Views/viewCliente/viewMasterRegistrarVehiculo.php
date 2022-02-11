@@ -1,4 +1,4 @@
-<?= $this->extend("templates/master")?>
+<?= $this->extend("templates/master") ?>
 
 <?= $this->section('titulo') ?>
     Registrar vehiculo

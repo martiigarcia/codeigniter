@@ -63,7 +63,7 @@
                                                 </a>
 
                                             </div>
-                                                <p style="color: rgb(232,74,103)"> <?= session('dominio_vehiculo') ? 'Debe Completar este campo' : '' ?></p>
+                                            <p style="color: rgb(232,74,103)"> <?= session('dominio_vehiculo') ? 'Debe Completar este campo' : '' ?></p>
                                         </div>
                                     </div>
                                 </div>

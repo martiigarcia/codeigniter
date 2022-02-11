@@ -111,12 +111,12 @@ class Administrador extends BaseController
 
                 $otrosDominiosDelVehiculo = $dominioModel->obtenerDominioPorIdVehiculo($dominio['id_vehiculo']);
 
-                if(empty($otrosDominiosDelVehiculo)) { //si otros dominios es vacio (true) entonces no hay otro propietario del vehiculo
+                if (empty($otrosDominiosDelVehiculo)) { //si otros dominios es vacio (true) entonces no hay otro propietario del vehiculo
 
                     $dominioModel->delete($dominio['id']);
                     $vehiculoModel->delete($idVehiculo);
 
-                }else{
+                } else {
 
                     $dominioModel->delete($dominio['id']);
                 }
@@ -197,7 +197,7 @@ class Administrador extends BaseController
             }
 
             $formatoFecha = explode('-', $_POST['fecha_de_nacimiento']);
-            if (strlen($formatoFecha[0]) ==2){
+            if (strlen($formatoFecha[0]) == 2) {
                 $_POST['fecha_de_nacimiento'] = DateTime::createFromFormat("d-m-Y", $_POST['fecha_de_nacimiento'])->format('Y-m-d');
             }
 

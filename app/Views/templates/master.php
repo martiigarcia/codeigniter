@@ -118,22 +118,6 @@
 
         }
     )
-    // if (mensaje !== '') {
-    //     swal.fire({
-    //         title: "¡Felicitaciones!",
-    //         text: mensaje,
-    //         icon: "success",
-    //     });
-    // } else if (error !== '') {
-    //     swal.fire({
-    //         title: "Algo salio mal",
-    //         text: error,
-    //         icon: "error",
-    //     }).then(result => {
-    //         if (result.isConfirmed) {
-    //             window.location.href = baseurl;
-    //         }
-    //     });
 
 
 </script>
@@ -161,18 +145,11 @@
             if (mensajePagar !== '') {
                 //estacionar aca
                 let id_estadia;
-                console.log("a");
+
                 $.post(baseurl + "/cliente/estacionarYObtenerId/" + infoEstadia,
                     function (data) {
-                        console.log("b");
+
                         id_estadia = JSON.parse(data);
-                        console.log("INFOR: " + id_estadia);
-                        console.log("c");
-
-
-                        //id_estadia = info;
-                        console.log("d");
-                        console.log("ID ESTADIA: " + id_estadia);
 
                         swal.fire({
                             title: "Su estadia se registro correctamente",
@@ -185,7 +162,7 @@
                         }).then(result => {
                                 if (result.isConfirmed) {
 
-                                    console.log(id_estadia);
+
                                     window.location.href = "<?= base_url('cliente/pagarEstadiasPendientes'); ?>/" + id_estadia + "/" + 1;
 
                                 } else {
@@ -236,18 +213,7 @@
 
                     window.location.href = "<?=base_url('administrador/eliminar')?>/" + usuarioId;
 
-                    //swalWithBootstrapButtons.fire({
-                    //    icon: 'success',
-                    //    text: 'Procesando la operacion . . . ',
-                    //    showConfirmButton: false,
-                    //    timer: 1500,
-                    //    timerProgressBar: true
-                    //}).then(result => {
-                    //    if (result.dismiss === Swal.DismissReason.timer) {
-                    //        window.location.href = "<?//=base_url('administrador/eliminar')?>///" + usuarioId;
-                    //
-                    //    }
-                    //});
+
                 } else {
 
                     swalWithBootstrapButtons.fire({
@@ -275,7 +241,7 @@
 
         $.post(baseurl + "/cliente/obtenerDominiosDeUsuario/",
             function (data) {
-            console.log(data)
+
 
                 var info = JSON.parse(data);
                 if (info) {
@@ -431,7 +397,7 @@
                                     codigo_seguridad: codigo_seguridad,
                                     fecha: fecha
                                 }, function (data2) {
-                                    console.log(data2);
+
                                     var info2 = JSON.parse(data2);
                                     if (info2 === true) {
                                         swal.fire({
@@ -511,9 +477,6 @@
             idZona = document.getElementById("id_zona").value === "" ? null : document.getElementById("id_zona").value;
             horas = document.getElementById("cantidad_horas").value;
 
-            // console.log(dominio);
-            // console.log(idZona);
-            // console.log(horas);
 
             if (result.isConfirmed) {
 
@@ -527,12 +490,6 @@
                     }, function (data) {
 
                         var info = JSON.parse(data);
-                       /* console.log("info: " + info);
-                        var array = [];
-                        $.each(info, function (i, item) {
-                            array [i] = item;
-                            console.log("ARRAY: " +array[i]);
-                        });*/
 
 
                         if (info === true) {
@@ -588,7 +545,7 @@
                     }
                 );
 
-               // window.location.href = "<?= base_url('vendedor/estacionar'); ?>/" + false;
+                // window.location.href = "<?= base_url('vendedor/estacionar'); ?>/" + false;
             }
         });
     }

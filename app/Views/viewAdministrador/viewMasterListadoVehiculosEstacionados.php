@@ -1,4 +1,4 @@
-<?= $this->extend("templates/master")?>
+<?= $this->extend("templates/master") ?>
 <?= $this->section('titulo') ?>
     Listado de vehiculos estacionados
 <?= $this->endSection() ?>

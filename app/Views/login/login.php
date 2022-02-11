@@ -10,7 +10,7 @@
 
 
 </head>
-<body style="background-image: url(<?= base_url('asserts/img/fondo_login.jpg');?>); background-size: cover">
+<body style="background-image: url(<?= base_url('asserts/img/fondo_login.jpg'); ?>); background-size: cover">
 <section class="ftco-section">
 
     <div class="container">
@@ -22,36 +22,39 @@
                         <span class="fa fa-user-o"></span>
                     </div>
                     <h3 class="text-center mb-4">¿Ya se encuentra registrado?</h3>
-                    <form method="POST" class="needs-validation <?=(session('mensajeLogin'))? ' was-validated':''?>
+                    <form method="POST" class="needs-validation <?= (session('mensajeLogin')) ? ' was-validated' : '' ?>
                             " novalidate action="<?= base_url('login/ingresar'); ?> ">
 
-                            <div class="form-group">
-                                <input type="text" name="email" class="form-control rounded-left <?=(session('mensajeLogin'))? 'is-invalid':''?>"
-                                       placeholder="Usuario" required
-                                       value="<?= old("email") ?>">
-                            </div>
+                        <div class="form-group">
+                            <input type="text" name="email"
+                                   class="form-control rounded-left <?= (session('mensajeLogin')) ? 'is-invalid' : '' ?>"
+                                   placeholder="Usuario" required
+                                   value="<?= old("email") ?>">
+                        </div>
 
                         <div class="form-group d-flex">
-                            <input name="password" type="password" class="form-control rounded-left <?=(session('mensajeLogin'))? 'is-invalid':''?>"
+                            <input name="password" type="password"
+                                   class="form-control rounded-left <?= (session('mensajeLogin')) ? 'is-invalid' : '' ?>"
                                    placeholder="Contraseña" required>
                         </div>
-                          <p style="color: rgb(215,48,56)"> <?= session('mensajeLogin'); ?></p>
+                        <p style="color: rgb(215,48,56)"> <?= session('mensajeLogin'); ?></p>
 
                         <div class="form-group d-md-flex">
                             <div class="w-50" style="display: flex">
                                 <label class="checkbox-wrap checkbox-primary">Recordarme
-                                    <input type="checkbox" name="recuerdame" value="true"checked>
+                                    <input type="checkbox" name="recuerdame" value="true" checked>
                                     <span class="checkmark"></span>
                                 </label>
 
                             </div>
                         </div>
-                        <div class="botones-login" >
-                            <div  >
+                        <div class="botones-login">
+                            <div>
                                 <button type="submit" class="btn btn-primary rounded submit p-3 px-5">Ingresar</button>
                             </div>
-                            <div class="boton-registrar" >
-                                <a  class="btn btn-primary rounded submit p-3 px-5" href="<?= base_url('login/registrarUsuario'); ?>">Registrar</a>
+                            <div class="boton-registrar">
+                                <a class="btn btn-primary rounded submit p-3 px-5"
+                                   href="<?= base_url('login/registrarUsuario'); ?>">Registrar</a>
                             </div>
                         </div>
 

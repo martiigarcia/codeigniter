@@ -1,7 +1,7 @@
-<?= $this->extend("templates/master")?>
+<?= $this->extend("templates/master") ?>
 
 <?= $this->section('titulo') ?>
-Inicio
+    Inicio
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>

@@ -1,4 +1,4 @@
-<?= $this->extend("templates/master")?>
+<?= $this->extend("templates/master") ?>
 
 <?= $this->section('titulo') ?>
     Consultar por estacionamientos
@@ -29,7 +29,7 @@
                     <tbody>
 
                     <?php
-                    $i=0;
+                    $i = 0;
                     foreach ($estadias as $estadia) : ?>
 
                         <tr>
@@ -49,8 +49,8 @@
                             </td>
 
                         </tr>
-                    <?php
-                    $i++;
+                        <?php
+                        $i++;
                     endforeach; ?>
 
                     </tbody>
