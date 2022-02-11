@@ -203,6 +203,10 @@ class Administrador extends BaseController
 
             $userModel->update($_POST['id'], $_POST);
 
+            session()->set([
+                'username' => $_POST['email'],
+            ]);
+
             session()->setFlashdata('mensaje', 'Los datos se guardaron con exito');
             return redirect()->to(base_url('administrador/listadoUsuarios'));
         } else {
